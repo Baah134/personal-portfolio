@@ -54,6 +54,66 @@ const stats = [
   { value: "6+", label: "Technical Projects" },
 ];
 
+interface TimelineEvent {
+  year: string;
+  role: string;
+  org: string;
+  type: string;
+  desc: string;
+  link: string;
+}
+
+const timelineEvents: TimelineEvent[] = [
+  {
+    year: "2026 - Present",
+    role: "Student Researcher",
+    org: "Automation, Robotics & Control Lab",
+    type: "Research",
+    desc: "Formulating PID tuning using constraint-aware Bayesian Optimization to reduce settling time.",
+    link: "/research#bayesian-pid"
+  },
+  {
+    year: "2026 - Present",
+    role: "AESA President",
+    org: "Ashesi Engineering Student Association",
+    type: "Leadership",
+    desc: "Leading engineering student branch, academic initiatives, and industry collaborations.",
+    link: "/leadership#aesa"
+  },
+  {
+    year: "2025 - Present",
+    role: "Student Researcher",
+    org: "CaRINE Internship",
+    type: "Research",
+    desc: "Building speaker-strict deep learning speech emotion classification frameworks using Transformers.",
+    link: "/research#speech-emotion"
+  },
+  {
+    year: "2025 (Aug - Sep)",
+    role: "Workshop Intern",
+    org: "CFAO Mobility PLC Ghana",
+    type: "Industry",
+    desc: "Rotated through automotive diagnostics, servicing, and workshop operations.",
+    link: "/experience#cfao"
+  },
+  {
+    year: "2024 - Present",
+    role: "Co-founder & Chair",
+    org: "IEEE Ashesi Student Branch",
+    type: "Leadership",
+    desc: "Scaling Ashesi's first IEEE chapter to 75+ active members branch-wide.",
+    link: "/leadership#ieee"
+  },
+  {
+    year: "2024 (May - Sep)",
+    role: "CTO & Co-founder",
+    org: "AquaBlue",
+    type: "Project",
+    desc: "Developed IoT real-time community water filtration monitoring platforms using ESP32 nodes.",
+    link: "/projects#aquablue"
+  }
+];
+
 function SkillLogo({ name }: { name: string }) {
   const normalized = name.toLowerCase();
 
@@ -318,6 +378,44 @@ export default function Home() {
                 </div>
               ))}
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== TIMELINE ===== */}
+      <section id="timeline" className={`${styles.timeline} section`}>
+        <div className="container">
+          <h2 className={`section-title ${styles.sectionHeading} text-center`}>
+            <TextScramble text="Works Timeline" />
+          </h2>
+          <p className={`${styles.timelineSubtitle} section-subtitle text-center`}>
+            A chronological summary of my research, leadership, and industrial highlights.
+          </p>
+
+          <div className={styles.timelineContainer}>
+            <div className={styles.timelineLine} />
+            
+            {timelineEvents.map((event, index) => {
+              const isLeft = index % 2 === 0;
+              return (
+                <div 
+                  key={`${event.org}-${event.year}`} 
+                  className={`${styles.timelineItem} ${isLeft ? styles.left : styles.right} scroll-reveal`}
+                >
+                  <div className={styles.timelineNode} />
+                  <div className={styles.timelineContentCard}>
+                    <span className={styles.timelineBadge}>{event.type}</span>
+                    <span className={styles.timelineYear}>{event.year}</span>
+                    <h3 className={styles.timelineRole}>{event.role}</h3>
+                    <h4 className={styles.timelineOrg}>{event.org}</h4>
+                    <p className={styles.timelineDesc}>{event.desc}</p>
+                    <TransitionLink href={event.link} className={styles.timelineLink}>
+                      Read Details →
+                    </TransitionLink>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
