@@ -75,8 +75,7 @@
 }
 
 .pubCard:hover .readMore {
-  gap: var(--space-3);
-  color: var(--color-accent-hover);
+  color: var(--color-accent);
 }
 
 /* Image Wrap */
@@ -268,16 +267,34 @@
 
 /* Link read more */
 .readMore {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
+  position: relative;
+  display: inline-block;
   font-size: var(--fs-sm);
   font-weight: var(--fw-semibold);
-  color: var(--color-accent);
+  color: var(--color-text-secondary);
   margin-top: auto;
-  transition: gap var(--transition-base), color var(--transition-base);
-  text-decoration: none;
-  font-style: italic;
+  padding-bottom: 2px;
+  text-transform: uppercase;
+  letter-spacing: var(--ls-wide);
+  transition: color var(--transition-fast) ease;
+  width: fit-content;
+}
+
+.readMore::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--color-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.pubCard:hover .readMore::after {
+  transform: scaleX(1);
 }
 
 /* Responsive design */

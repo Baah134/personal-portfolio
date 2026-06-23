@@ -7,13 +7,33 @@ import { usePathname } from 'next/navigation';
 import { flushSync } from 'react-dom';
 import styles from './Navbar.module.css';
 
-const navLinks = [
+interface NavLink {
+  href: string;
+  label: string;
+  id: string;
+}
+
+interface NavDropdown {
+  label: string;
+  id: string;
+  subLinks: NavLink[];
+}
+
+type MainNavLink = NavLink | NavDropdown;
+
+const mainNavLinks: MainNavLink[] = [
   { href: '/', label: 'Home', id: 'home' },
-  { href: '/research', label: 'Research', id: 'research' },
-  { href: '/projects', label: 'Projects', id: 'projects' },
-  { href: '/leadership', label: 'Leadership & Volunteering', id: 'leadership' },
+  {
+    label: 'Technical Work',
+    id: 'technical-work',
+    subLinks: [
+      { href: '/projects', label: 'Projects', id: 'projects' },
+      { href: '/research', label: 'Research', id: 'research' },
+      { href: '/blog', label: 'Blog', id: 'blog' },
+    ],
+  },
   { href: '/experience', label: 'Experience', id: 'experience' },
-  { href: '/blog', label: 'Blog', id: 'blog' },
+  { href: '/leadership', label: 'Leadership & Volunteering', id: 'leadership' },
   { href: '/contact', label: 'Contact', id: 'contact' },
 ];
 
@@ -22,6 +42,7 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [theme, setTheme] = useState<string>('light');
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   useEffect(() => {
     const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
@@ -56,9 +77,10 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Close mobile menu on route change
+  // Close mobile menu and dropdown on route change
   useEffect(() => {
     setMobileOpen(false);
+    setDropdownOpen(false);
   }, [pathname]);
 
   // Prevent body scroll when mobile menu is open
@@ -83,20 +105,56 @@ export default function Navbar() {
           className={`${styles.links} ${mobileOpen ? styles.open : ''}`}
           id="nav-links"
         >
-          {navLinks.map(({ href, label, id }) => {
-            const isActive =
-              href === '/' ? pathname === '/' : pathname.startsWith(href);
-            return (
-              <li key={href}>
-                <TransitionLink
-                  href={href}
-                  className={`${styles.link} ${isActive ? styles.active : ''}`}
-                  id={`nav-link-${id}`}
-                >
-                  {label}
-                </TransitionLink>
-              </li>
-            );
+          {mainNavLinks.map((link) => {
+            if ('subLinks' in link) {
+              const isActive = link.subLinks.some(sub => 
+                sub.href === '/' ? pathname === '/' : pathname.startsWith(sub.href)
+              );
+              return (
+                <li key={link.id} className={`${styles.dropdownContainer} ${dropdownOpen ? styles.dropdownOpen : ''}`}>
+                  <button
+                    className={`${styles.dropdownTrigger} ${isActive ? styles.active : ''}`}
+                    id={`nav-link-${link.id}`}
+                    onClick={() => setDropdownOpen(!dropdownOpen)}
+                    type="button"
+                  >
+                    {link.label}
+                    <svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={styles.dropdownArrow} aria-hidden="true">
+                      <polyline points="1 1 5 5 9 1" />
+                    </svg>
+                  </button>
+                  <ul className={styles.dropdownMenu}>
+                    {link.subLinks.map(sub => {
+                      const isSubActive = pathname.startsWith(sub.href);
+                      return (
+                        <li key={sub.href}>
+                          <TransitionLink
+                            href={sub.href}
+                            className={`${styles.dropdownLink} ${isSubActive ? styles.dropdownActive : ''}`}
+                            id={`nav-link-${sub.id}`}
+                          >
+                            {sub.label}
+                          </TransitionLink>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </li>
+              );
+            } else {
+              const isActive = link.href === '/' ? pathname === '/' : pathname.startsWith(link.href);
+              return (
+                <li key={link.href}>
+                  <TransitionLink
+                    href={link.href}
+                    className={`${styles.link} ${isActive ? styles.active : ''}`}
+                    id={`nav-link-${link.id}`}
+                  >
+                    {link.label}
+                  </TransitionLink>
+                </li>
+              );
+            }
           })}
           {/* Resume button hidden per request
           <li className={styles.ctaItem}>

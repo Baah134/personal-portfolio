@@ -2,7 +2,6 @@
 
 import { useState, useCallback } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import TransitionLink from "@/components/ui/TransitionLink";
 import styles from "./page.module.css";
 import NetworkBackground from "@/components/ui/NetworkBackground";
@@ -44,7 +43,7 @@ const skillCategories = [
   },
   {
     title: "Software & Tools",
-    skills: ["Python", "C/C++", "TypeScript", "MQTT", "SQL", "Git"],
+    skills: ["Python", "C/C++", "SQL"],
   },
 ];
 
@@ -54,6 +53,109 @@ const stats = [
   { value: "1", label: "IEEE Publication" },
   { value: "6+", label: "Technical Projects" },
 ];
+
+function SkillLogo({ name }: { name: string }) {
+  const normalized = name.toLowerCase();
+
+  // Custom SVGs for concepts
+  if (normalized === 'sql') {
+    return (
+      <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+        <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+        <path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"></path>
+      </svg>
+    );
+  }
+  if (normalized === 'nlp') {
+    return (
+      <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        <path d="M8 7h8M8 11h6"></path>
+      </svg>
+    );
+  }
+  if (normalized === 'asr') {
+    return (
+      <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+        <path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8"></path>
+      </svg>
+    );
+  }
+  if (normalized === 'signal processing') {
+    return (
+      <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M3 12h3l3-9 4 18 3-12 5 3"></path>
+      </svg>
+    );
+  }
+  if (normalized === 'computer vision') {
+    return (
+      <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+        <circle cx="12" cy="12" r="3"></circle>
+        <path d="M3 3h2M3 21h2M21 3h-2M21 21h-2"></path>
+      </svg>
+    );
+  }
+
+  // Brand logos via Simple Icons CDN
+  let iconSlug = '';
+  switch (normalized) {
+    case 'tensorflow':
+      iconSlug = 'tensorflow';
+      break;
+    case 'pytorch':
+      iconSlug = 'pytorch';
+      break;
+    case 'pcb design':
+    case 'fusion 360':
+      iconSlug = 'autodesk';
+      break;
+    case 'eagle / kicad':
+      iconSlug = 'kicad';
+      break;
+    case 'esp32':
+      iconSlug = 'espressif';
+      break;
+    case 'arduino':
+      iconSlug = 'arduino';
+      break;
+    case 'solidworks':
+      iconSlug = 'dassaultsystemes';
+      break;
+    case 'python':
+      iconSlug = 'python';
+      break;
+    case 'c/c++':
+      iconSlug = 'cplusplus';
+      break;
+    default:
+      iconSlug = '';
+  }
+
+  if (iconSlug) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src={`https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/${iconSlug}.svg`}
+        alt={name}
+        className={styles.skillLogo}
+        loading="lazy"
+      />
+    );
+  }
+
+  // Fallback icon
+  return (
+    <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="10"></circle>
+      <line x1="12" y1="16" x2="12" y2="12"></line>
+      <line x1="12" y1="8" x2="12.01" y2="8"></line>
+    </svg>
+  );
+}
 
 export default function Home() {
   const [glowStyle, setGlowStyle] = useState<React.CSSProperties>({});
@@ -71,7 +173,7 @@ export default function Home() {
 
   const handleMagnetMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     const container = e.currentTarget;
-    const btn = container.querySelector("#hero-cta-projects") as HTMLAnchorElement | null;
+    const btn = container.querySelector("#hero-cta-contact") as HTMLAnchorElement | null;
     if (!btn) return;
 
     const rect = btn.getBoundingClientRect();
@@ -110,49 +212,81 @@ export default function Home() {
       <section id="hero" className={styles.hero} onMouseMove={handleHeroMouseMove}>
         <NetworkBackground />
         <div className={styles.heroGlow} style={glowStyle} />
-        <div className={styles.heroContent}>
-          <div className={styles.heroText}>
-            <p className={styles.heroLabel}>Electrical Engineer · Researcher</p>
+        
+        <div className={styles.heroLayout}>
+          {/* Top Center Header */}
+          <div className={styles.heroHeader}>
             <h1 className={styles.heroTitle}>
-              <TextScramble text="Prince" />
-              <br />
-              <span className={styles.heroTitleAccent}>
-                <TextScramble text="Baah-Mensah" />
-              </span>
+              Hi I&apos;m <TextScramble text="Prince" />
             </h1>
-            <p className={styles.heroDesc}>
-              Building intelligent systems at the intersection of hardware and AI.
-              Third-year Electrical &amp; Electronics Engineering student at Ashesi University,
-              focused on control systems, IoT, and speech processing research.
-            </p>
-            <div
-              className={styles.heroCtas}
-              onMouseMove={handleMagnetMove}
-              onMouseLeave={handleMagnetLeave}
-            >
-              <TransitionLink
-                href="/projects"
-                className="btn btn-primary"
-                id="hero-cta-projects"
-                style={magnetStyle}
-              >
-                View Projects
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
-                </svg>
-              </TransitionLink>
+            <div className={styles.heroSubtitle}>
+              Electrical Engineer
             </div>
           </div>
-          <div className={styles.heroImage}>
+
+          {/* Center Portrait Image (greyscale & bottom-faded) */}
+          <div className={styles.portraitContainer}>
             <Image
-              src="/images/Prince.jpeg"
+              src="/images/altered.png"
               alt="Prince Baah-Mensah"
-              width={600}
-              height={600}
+              width={700}
+              height={700}
               priority
-              className={styles.heroImg}
+              className={styles.portraitImg}
             />
           </div>
+
+          {/* Left/Right Grid Layout */}
+          <div className={styles.heroGrid}>
+            {/* Left Column: Status Pill & Social Proof */}
+            <div className={styles.leftCol}>
+              <div className={styles.statusPill}>
+                <span className={styles.pulseDot} />
+                <span>Available for new opportunities</span>
+              </div>
+              
+              <div className={styles.socialProof}>
+                <div className={styles.avatarGroup}>
+                  <div className={`${styles.avatar} ${styles.avatar1}`}>IEEE</div>
+                  <div className={`${styles.avatar} ${styles.avatar2}`}>MCF</div>
+                  <div className={`${styles.avatar} ${styles.avatar3}`}>AU</div>
+                </div>
+                <p className={styles.proofText}>
+                  Co-founder &amp; Chair of IEEE Ashesi, President of AESA.
+                </p>
+              </div>
+            </div>
+
+            {/* Right Column: Mini Bio & CTA */}
+            <div className={styles.rightCol} onMouseMove={handleMagnetMove} onMouseLeave={handleMagnetLeave}>
+              <p className={styles.rightDesc}>
+                Passionate about building intelligent edge hardware, hardware-software co-design, and accelerating ML inference on FPGAs.
+              </p>
+              
+              <div className={styles.ctaWrapper}>
+                <TransitionLink
+                  href="/contact"
+                  className={styles.ctaButton}
+                  id="hero-cta-contact"
+                  style={magnetStyle}
+                >
+                  <span>Get in Touch</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
+                  </svg>
+                </TransitionLink>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Organization Partner Bar */}
+        <div className={styles.logosRow}>
+          <span className={styles.logoItem}>Ashesi University</span>
+          <span className={styles.logoItem}>IEEE CS Region 8</span>
+          <span className={styles.logoItem}>Mastercard Foundation</span>
+          <span className={styles.logoItem}>CFAO Mobility</span>
+          <span className={styles.logoItem}>EA Ashesi</span>
         </div>
       </section>
 
@@ -165,14 +299,13 @@ export default function Home() {
           <div className={styles.aboutGrid}>
             <div className={styles.aboutText}>
               <p>
-                I&apos;m a <strong>Mastercard Foundation Scholar</strong> and <strong>Kufuor Scholar</strong> studying
-                Electrical &amp; Electronics Engineering at Ashesi University in Ghana.
-                My research spans <strong>control systems</strong>, <strong>speech emotion recognition</strong>,
-                and <strong>AI for education</strong>.
+                I am a Mastercard Foundation Scholar studying Electrical &amp; Electronics Engineering at Ashesi University.
+                While my early research and projects focused on IoT, Artificial Intelligence, and Speech Emotion Recognition (SER), 
+                I am currently shifting my focus toward machine learning inference, hardware-software co-design, and FPGA-accelerated systems.
               </p>
               <p>
-                As <strong>Co-founder &amp; Chair of IEEE Ashesi</strong> and <strong>President of the Ashesi Engineering Student Association</strong>,
-                I&apos;m passionate about building both technology and community.
+                As Co-founder and Chair of IEEE Ashesi and President of the Ashesi Engineering Student Association, 
+                I am passionate about building both intelligent edge technology and collaborative engineering communities.
               </p>
             </div>
             <div className={styles.statsGrid}>
@@ -240,9 +373,14 @@ export default function Home() {
             {skillCategories.map((cat) => (
               <div key={cat.title} className={`${styles.skillCategory} scroll-reveal`}>
                 <h3 className={styles.skillCatTitle}>{cat.title}</h3>
-                <div className={styles.skillTags}>
+                <div className={styles.skillLogosGrid}>
                   {cat.skills.map((skill) => (
-                    <span key={skill} className="tag">{skill}</span>
+                    <div key={skill} className={styles.skillItem}>
+                      <div className={styles.skillIconWrap}>
+                        <SkillLogo name={skill} />
+                      </div>
+                      <span className={styles.skillTooltip}>{skill}</span>
+                    </div>
                   ))}
                 </div>
               </div>

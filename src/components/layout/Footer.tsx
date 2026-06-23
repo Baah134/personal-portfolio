@@ -1,15 +1,4 @@
-import Link from 'next/link';
 import styles from './Footer.module.css';
-
-const quickLinks = [
-  { href: '/', label: 'Home' },
-  { href: '/research', label: 'Research' },
-  { href: '/projects', label: 'Projects' },
-  { href: '/leadership', label: 'Leadership' },
-  { href: '/blog', label: 'Blog' },
-  { href: '/experience', label: 'Experience' },
-  { href: '/contact', label: 'Contact' },
-];
 
 export default function Footer() {
   return (
@@ -60,20 +49,6 @@ export default function Footer() {
                 </svg>
               </a>
             </div>
-          </div>
-
-          {/* Quick Links */}
-          <div className={styles.column}>
-            <h4 className={styles.columnTitle}>Navigation</h4>
-            <ul className={styles.linkList}>
-              {quickLinks.map(({ href, label }) => (
-                <li key={href}>
-                  <Link href={href} className={styles.footerLink} id={`footer-link-${label.toLowerCase()}`}>
-                    {label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
           </div>
 
           {/* Contact */}
