@@ -27,8 +27,8 @@ const mainNavLinks: MainNavLink[] = [
     label: 'Technical Work',
     id: 'technical-work',
     subLinks: [
-      { href: '/projects', label: 'Projects', id: 'projects' },
       { href: '/research', label: 'Research', id: 'research' },
+      { href: '/projects', label: 'Projects', id: 'projects' },
       { href: '/blog', label: 'Blog', id: 'blog' },
     ],
   },

@@ -76,6 +76,8 @@
 
 .pubCard:hover .readMore {
   color: var(--color-accent);
+  transform: translateX(4px);
+  animation: none;
 }
 
 /* Image Wrap */
@@ -268,7 +270,8 @@
 /* Link read more */
 .readMore {
   position: relative;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   font-size: var(--fs-sm);
   font-weight: var(--fw-semibold);
   color: var(--color-text-secondary);
@@ -276,8 +279,9 @@
   padding-bottom: 2px;
   text-transform: uppercase;
   letter-spacing: var(--ls-wide);
-  transition: color var(--transition-fast) ease;
+  transition: color var(--transition-fast) ease, transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   width: fit-content;
+  animation: pulseAttention 3s infinite ease-in-out;
 }
 
 .readMore::after {
@@ -297,6 +301,19 @@
   transform: scaleX(1);
 }
 
+.readMoreArrow {
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: opacity 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  margin-left: 6px;
+  display: inline-block;
+}
+
+.pubCard:hover .readMoreArrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
   .grid {
@@ -309,8 +326,6 @@
   }
 }
 
-
-
 @keyframes springScaleUp {
   from {
     opacity: 0;
@@ -319,6 +334,19 @@
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes pulseAttention {
+  0%, 100% {
+    color: var(--color-text-secondary);
+    text-shadow: none;
+    transform: translateX(0);
+  }
+  50% {
+    color: var(--color-accent);
+    text-shadow: 0 0 8px var(--color-accent-light);
+    transform: translateX(2px);
   }
 }
 

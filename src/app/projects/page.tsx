@@ -129,7 +129,7 @@ export default function ProjectsPage() {
                   ))}
                 </div>
                 <span className={styles.readMore}>
-                  Read More
+                  Read More <span className={styles.readMoreArrow}>→</span>
                 </span>
               </div>
             </TransitionLink>

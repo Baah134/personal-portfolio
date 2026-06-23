@@ -60,7 +60,7 @@ function SkillLogo({ name }: { name: string }) {
   // Custom SVGs for concepts
   if (normalized === 'sql') {
     return (
-      <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <svg className={`${styles.skillSvg} ${styles.sqlSvg}`} viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
         <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
         <path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"></path>
@@ -69,7 +69,7 @@ function SkillLogo({ name }: { name: string }) {
   }
   if (normalized === 'nlp') {
     return (
-      <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <svg className={`${styles.skillSvg} ${styles.nlpSvg}`} viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
         <path d="M8 7h8M8 11h6"></path>
       </svg>
@@ -77,7 +77,7 @@ function SkillLogo({ name }: { name: string }) {
   }
   if (normalized === 'asr') {
     return (
-      <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <svg className={`${styles.skillSvg} ${styles.asrSvg}`} viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
         <path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8"></path>
       </svg>
@@ -85,14 +85,14 @@ function SkillLogo({ name }: { name: string }) {
   }
   if (normalized === 'signal processing') {
     return (
-      <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <svg className={`${styles.skillSvg} ${styles.signalSvg}`} viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <path d="M3 12h3l3-9 4 18 3-12 5 3"></path>
       </svg>
     );
   }
   if (normalized === 'computer vision') {
     return (
-      <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <svg className={`${styles.skillSvg} ${styles.cvSvg}`} viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
         <circle cx="12" cy="12" r="3"></circle>
         <path d="M3 3h2M3 21h2M21 3h-2M21 21h-2"></path>
@@ -139,7 +139,7 @@ function SkillLogo({ name }: { name: string }) {
     return (
       // eslint-disable-next-line @next/next/no-img-element
       <img
-        src={`https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/${iconSlug}.svg`}
+        src={`https://cdn.simpleicons.org/${iconSlug}`}
         alt={name}
         className={styles.skillLogo}
         loading="lazy"
@@ -227,7 +227,7 @@ export default function Home() {
           {/* Center Portrait Image (greyscale & bottom-faded) */}
           <div className={styles.portraitContainer}>
             <Image
-              src="/images/altered.png"
+              src="/images/altered-removebg-preview.png"
               alt="Prince Baah-Mensah"
               width={700}
               height={700}
@@ -270,10 +270,10 @@ export default function Home() {
                   id="hero-cta-contact"
                   style={magnetStyle}
                 >
-                  <span>Get in Touch</span>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className={styles.ctaArrow}>
                     <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
                   </svg>
+                  <span>Get in Touch</span>
                 </TransitionLink>
               </div>
             </div>

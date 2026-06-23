@@ -103,7 +103,7 @@ export default function ResearchPage() {
                     ))}
                   </div>
                   <span className={styles.readMore}>
-                    Click to read more
+                    Click to read more <span className={styles.readMoreArrow}>→</span>
                   </span>
                 </div>
               </TransitionLink>
@@ -151,7 +151,7 @@ export default function ResearchPage() {
                     ))}
                   </div>
                   <span className={styles.readMore}>
-                    Click to read more
+                    Click to read more <span className={styles.readMoreArrow}>→</span>
                   </span>
                 </div>
               </TransitionLink>
