@@ -13,6 +13,7 @@ const projects: Record<
     category: string;
     badge: string;
     image: string;
+    video?: string;
     tags: string[];
     overview: string;
     problem: string;
@@ -137,6 +138,7 @@ const projects: Record<
     category: "Product Development · Engineering & Business",
     badge: "CTO & Co-founder",
     image: "/images/aquablue.jpeg",
+    video: "/cad-design.mp4",
     tags: ["Water Filtration", "Design Thinking", "Entrepreneurship", "MVP Validation", "SolidWorks"],
     overview:
       "AquaRevive is a low-cost, eco-friendly water filtration solution designed to address the issue of limited access to clean drinking water in underserved rural communities. Developed as part of a year-long project under Ashesi University's FDE program, AquaRevive combines engineering innovation with business strategy to create a sustainable and impactful product.",
@@ -238,14 +240,27 @@ export default async function ProjectDetail({ params }: PageProps) {
             )}
           </div>
           <div className={styles.heroImage}>
-            <Image
-              src={project.image}
-              alt={project.title}
-              width={600}
-              height={450}
-              className={styles.heroImg}
-              priority
-            />
+            {project.video ? (
+              <video
+                src={project.video}
+                controls
+                autoPlay
+                muted
+                loop
+                playsInline
+                className={styles.heroImg}
+                style={{ display: "block", width: "100%", height: "auto", aspectRatio: "4/3", objectFit: "cover" }}
+              />
+            ) : (
+              <Image
+                src={project.image}
+                alt={project.title}
+                width={600}
+                height={450}
+                className={styles.heroImg}
+                priority
+              />
+            )}
           </div>
         </header>
 

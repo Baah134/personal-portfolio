@@ -30,7 +30,7 @@ const ieeeRoles = [
     role: "Regional Coordinator, TechX 2026",
     org: "IEEE Computer Society Region 8 (Europe, Middle East, Africa)",
     date: "Apr 2026 – Present",
-    placeholder: true,
+    image: "/images/techx.jpeg",
     points: [
       "Coordinate for TechX, a regional initiative focused on fostering technical excellence and professional development within the IEEE Computer Society across Europe, the Middle East, and Africa.",
       "Manage planning and execution of technical deliverables through active collaboration with international team members.",
@@ -128,7 +128,10 @@ const studentClubs = [
     date: "Jul 2024 – Present",
     image: "/images/kenya.jpeg",
     points: [
-      "Aid Mastercard Foundation Scholars locate and apply for courses, certificates, and internships on the Baobab App.",
+      "Selected as one of the few Mastercard Foundation Scholars to represent Ashesi University at the 2025 Baobab Summit ('Baobab Rising') in Nairobi, Kenya.",
+      "Collaborated with scholars and alumni across the continent on driving Africa's transformation through youth-led leadership and collective action.",
+      "Participated in storytelling circles, wellness workshops, and reflective sessions on driving sustainable social impact.",
+      "Support platform engagement by helping scholars locate and apply for professional courses, certifications, and internships.",
     ],
   },
   {

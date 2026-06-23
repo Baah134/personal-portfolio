@@ -56,6 +56,8 @@ const experiences = [
       "Conducted customer discovery, market segmentation, pricing strategies, financial modeling, and ROI projections.",
       "Partnered with health professionals and local leaders to run educational campaigns and launch the MVP in a rural community.",
     ],
+    link: "/projects/aquablue",
+    linkLabel: "View AquaRevive Project Details",
   },
 ];
 
@@ -102,7 +104,7 @@ export default function ExperiencePage() {
                 )}
                 {exp.link && (
                   <Link href={exp.link} className={styles.cardLink}>
-                    View Research Outputs &amp; Publications
+                    {exp.linkLabel || "View Research Outputs & Publications"}
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                       <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
                     </svg>
