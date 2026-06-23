@@ -3,10 +3,25 @@ import { MetadataRoute } from 'next';
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://princebaah.vercel.app';
 
-  // Dynamic routes
+  // Dynamic projects routes
   const projectSlugs = ['lumina', 'coastal-odes', 'whisper', 'hydrogel', 'aquablue'];
   const projectUrls = projectSlugs.map((slug) => ({
     url: `${baseUrl}/projects/${slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly' as const,
+    priority: 0.8,
+  }));
+
+  // Dynamic research routes
+  const researchSlugs = [
+    'bayesian-pid',
+    'metaverse-education',
+    'fpga-softcore',
+    'fpga-acceleration',
+    'speech-emotion',
+  ];
+  const researchUrls = researchSlugs.map((slug) => ({
+    url: `${baseUrl}/research/${slug}`,
     lastModified: new Date(),
     changeFrequency: 'monthly' as const,
     priority: 0.8,
@@ -28,5 +43,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: route === '' ? 1.0 : 0.8,
   }));
 
-  return [...staticUrls, ...projectUrls];
+  return [...staticUrls, ...projectUrls, ...researchUrls];
 }

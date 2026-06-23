@@ -1,11 +1,65 @@
 import type { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
   title: "Research & Publications",
   description:
-    "Explore Prince Baah-Mensah's research in control systems, speech emotion recognition, and AI-powered adaptive learning for education.",
+    "Explore Prince Baah-Mensah's research in control systems, speech emotion recognition, and FPGA hardware acceleration.",
 };
+
+const publications = [
+  {
+    slug: "bayesian-pid",
+    title: "Constraint-Aware Bayesian Optimization for PID Tuning",
+    date: "Dec 2025",
+    venue: "52nd Annual Conference of the IEEE Industrial Electronics Society (IECON 2026)",
+    image: "/images/pid.png",
+    status: "Under Review",
+    statusType: "review",
+    desc: "Formulates PID tuning as a constrained black-box optimization problem with explicit engineering specifications and solves it using constraint-aware Bayesian Optimization, demonstrating up to 34× reduction in settling time.",
+    tags: ["PID Control", "Bayesian Optimization", "Optuna", "MATLAB", "Python"],
+  },
+  {
+    slug: "metaverse-education",
+    title: "AI-Powered Adaptive Learning System for Education in the Metaverse Classroom",
+    date: "2026",
+    venue: "IEEE International Conference on Smart Sustainable Systems for Computer and Engineering Applications (3SCEA)",
+    image: "/images/metaverse.png",
+    status: "Accepted",
+    statusType: "accepted",
+    desc: "Designs and implements an AI-driven virtual learning environment in Unreal Engine 5, integrating preloaded instructional media with GPT-backed conversational NPCs for real-time academic support.",
+    tags: ["Unreal Engine 5", "OpenAI GPT API", "REST API", "Metaverse"],
+  },
+];
+
+const currentResearch = [
+  {
+    slug: "speech-emotion",
+    title: "Speech Emotion Recognition Research",
+    date: "Aug 2025 – Present",
+    meta: "Ashesi University",
+    desc: "Development of deep learning systems capable of classifying human emotion from speech, utilizing advanced signal processing and neural network architectures, benchmarking RNN, CNN, and Transformer models.",
+    tags: ["Deep Learning", "Signal Processing", "PyTorch", "NLP"],
+  },
+  {
+    slug: "fpga-softcore",
+    title: "Accelerating Embedded Neural Network Inference on FPGA Softcore Processors",
+    date: "Sep 2024 - May 2025",
+    meta: "Artix-7 FPGA · MicroBlaze",
+    desc: "Designed a fully on-chip hardware-software co-design framework using FPGA-based softcore processor and custom VHDL acceleration modules. Achieved 420x speedup over baseline execution, earning the Technical Excellence Award in Computer Engineering.",
+    tags: ["Artix-7 FPGA", "Xilinx MicroBlaze", "Vivado", "VHDL"],
+  },
+  {
+    slug: "fpga-acceleration",
+    title: "On-Chip vs. Off-Chip FPGA Acceleration for Embedded Neural Networks",
+    date: "Sep 2024 - May 2025",
+    meta: "STM32 (Cortex-M) · Artix-7 FPGA",
+    desc: "Conducted systematic comparison of on-chip vs off-chip FPGA acceleration strategies for embedded machine learning. Benchmarked four distinct hardware configurations to isolate the impact of communication overhead on inference latency.",
+    tags: ["STM32", "Artix-7 FPGA", "SPI / DMA", "C/C++", "VHDL"],
+  },
+];
 
 export default function ResearchPage() {
   return (
@@ -15,118 +69,95 @@ export default function ResearchPage() {
         <header className={styles.header}>
           <h1 className={styles.title}>Research &amp; Publications</h1>
           <p className={styles.subtitle}>
-            My research spans control systems engineering, speech emotion recognition
-            using deep learning, and AI-powered education. I&apos;m driven by the
-            intersection of intelligent systems and real-world impact.
+            My research spans control systems engineering, embedded hardware acceleration (FPGAs), 
+            speech emotion recognition using deep learning, and AI-powered educational metaverse design.
           </p>
         </header>
 
         {/* Publications Section */}
-        <section className={styles.section} id="publications" aria-labelledby="publications-heading">
-          <h2 className={styles.sectionTitle} id="publications-heading">Publications</h2>
-
-          <div className={styles.publicationsGrid}>
-            <article className={styles.publicationCard}>
-              <div className={styles.pubAccent} aria-hidden="true" />
-              <div className={styles.pubContent}>
-                <div className={styles.pubHeader}>
-                  <span className={styles.statusBadgeReview}>
-                    <span className={styles.statusDotReview} aria-hidden="true" />
-                    Under Review
-                  </span>
-                  <span className={styles.pubYear}>2026</span>
+        <section className={styles.section} id="publications">
+          <h2 className={styles.sectionTitle}>Publications</h2>
+          <div className={styles.grid}>
+            {publications.map((pub) => (
+              <div key={pub.slug} className={styles.pubCard}>
+                <div className={styles.cardImageWrap}>
+                  {pub.image ? (
+                    <Image
+                      src={pub.image}
+                      alt={pub.title}
+                      width={600}
+                      height={400}
+                      className={styles.cardImage}
+                    />
+                  ) : (
+                    <div className={styles.imagePlaceholder}>
+                      <span>Photo coming soon</span>
+                    </div>
+                  )}
+                  {pub.statusType === 'review' ? (
+                    <span className={styles.statusBadgeReview}>
+                      <span className={styles.statusDotReview} aria-hidden="true" />
+                      {pub.status}
+                    </span>
+                  ) : (
+                    <span className={styles.statusBadge}>
+                      <span className={styles.statusDot} aria-hidden="true" />
+                      {pub.status}
+                    </span>
+                  )}
                 </div>
-                <h3 className={styles.pubTitle}>
-                  Constraint-Aware Bayesian Optimization for PID Controller Tuning:
-                  A Multi-Plant Comparative Study
-                </h3>
-                <p className={styles.pubAuthors}>
-                  <strong>Baah-Mensah, P.</strong>
-                </p>
-                <p className={styles.pubVenue}>
-                  52nd Annual Conference of the IEEE Industrial Electronics Society (IECON 2026) — October 18 – 21, 2026
-                </p>
-                <p className={styles.pubDescription}>
-                  Formulates PID tuning as a constrained black-box optimization problem
-                  with explicit engineering specifications (overshoot, steady-state error,
-                  peak actuator force) and solves it using constraint-aware Bayesian
-                  Optimization. A four-plant comparative study against MATLAB&apos;s{" "}
-                  <em>pidtune</em> demonstrates that the constrained BO formulation
-                  discovers qualitatively distinct control strategies per plant and
-                  reduces settling time by up to 34× while satisfying all specifications.
-                </p>
-                <div className={styles.tags}>
-                  {["PID Control", "Bayesian Optimization", "MATLAB", "Python", "Control Theory"].map((tag) => (
-                    <span key={tag} className="tag">{tag}</span>
-                  ))}
-                </div>
-              </div>
-            </article>
-
-            <article className={styles.publicationCard}>
-              <div className={styles.pubAccent} aria-hidden="true" />
-              <div className={styles.pubContent}>
-                <div className={styles.pubHeader}>
-                  <span className={styles.statusBadge}>
-                    <span className={styles.statusDot} aria-hidden="true" />
-                    Accepted
-                  </span>
-                  <span className={styles.pubYear}>2026</span>
-                </div>
-                <h3 className={styles.pubTitle}>
-                  Design of an AI-Powered Adaptive Learning System for Education
-                  in the Metaverse Classroom
-                </h3>
-                <p className={styles.pubAuthors}>
-                  <strong>Baah-Mensah, P.</strong>, Tawia, E., Ansah, J. O.
-                </p>
-                <p className={styles.pubVenue}>
-                  IEEE International Conference on Smart Sustainable Systems for Computer and Engineering Applications (3SCEA) — April 19 – 21, 2026
-                </p>
-                <p className={styles.pubDescription}>
-                  Designs and implements an AI-driven virtual learning environment in Unreal Engine 5,
-                  integrating preloaded instructional media with GPT-backed conversational NPCs for
-                  real-time academic support. Employs an adaptive assessment engine and gamification
-                  framework to dynamically adjust question difficulty and recommend personalized learning
-                  paths without a hard-coded curriculum.
-                </p>
-                <div className={styles.tags}>
-                  {["Unreal Engine 5", "OpenAI GPT API", "Python", "Blueprints", "REST API", "AI", "Education", "Metaverse", "Adaptive Learning"].map((tag) => (
-                    <span key={tag} className="tag">{tag}</span>
-                  ))}
+                <div className={styles.pubContent}>
+                  <h3 className={styles.pubTitle}>{pub.title}</h3>
+                  <p className={styles.pubVenue}>{pub.venue}</p>
+                  <p className={styles.pubDescription}>{pub.desc}</p>
+                  <div className={styles.tags}>
+                    {pub.tags.map((tag) => (
+                      <span key={tag} className="tag">{tag}</span>
+                    ))}
+                  </div>
+                  <Link href={`/research/${pub.slug}`} className={styles.readMore}>
+                    Click to read more &rarr;
+                  </Link>
                 </div>
               </div>
-            </article>
+            ))}
           </div>
         </section>
 
         {/* Current Research Section */}
-        <section className={styles.section} id="current-research" aria-labelledby="current-research-heading">
-          <h2 className={styles.sectionTitle} id="current-research-heading">Current Research</h2>
-
-          <div className={styles.researchSingle}>
-            <article className={styles.researchCard}>
-              <div className={styles.cardHeader}>
-                <h3 className={styles.cardTitle}>
-                  Speech Emotion Recognition Research
-                </h3>
-                <div className={styles.cardMeta}>
-                  <span className={styles.metaItem}>Ashesi University</span>
-                  <span className={styles.metaDot}>·</span>
-                  <span className={styles.metaItem}>Aug 2025 – Present</span>
+        <section className={styles.section} id="current-research">
+          <h2 className={styles.sectionTitle}>Current Research</h2>
+          <div className={styles.grid}>
+            {currentResearch.map((res) => (
+              <div key={res.slug} className={styles.pubCard}>
+                <div className={styles.cardImageWrap}>
+                  <div className={styles.imagePlaceholder}>
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2" /><circle cx="9" cy="9" r="2" /><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
+                    </svg>
+                    <span>Research Image Placeholder</span>
+                  </div>
+                  <span className={styles.statusBadgeGeneric}>
+                    {res.date}
+                  </span>
+                </div>
+                <div className={styles.pubContent}>
+                  <div className={styles.pubTop}>
+                    <span className={styles.pubMeta}>{res.meta}</span>
+                  </div>
+                  <h3 className={styles.pubTitle}>{res.title}</h3>
+                  <p className={`${styles.pubDescription} ${res.slug === 'fpga-acceleration' ? styles.greenText : ''}`}>{res.desc}</p>
+                  <div className={styles.tags}>
+                    {res.tags.map((tag) => (
+                      <span key={tag} className="tag">{tag}</span>
+                    ))}
+                  </div>
+                  <Link href={`/research/${res.slug}`} className={styles.readMore}>
+                    Click to read more &rarr;
+                  </Link>
                 </div>
               </div>
-              <ul className={styles.workList}>
-                <li>Doing research on the development of deep learning systems capable of classifying human emotion from speech, utilizing advanced signal processing and neural network architectures.</li>
-                <li>Addressed the critical generalization gap where state-of-the-art models fail on unseen speakers; currently authoring a research paper for IEEE publication that conducts a rigorous Speaker-Strict comparative analysis of state-of-the-art Transformer, CNN, and RNN architectures.</li>
-                <li>Engineering a robust, speaker-agnostic SER framework by benchmarking diverse methodologies including Self-Supervised Learning and Hybrid CNN-Transformers to establish a new baseline for real-world model deployment.</li>
-              </ul>
-              <div className={styles.tags}>
-                {["Deep Learning", "Signal Processing", "PyTorch", "NLP"].map((tag) => (
-                  <span key={tag} className="tag">{tag}</span>
-                ))}
-              </div>
-            </article>
+            ))}
           </div>
         </section>
       </div>

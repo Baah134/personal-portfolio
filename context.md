@@ -98,8 +98,11 @@ src/
 │   ├── robots.ts                # SEO Robots rules configuration
 │   ├── sitemap.ts               # SEO Sitemap.xml generator
 │   └── research/
-│       ├── page.tsx             # Research & Publications (2 papers + 2 research areas)
-│       └── page.module.css
+│       ├── page.tsx             # Research & Publications listing grid of cards
+│       ├── page.module.css
+│       └── [slug]/
+│           ├── page.tsx         # Dynamic research details page (5 publications/projects)
+│           └── page.module.css
 ├── components/
 │   ├── layout/
 │   │   ├── Navbar.tsx           # Fixed navbar (7 links + Resume download)
@@ -126,7 +129,8 @@ public/
 | Route | Type | Description |
 |---|---|---|
 | `/` | Static | Homepage with hero, about, featured projects, skills, CTA |
-| `/research` | Static | Publications (2 papers) + current research area (SER) |
+| `/research` | Static | Research grid of cards with status tags, brief info, and read-more links |
+| `/research/[slug]` | SSG | Individual research/publication detail pages (bayesian-pid, metaverse-education, fpga-softcore, fpga-acceleration, speech-emotion) |
 | `/projects` | Static | Project listing grid with image cards linking to detail pages |
 | `/projects/[slug]` | SSG | Individual project pages (lumina, whisper, coastal-odes, hydrogel, aquablue) |
 | `/leadership` | Static | Leadership & Volunteering categorized into IEEE, Student Clubs, Teaching, Community |

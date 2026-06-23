@@ -43,40 +43,83 @@
   border-bottom: 2px solid var(--color-border);
 }
 
-/* Publication Card */
-.publicationCard {
-  display: flex;
+/* Grid Layout */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-8);
+}
+
+/* Card Styling */
+.pubCard {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   overflow: hidden;
   background: var(--color-bg);
-  transition: box-shadow var(--transition-base);
-}
-
-.publicationCard:hover {
-  box-shadow: var(--shadow-md);
-}
-
-.pubAccent {
-  width: 4px;
-  flex-shrink: 0;
-  background: var(--color-accent);
-}
-
-.pubContent {
-  padding: var(--space-6) var(--space-8);
   display: flex;
   flex-direction: column;
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+  height: 100%;
+}
+
+.pubCard:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.pubCard:hover .cardImage {
+  transform: scale(1.05);
+}
+
+.pubCard:hover .readMore {
   gap: var(--space-3);
+  color: var(--color-accent-hover);
 }
 
-.pubHeader {
+/* Image Wrap */
+.cardImageWrap {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.cardImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-slow);
+}
+
+/* Placeholders */
+.imagePlaceholder {
+  width: 100%;
+  height: 100%;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: var(--space-4);
+  justify-content: center;
+  gap: var(--space-3);
+  color: var(--color-text-tertiary);
+  background: var(--color-surface);
+  text-align: center;
+  padding: var(--space-4);
 }
 
-.statusBadge {
+.imagePlaceholder span {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-wider);
+}
+
+/* Badges positioned absolutely inside image wrapper */
+.cardImageWrap .statusBadge {
+  position: absolute;
+  top: var(--space-4);
+  left: var(--space-4);
+  z-index: 2;
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
@@ -84,21 +127,17 @@
   font-size: var(--fs-xs);
   font-weight: var(--fw-semibold);
   color: var(--color-success);
-  background: hsla(145, 60%, 40%, 0.08);
+  background: rgba(255, 255, 255, 0.95);
   border-radius: var(--radius-full);
-  border: 1px solid hsla(145, 60%, 40%, 0.15);
+  border: 1px solid hsla(145, 60%, 40%, 0.25);
+  box-shadow: var(--shadow-sm);
 }
 
-.statusDot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--color-success);
-  animation: pulse 2s infinite;
-}
-
-/* Under Review variant */
-.statusBadgeReview {
+.cardImageWrap .statusBadgeReview {
+  position: absolute;
+  top: var(--space-4);
+  left: var(--space-4);
+  z-index: 2;
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
@@ -106,9 +145,42 @@
   font-size: var(--fs-xs);
   font-weight: var(--fw-semibold);
   color: hsl(40, 70%, 40%);
-  background: hsla(40, 80%, 50%, 0.08);
+  background: rgba(255, 255, 255, 0.95);
   border-radius: var(--radius-full);
-  border: 1px solid hsla(40, 80%, 50%, 0.2);
+  border: 1px solid hsla(40, 80%, 50%, 0.3);
+  box-shadow: var(--shadow-sm);
+}
+
+.cardImageWrap .statusBadgeGeneric {
+  position: absolute;
+  top: var(--space-4);
+  left: var(--space-4);
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-1) var(--space-3);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  color: var(--color-text-secondary);
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+}
+
+[data-theme="dark"] .cardImageWrap .statusBadge,
+[data-theme="dark"] .cardImageWrap .statusBadgeReview,
+[data-theme="dark"] .cardImageWrap .statusBadgeGeneric {
+  background: rgba(18, 18, 18, 0.9);
+}
+
+/* Dots inside badges */
+.statusDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-success);
+  animation: pulse 2s infinite;
 }
 
 .statusDotReview {
@@ -119,15 +191,42 @@
   animation: pulse 2s infinite;
 }
 
-.publicationsGrid {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-6);
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
 }
 
-.pubYear {
-  font-size: var(--fs-sm);
-  color: var(--color-text-tertiary);
+/* Content Area */
+.pubContent {
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  flex-grow: 1;
+}
+
+.pubTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.pubMeta {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-wider);
+  color: var(--color-accent);
 }
 
 .pubTitle {
@@ -137,19 +236,11 @@
   line-height: var(--lh-snug);
 }
 
-.pubAuthors {
-  font-size: var(--fs-sm);
-  color: var(--color-text-secondary);
-}
-
-.pubAuthors strong {
-  color: var(--color-text-primary);
-}
-
 .pubVenue {
   font-size: var(--fs-sm);
   color: var(--color-text-tertiary);
   font-style: italic;
+  margin-top: calc(-1 * var(--space-1));
 }
 
 .pubDescription {
@@ -158,133 +249,41 @@
   line-height: var(--lh-relaxed);
 }
 
-/* Tags */
+/* Make one card's description light green if desired (optional) */
+.greenText {
+  color: var(--color-success) !important;
+}
+
+/* Tags list */
 .tags {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-2);
-  margin-top: var(--space-2);
+  margin-top: var(--space-1);
+  margin-bottom: var(--space-2);
 }
 
-/* Research Grid */
-.researchGrid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--space-8);
-}
-
-.researchCard {
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  padding: var(--space-6);
-  background: var(--color-bg);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-5);
-  transition: transform var(--transition-base), box-shadow var(--transition-base);
-}
-
-.researchCard:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-md);
-}
-
-.cardHeader {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-}
-
-.cardTitle {
-  font-size: var(--fs-lg);
-  font-weight: var(--fw-semibold);
-  color: var(--color-text-primary);
-}
-
-.cardMeta {
-  display: flex;
+/* Link read more */
+.readMore {
+  display: inline-flex;
   align-items: center;
   gap: var(--space-2);
   font-size: var(--fs-sm);
-  color: var(--color-text-tertiary);
-}
-
-.metaDot {
-  color: var(--color-border);
-}
-
-.workList {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-  padding-left: var(--space-5);
-}
-
-.workList li {
-  font-size: var(--fs-sm);
-  color: var(--color-text-secondary);
-  line-height: var(--lh-normal);
-  list-style: disc;
-}
-
-.workList li::marker {
-  color: var(--color-accent);
-}
-
-.pubDetails {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-  margin: var(--space-2) 0;
-  padding: var(--space-4) var(--space-5);
-  background: var(--color-surface);
-  border-radius: var(--radius-md);
-  border: 1px solid var(--color-border);
-}
-
-.pubSubSection {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-}
-
-.pubSubSection h4 {
-  font-size: var(--fs-sm);
   font-weight: var(--fw-semibold);
-  color: var(--color-text-primary);
-  text-transform: uppercase;
-  letter-spacing: var(--ls-wide);
-}
-
-.pubList {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-  padding-left: var(--space-5);
-}
-
-.pubList li {
-  font-size: var(--fs-sm);
-  color: var(--color-text-secondary);
-  line-height: var(--lh-normal);
-  list-style: disc;
-}
-
-.pubList li::marker {
   color: var(--color-accent);
+  margin-top: auto;
+  transition: gap var(--transition-base), color var(--transition-base);
+  text-decoration: none;
+  font-style: italic;
 }
 
-.researchSingle {
-  max-width: 800px;
-  width: 100%;
-}
-
-/* Responsive */
+/* Responsive design */
 @media (max-width: 768px) {
-  .researchGrid {
+  .grid {
     grid-template-columns: 1fr;
+    gap: var(--space-6);
   }
-
+  
   .pubContent {
     padding: var(--space-5);
   }
