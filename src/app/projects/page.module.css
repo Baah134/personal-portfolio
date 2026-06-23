@@ -39,14 +39,38 @@
   border-radius: var(--radius-lg);
   overflow: hidden;
   background: var(--color-bg);
-  transition: transform var(--transition-base), box-shadow var(--transition-base);
+  transition: transform 0.15s ease-out, box-shadow var(--transition-base);
   text-decoration: none;
   color: inherit;
   cursor: pointer;
+  position: relative;
+  transform-style: preserve-3d;
+  transform: perspective(1000px) rotateX(var(--rotate-x, 0deg)) rotateY(var(--rotate-y, 0deg));
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: radial-gradient(
+    circle 200px at var(--mouse-x, -1000px) var(--mouse-y, -1000px),
+    var(--color-accent-light),
+    transparent 80%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+}
+
+.card:hover::before {
+  opacity: 1;
 }
 
 .card:hover {
-  transform: translateY(-4px);
   box-shadow: var(--shadow-lg);
 }
 
@@ -64,6 +88,7 @@
   overflow: hidden;
   aspect-ratio: 3 / 2;
   background: var(--color-surface);
+  z-index: 2;
 }
 
 .cardImage {
@@ -83,6 +108,7 @@
   background: var(--color-accent);
   color: #ffffff;
   border-radius: var(--radius-sm);
+  z-index: 3;
 }
 
 .cardBody {
@@ -90,6 +116,8 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
+  position: relative;
+  z-index: 2;
 }
 
 .cardTop {

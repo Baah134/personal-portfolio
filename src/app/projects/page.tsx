@@ -1,13 +1,9 @@
-import type { Metadata } from "next";
-import Image from "next/image";
-import Link from "next/link";
-import styles from "./page.module.css";
+'use client';
 
-export const metadata: Metadata = {
-  title: "Projects",
-  description:
-    "Technical projects by Prince Baah-Mensah spanning IoT, AI/ML, embedded systems, and robotics.",
-};
+import { useCallback } from "react";
+import Image from "next/image";
+import TransitionLink from "@/components/ui/TransitionLink";
+import styles from "./page.module.css";
 
 const projects = [
   {
@@ -63,6 +59,30 @@ const projects = [
 ];
 
 export default function ProjectsPage() {
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
+    const card = e.currentTarget;
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    card.style.setProperty("--mouse-x", `${x}px`);
+    card.style.setProperty("--mouse-y", `${y}px`);
+
+    const xc = rect.width / 2;
+    const yc = rect.height / 2;
+    const rotateX = (yc - y) / 15;
+    const rotateY = (x - xc) / 15;
+    
+    card.style.setProperty("--rotate-x", `${rotateX}deg`);
+    card.style.setProperty("--rotate-y", `${rotateY}deg`);
+  }, []);
+
+  const handleMouseLeave = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
+    const card = e.currentTarget;
+    card.style.setProperty("--rotate-x", "0deg");
+    card.style.setProperty("--rotate-y", "0deg");
+  }, []);
+
   return (
     <div className={styles.page}>
       <div className="container">
@@ -76,10 +96,12 @@ export default function ProjectsPage() {
 
         <div className={styles.grid}>
           {projects.map((project) => (
-            <Link
+            <TransitionLink
               key={project.slug}
               href={`/projects/${project.slug}`}
               className={styles.card}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
             >
               <div className={styles.cardImageWrap}>
                 <Image
@@ -88,6 +110,7 @@ export default function ProjectsPage() {
                   width={600}
                   height={400}
                   className={styles.cardImage}
+                  style={{ viewTransitionName: `project-image-${project.slug}` }}
                 />
                 <span className={styles.badge}>{project.badge}</span>
               </div>
@@ -112,7 +135,7 @@ export default function ProjectsPage() {
                   </svg>
                 </span>
               </div>
-            </Link>
+            </TransitionLink>
           ))}
         </div>
       </div>

@@ -137,11 +137,35 @@
   border-radius: var(--radius-lg);
   overflow: hidden;
   background: var(--color-bg);
-  transition: transform var(--transition-base), box-shadow var(--transition-base);
+  transition: transform 0.15s ease-out, box-shadow var(--transition-base);
+  position: relative;
+  transform-style: preserve-3d;
+  transform: perspective(1000px) rotateX(var(--rotate-x, 0deg)) rotateY(var(--rotate-y, 0deg));
+}
+
+.roleCard::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: radial-gradient(
+    circle 200px at var(--mouse-x, -1000px) var(--mouse-y, -1000px),
+    var(--color-accent-light),
+    transparent 80%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+}
+
+.roleCard:hover::before {
+  opacity: 1;
 }
 
 .roleCard:hover {
-  transform: translateY(-3px);
   box-shadow: var(--shadow-md);
 }
 
@@ -156,6 +180,8 @@
   justify-content: center;
   gap: var(--space-2);
   color: var(--color-text-tertiary);
+  position: relative;
+  z-index: 2;
 }
 
 .imagePlaceholder span {
@@ -171,6 +197,8 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
+  position: relative;
+  z-index: 2;
 }
 
 .roleHeader {
@@ -245,6 +273,8 @@
   aspect-ratio: 16 / 9;
   object-fit: cover;
   border-bottom: 1px solid var(--color-border);
+  position: relative;
+  z-index: 2;
 }
 
 .certLink {

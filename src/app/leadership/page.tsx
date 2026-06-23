@@ -1,12 +1,8 @@
-import type { Metadata } from "next";
+'use client';
+
+import { useCallback } from "react";
 import Image from "next/image";
 import styles from "./page.module.css";
-
-export const metadata: Metadata = {
-  title: "Leadership & Volunteering",
-  description:
-    "Prince Baah-Mensah's leadership roles, community initiatives, and impact — from founding IEEE Ashesi to presiding over engineering and EA student bodies.",
-};
 
 const awards = [
   { title: "IEEE MYOSA 2025 Competition Finalist", org: "IEEE Sensors Council", date: "Dec 2025" },
@@ -234,8 +230,36 @@ type RoleEntry = {
 };
 
 function RoleCard({ entry }: { entry: RoleEntry }) {
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const card = e.currentTarget;
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    card.style.setProperty("--mouse-x", `${x}px`);
+    card.style.setProperty("--mouse-y", `${y}px`);
+
+    const xc = rect.width / 2;
+    const yc = rect.height / 2;
+    const rotateX = (yc - y) / 15;
+    const rotateY = (x - xc) / 15;
+    
+    card.style.setProperty("--rotate-x", `${rotateX}deg`);
+    card.style.setProperty("--rotate-y", `${rotateY}deg`);
+  }, []);
+
+  const handleMouseLeave = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const card = e.currentTarget;
+    card.style.setProperty("--rotate-x", "0deg");
+    card.style.setProperty("--rotate-y", "0deg");
+  }, []);
+
   return (
-    <div className={styles.roleCard}>
+    <div
+      className={styles.roleCard}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+    >
       {entry.image ? (
         <Image
           src={entry.image}

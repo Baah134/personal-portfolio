@@ -249,7 +249,7 @@ export default async function ProjectDetail({ params }: PageProps) {
                 loop
                 playsInline
                 className={styles.heroImg}
-                style={{ display: "block", width: "100%", height: "auto", aspectRatio: "4/3", objectFit: "cover" }}
+                style={{ display: "block", width: "100%", height: "auto", aspectRatio: "4/3", objectFit: "cover", viewTransitionName: `project-image-${slug}` }}
               />
             ) : (
               <Image
@@ -259,6 +259,7 @@ export default async function ProjectDetail({ params }: PageProps) {
                 height={450}
                 className={styles.heroImg}
                 priority
+                style={{ viewTransitionName: `project-image-${slug}` }}
               />
             )}
           </div>

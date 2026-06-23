@@ -1,6 +1,12 @@
-import styles from "./page.module.css";
+'use client';
+
+import { useState, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import styles from "./page.module.css";
+import NetworkBackground from "@/components/ui/NetworkBackground";
+import TextScramble from "@/components/ui/TextScramble";
+import StatCounter from "@/components/ui/StatCounter";
 
 const featuredProjects = [
   {
@@ -49,34 +55,91 @@ const stats = [
 ];
 
 export default function Home() {
+  const [glowStyle, setGlowStyle] = useState<React.CSSProperties>({});
+  const [magnetStyle, setMagnetStyle] = useState<React.CSSProperties>({});
+
+  const handleHeroMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    setGlowStyle({
+      "--mouse-x": `${x}px`,
+      "--mouse-y": `${y}px`,
+    } as React.CSSProperties);
+  }, []);
+
+  const handleMagnetMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const container = e.currentTarget;
+    const btn = container.querySelector("#hero-cta-projects") as HTMLAnchorElement | null;
+    if (!btn) return;
+
+    const rect = btn.getBoundingClientRect();
+    const btnX = rect.left + rect.width / 2;
+    const btnY = rect.top + rect.height / 2;
+
+    const dx = e.clientX - btnX;
+    const dy = e.clientY - btnY;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+
+    if (dist < 120) {
+      const pullX = Math.max(-15, Math.min(15, dx * 0.25));
+      const pullY = Math.max(-15, Math.min(15, dy * 0.25));
+      setMagnetStyle({
+        transform: `translate(${pullX}px, ${pullY}px)`,
+        transition: "transform 0.1s ease-out",
+      });
+    } else {
+      setMagnetStyle({
+        transform: "translate(0px, 0px)",
+        transition: "transform 0.3s ease-out",
+      });
+    }
+  }, []);
+
+  const handleMagnetLeave = useCallback(() => {
+    setMagnetStyle({
+      transform: "translate(0px, 0px)",
+      transition: "transform 0.3s ease-out",
+    });
+  }, []);
+
   return (
     <>
       {/* ===== HERO ===== */}
-      <section id="hero" className={styles.hero}>
+      <section id="hero" className={styles.hero} onMouseMove={handleHeroMouseMove}>
+        <NetworkBackground />
+        <div className={styles.heroGlow} style={glowStyle} />
         <div className={styles.heroContent}>
           <div className={styles.heroText}>
             <p className={styles.heroLabel}>Electrical Engineer · Researcher</p>
             <h1 className={styles.heroTitle}>
-              Prince<br />
-              <span className={styles.heroTitleAccent}>Baah-Mensah</span>
+              <TextScramble text="Prince" />
+              <br />
+              <span className={styles.heroTitleAccent}>
+                <TextScramble text="Baah-Mensah" />
+              </span>
             </h1>
             <p className={styles.heroDesc}>
               Building intelligent systems at the intersection of hardware and AI.
               Third-year Electrical &amp; Electronics Engineering student at Ashesi University,
               focused on control systems, IoT, and speech processing research.
             </p>
-            <div className={styles.heroCtas}>
-              <Link href="/projects" className="btn btn-primary" id="hero-cta-projects">
+            <div
+              className={styles.heroCtas}
+              onMouseMove={handleMagnetMove}
+              onMouseLeave={handleMagnetLeave}
+            >
+              <Link
+                href="/projects"
+                className="btn btn-primary"
+                id="hero-cta-projects"
+                style={magnetStyle}
+              >
                 View Projects
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
                 </svg>
               </Link>
-              {/* CV button hidden per request
-              <a href="/CV.pdf" download className="btn btn-outline" id="hero-cta-cv">
-                Download CV
-              </a>
-              */}
             </div>
           </div>
           <div className={styles.heroImage}>
@@ -95,7 +158,9 @@ export default function Home() {
       {/* ===== ABOUT ===== */}
       <section id="about" className={`${styles.about} section`}>
         <div className="container">
-          <h2 className={`section-title ${styles.sectionHeading}`}>About Me</h2>
+          <h2 className={`section-title ${styles.sectionHeading}`}>
+            <TextScramble text="About Me" />
+          </h2>
           <div className={styles.aboutGrid}>
             <div className={styles.aboutText}>
               <p>
@@ -112,7 +177,9 @@ export default function Home() {
             <div className={styles.statsGrid}>
               {stats.map((stat) => (
                 <div key={stat.label} className={styles.statCard}>
-                  <span className={styles.statValue}>{stat.value}</span>
+                  <span className={styles.statValue}>
+                    <StatCounter value={stat.value} />
+                  </span>
                   <span className={styles.statLabel}>{stat.label}</span>
                 </div>
               ))}
@@ -124,7 +191,9 @@ export default function Home() {
       {/* ===== FEATURED PROJECTS ===== */}
       <section id="featured-projects" className={`${styles.projects} section`}>
         <div className="container">
-          <h2 className={`section-title ${styles.sectionHeading}`}>Featured Projects</h2>
+          <h2 className={`section-title ${styles.sectionHeading}`}>
+            <TextScramble text="Featured Projects" />
+          </h2>
           <p className="section-subtitle">
             A selection of projects spanning IoT, AI, and embedded systems.
           </p>
@@ -162,7 +231,9 @@ export default function Home() {
       {/* ===== SKILLS ===== */}
       <section id="skills" className={`${styles.skills} section`}>
         <div className="container">
-          <h2 className={`section-title ${styles.sectionHeading}`}>Technical Skills</h2>
+          <h2 className={`section-title ${styles.sectionHeading}`}>
+            <TextScramble text="Technical Skills" />
+          </h2>
           <div className={styles.skillsGrid}>
             {skillCategories.map((cat) => (
               <div key={cat.title} className={styles.skillCategory}>
@@ -182,7 +253,9 @@ export default function Home() {
       <section id="cta" className={styles.cta}>
         <div className="container">
           <div className={styles.ctaContent}>
-            <h2 className={styles.ctaTitle}>Let&apos;s Connect</h2>
+            <h2 className={styles.ctaTitle}>
+              <TextScramble text="Let's Connect" />
+            </h2>
             <p className={styles.ctaDesc}>
               Open to research collaborations, internships, and speaking opportunities.
               Let&apos;s build something meaningful together.

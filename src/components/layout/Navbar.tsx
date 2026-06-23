@@ -26,15 +26,35 @@ export default function Navbar() {
     setTheme(currentTheme);
   }, []);
 
-  const toggleTheme = () => {
+  const toggleTheme = (e: React.MouseEvent<HTMLButtonElement>) => {
     const nextTheme = theme === 'light' ? 'dark' : 'light';
-    setTheme(nextTheme);
-    if (nextTheme === 'dark') {
-      document.documentElement.setAttribute('data-theme', 'dark');
-      localStorage.setItem('theme', 'dark');
+    const documentWithTransition = document as any;
+
+    if (typeof window !== "undefined" && "startViewTransition" in document) {
+      const x = e.clientX;
+      const y = e.clientY;
+      document.documentElement.style.setProperty("--click-x", `${x}px`);
+      document.documentElement.style.setProperty("--click-y", `${y}px`);
+
+      documentWithTransition.startViewTransition(() => {
+        setTheme(nextTheme);
+        if (nextTheme === 'dark') {
+          document.documentElement.setAttribute('data-theme', 'dark');
+          localStorage.setItem('theme', 'dark');
+        } else {
+          document.documentElement.removeAttribute('data-theme');
+          localStorage.setItem('theme', 'light');
+        }
+      });
     } else {
-      document.documentElement.removeAttribute('data-theme');
-      localStorage.setItem('theme', 'light');
+      setTheme(nextTheme);
+      if (nextTheme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+        localStorage.setItem('theme', 'light');
+      }
     }
   };
 
