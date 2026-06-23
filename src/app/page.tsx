@@ -105,8 +105,7 @@ export default function Home() {
                 and <strong>AI for education</strong>.
               </p>
               <p>
-                As <strong>Co-founder &amp; Chair of IEEE Ashesi</strong> — the largest IEEE student branch
-                in Ghana — and <strong>President of the Engineering Student Association</strong>,
+                As <strong>Co-founder &amp; Chair of IEEE Ashesi</strong> and <strong>President of the Ashesi Engineering Student Association</strong>,
                 I&apos;m passionate about building both technology and community.
               </p>
             </div>
