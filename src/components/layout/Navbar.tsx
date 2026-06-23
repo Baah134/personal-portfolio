@@ -37,60 +37,15 @@ export default function Navbar() {
     }
   }, [pathname]);
 
-  const toggleTheme = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const toggleTheme = () => {
     const nextTheme = theme === 'light' ? 'dark' : 'light';
-    const documentWithTransition = document as any;
-
-    if (typeof window !== "undefined" && "startViewTransition" in document) {
-      const x = e.clientX;
-      const y = e.clientY;
-      document.documentElement.style.setProperty("--click-x", `${x}px`);
-      document.documentElement.style.setProperty("--click-y", `${y}px`);
-
-      // Inject custom transition stylesheet for circular theme reveal
-      const styleEl = document.createElement('style');
-      styleEl.innerHTML = `
-        ::view-transition-old(root) {
-          animation: none;
-          mix-blend-mode: normal;
-        }
-        ::view-transition-new(root) {
-          animation: reveal-circle 550ms cubic-bezier(0.4, 0, 0.2, 1);
-          clip-path: circle(0% at var(--click-x, 50%) var(--click-y, 50%));
-          mix-blend-mode: normal;
-        }
-      `;
-      document.head.appendChild(styleEl);
-
-      const transition = documentWithTransition.startViewTransition(() => {
-        flushSync(() => {
-          setTheme(nextTheme);
-          if (nextTheme === 'dark') {
-            document.documentElement.setAttribute('data-theme', 'dark');
-            localStorage.setItem('theme', 'dark');
-          } else {
-            document.documentElement.removeAttribute('data-theme');
-            localStorage.setItem('theme', 'light');
-          }
-        });
-      });
-
-      try {
-        transition.finished.then(() => {
-          styleEl.remove();
-        });
-      } catch (err) {
-        styleEl.remove();
-      }
+    setTheme(nextTheme);
+    if (nextTheme === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
     } else {
-      setTheme(nextTheme);
-      if (nextTheme === 'dark') {
-        document.documentElement.setAttribute('data-theme', 'dark');
-        localStorage.setItem('theme', 'dark');
-      } else {
-        document.documentElement.removeAttribute('data-theme');
-        localStorage.setItem('theme', 'light');
-      }
+      document.documentElement.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'light');
     }
   };
 

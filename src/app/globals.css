@@ -430,9 +430,4 @@ h4 { font-size: var(--fs-lg); font-weight: var(--fw-semibold); }
   }
 }
 
-/* ===== View Transitions circular theme reveal ===== */
-@keyframes reveal-circle {
-  to {
-    clip-path: circle(150% at var(--click-x, 50%) var(--click-y, 50%));
-  }
-}
+
