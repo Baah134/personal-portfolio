@@ -40,48 +40,18 @@
   padding-bottom: var(--space-10);
   position: relative;
   
-  /* Scroll reveal */
-  animation: revealCard linear both;
-  animation-timeline: view();
-  animation-range: entry 5% cover 30%;
-
-  /* 3D tilt */
-  transform-style: preserve-3d;
-  transform: perspective(1000px) rotateX(var(--rotate-x, 0deg)) rotateY(var(--rotate-y, 0deg));
-  transition: transform 0.15s ease-out;
+  /* Mount animation */
+  animation: cardFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-.expCard::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  background: radial-gradient(
-    circle 200px at var(--mouse-x, -1000px) var(--mouse-y, -1000px),
-    var(--color-accent-light),
-    transparent 80%
-  );
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  z-index: 0;
-  border-radius: var(--radius-lg);
-}
-
-.expCard:hover::before {
-  opacity: 1;
-}
-
-@keyframes revealCard {
+@keyframes cardFadeIn {
   from {
     opacity: 0;
-    transform: translateY(30px) scale(0.98);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateY(0);
   }
 }
 
@@ -137,12 +107,10 @@
   background: var(--color-border);
   margin-top: var(--space-2);
   transform-origin: top;
-  animation: drawLine linear both;
-  animation-timeline: view();
-  animation-range: entry 10% exit 80%;
+  animation: lineFadeIn 0.4s ease-out both;
 }
 
-@keyframes drawLine {
+@keyframes lineFadeIn {
   from {
     transform: scaleY(0);
   }

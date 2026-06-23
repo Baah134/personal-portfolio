@@ -67,29 +67,7 @@ export default function ExperiencePage() {
 
   const filteredExperiences = experiences.filter((exp) => exp.category === activeTab);
 
-  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLElement>) => {
-    const card = e.currentTarget;
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    
-    card.style.setProperty("--mouse-x", `${x}px`);
-    card.style.setProperty("--mouse-y", `${y}px`);
 
-    const xc = rect.width / 2;
-    const yc = rect.height / 2;
-    const rotateX = (yc - y) / 20;
-    const rotateY = (x - xc) / 20;
-    
-    card.style.setProperty("--rotate-x", `${rotateX}deg`);
-    card.style.setProperty("--rotate-y", `${rotateY}deg`);
-  }, []);
-
-  const handleMouseLeave = useCallback((e: React.MouseEvent<HTMLElement>) => {
-    const card = e.currentTarget;
-    card.style.setProperty("--rotate-x", "0deg");
-    card.style.setProperty("--rotate-y", "0deg");
-  }, []);
 
   return (
     <div className={styles.page}>
@@ -130,8 +108,6 @@ export default function ExperiencePage() {
             <article
               key={i}
               className={styles.expCard}
-              onMouseMove={handleMouseMove}
-              onMouseLeave={handleMouseLeave}
             >
               <div className={styles.expLeft}>
                 <span className={styles.expDate}>{exp.date}</span>

@@ -47,7 +47,22 @@ export default function Navbar() {
       document.documentElement.style.setProperty("--click-x", `${x}px`);
       document.documentElement.style.setProperty("--click-y", `${y}px`);
 
-      documentWithTransition.startViewTransition(() => {
+      // Inject custom transition stylesheet for circular theme reveal
+      const styleEl = document.createElement('style');
+      styleEl.innerHTML = `
+        ::view-transition-old(root) {
+          animation: none;
+          mix-blend-mode: normal;
+        }
+        ::view-transition-new(root) {
+          animation: reveal-circle 550ms cubic-bezier(0.4, 0, 0.2, 1);
+          clip-path: circle(0% at var(--click-x, 50%) var(--click-y, 50%));
+          mix-blend-mode: normal;
+        }
+      `;
+      document.head.appendChild(styleEl);
+
+      const transition = documentWithTransition.startViewTransition(() => {
         flushSync(() => {
           setTheme(nextTheme);
           if (nextTheme === 'dark') {
@@ -59,6 +74,14 @@ export default function Navbar() {
           }
         });
       });
+
+      try {
+        transition.finished.then(() => {
+          styleEl.remove();
+        });
+      } catch (err) {
+        styleEl.remove();
+      }
     } else {
       setTheme(nextTheme);
       if (nextTheme === 'dark') {
