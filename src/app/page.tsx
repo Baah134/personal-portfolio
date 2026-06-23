@@ -12,7 +12,7 @@ const featuredProjects = [
   },
   {
     title: "Hydrogel Salinity Research & IoT Monitoring",
-    desc: "Evaluated the impact of NaCl and MgCl2 salinity on biodegradable starch-PVA hydrogels using One-Way ANOVA and Tukey HSD post-hoc tests to model agricultural viability under galamsey pollution.",
+    desc: "Designed an IoT-based monitoring system using soil-moisture sensors to collect real-time absorption data, modeling biodegradable hydrogel viability under varying salinity and galamsey pollution conditions.",
     image: "/images/hydrogel-analysis.png",
     badge: "Environmental Research",
     href: "/projects/hydrogel",

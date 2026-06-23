@@ -47,13 +47,14 @@ const experiences = [
   },
   {
     role: "CTO & Co-founder",
-    company: "AquaBlue (Aqua Revive)",
+    company: "AquaRevive",
     date: "Jan – Aug 2024",
     type: "Startup",
     points: [
-      "Led technical strategy and product development for a low-cost water filtration system targeting rural communities in Ghana.",
-      "Conducted market research and customer discovery interviews to validate product-market fit for water accessibility solutions.",
-      "Managed prototyping iterations and presented to investors at Ashesi D:Lab Demo Day.",
+      "Led the technical design and development of the filtration system as CTO, utilizing natural materials including sand, charcoal, and zeolite to purify water.",
+      "Applied design thinking (empathizing, defining, prototyping, testing) and entrepreneurship concepts like the Business Model Canvas and MVP validation.",
+      "Conducted customer discovery, market segmentation, pricing strategies, financial modeling, and ROI projections.",
+      "Partnered with health professionals and local leaders to run educational campaigns and launch the MVP in a rural community.",
     ],
   },
 ];
