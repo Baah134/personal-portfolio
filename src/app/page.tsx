@@ -3,6 +3,7 @@
 import { useState, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import TransitionLink from "@/components/ui/TransitionLink";
 import styles from "./page.module.css";
 import NetworkBackground from "@/components/ui/NetworkBackground";
 import TextScramble from "@/components/ui/TextScramble";
@@ -129,7 +130,7 @@ export default function Home() {
               onMouseMove={handleMagnetMove}
               onMouseLeave={handleMagnetLeave}
             >
-              <Link
+              <TransitionLink
                 href="/projects"
                 className="btn btn-primary"
                 id="hero-cta-projects"
@@ -139,7 +140,7 @@ export default function Home() {
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
                 </svg>
-              </Link>
+              </TransitionLink>
             </div>
           </div>
           <div className={styles.heroImage}>
@@ -199,7 +200,7 @@ export default function Home() {
           </p>
           <div className={styles.projectGrid}>
             {featuredProjects.map((project) => (
-              <Link key={project.title} href={project.href} className={styles.projectCard}>
+              <TransitionLink key={project.title} href={project.href} className={styles.projectCard}>
                 <div className={styles.projectImageWrap}>
                   <Image
                     src={project.image}
@@ -207,6 +208,7 @@ export default function Home() {
                     width={400}
                     height={300}
                     className={styles.projectImage}
+                    style={{ viewTransitionName: `project-image-${project.href.split("/").pop()}` }}
                   />
                   <span className={styles.projectBadge}>{project.badge}</span>
                 </div>
@@ -214,16 +216,16 @@ export default function Home() {
                   <h3 className={styles.projectTitle}>{project.title}</h3>
                   <p className={styles.projectDesc}>{project.desc}</p>
                 </div>
-              </Link>
+              </TransitionLink>
             ))}
           </div>
           <div className={styles.viewAll}>
-            <Link href="/projects" className={styles.viewAllLink}>
+            <TransitionLink href="/projects" className={styles.viewAllLink}>
               View All Projects
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
               </svg>
-            </Link>
+            </TransitionLink>
           </div>
         </div>
       </section>
@@ -260,12 +262,12 @@ export default function Home() {
               Open to research collaborations, internships, and speaking opportunities.
               Let&apos;s build something meaningful together.
             </p>
-            <Link href="/contact" className="btn btn-primary" id="cta-contact">
+            <TransitionLink href="/contact" className="btn btn-primary" id="cta-contact">
               Get in Touch
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
               </svg>
-            </Link>
+            </TransitionLink>
           </div>
         </div>
       </section>

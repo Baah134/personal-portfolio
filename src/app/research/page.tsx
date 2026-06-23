@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import TransitionLink from "@/components/ui/TransitionLink";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
@@ -73,6 +74,7 @@ export default function ResearchPage() {
                       width={600}
                       height={400}
                       className={styles.cardImage}
+                      style={{ viewTransitionName: `research-image-${pub.slug}` }}
                     />
                   ) : (
                     <div className={styles.imagePlaceholder}>
@@ -100,9 +102,9 @@ export default function ResearchPage() {
                       <span key={tag} className="tag">{tag}</span>
                     ))}
                   </div>
-                  <Link href={`/research/${pub.slug}`} className={styles.readMore}>
+                  <TransitionLink href={`/research/${pub.slug}`} className={styles.readMore}>
                     Click to read more &rarr;
-                  </Link>
+                  </TransitionLink>
                 </div>
               </div>
             ))}
@@ -123,6 +125,7 @@ export default function ResearchPage() {
                       width={600}
                       height={400}
                       className={styles.cardImage}
+                      style={{ viewTransitionName: `research-image-${res.slug}` }}
                     />
                   ) : (
                     <div className={styles.imagePlaceholder}>
@@ -147,9 +150,9 @@ export default function ResearchPage() {
                       <span key={tag} className="tag">{tag}</span>
                     ))}
                   </div>
-                  <Link href={`/research/${res.slug}`} className={styles.readMore}>
+                  <TransitionLink href={`/research/${res.slug}`} className={styles.readMore}>
                     Click to read more &rarr;
-                  </Link>
+                  </TransitionLink>
                 </div>
               </div>
             ))}

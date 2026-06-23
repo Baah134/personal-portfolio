@@ -176,3 +176,24 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Scroll reveals */
+@supports (animation-timeline: view()) {
+  .card {
+    animation: revealProjectCard linear both;
+    animation-timeline: view();
+    animation-range: entry 5% cover 30%;
+  }
+}
+
+@keyframes revealProjectCard {
+  from {
+    opacity: 0;
+    transform: perspective(1000px) rotateX(var(--rotate-x, 0deg)) rotateY(var(--rotate-y, 0deg)) translateY(30px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: perspective(1000px) rotateX(var(--rotate-x, 0deg)) rotateY(var(--rotate-y, 0deg)) translateY(0) scale(1);
+  }
+}
+

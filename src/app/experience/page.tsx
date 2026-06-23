@@ -3,6 +3,7 @@
 import { useState, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import TransitionLink from "@/components/ui/TransitionLink";
 import styles from "./page.module.css";
 
 const experiences = [
@@ -160,12 +161,12 @@ export default function ExperiencePage() {
                   </div>
                 )}
                 {exp.link && (
-                  <Link href={exp.link} className={styles.cardLink}>
+                  <TransitionLink href={exp.link} className={styles.cardLink}>
                     {exp.linkLabel || "View Research Outputs & Publications"}
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                       <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
                     </svg>
-                  </Link>
+                  </TransitionLink>
                 )}
               </div>
             </article>

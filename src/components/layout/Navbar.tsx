@@ -2,7 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import TransitionLink from '@/components/ui/TransitionLink';
 import { usePathname } from 'next/navigation';
+import { flushSync } from 'react-dom';
 import styles from './Navbar.module.css';
 
 const navLinks = [
@@ -26,6 +28,15 @@ export default function Navbar() {
     setTheme(currentTheme);
   }, []);
 
+  // Sync route change and resolve pending view transition promises
+  useEffect(() => {
+    if (typeof window !== "undefined" && (window as any).__resolveViewTransition) {
+      setTimeout(() => {
+        (window as any).__resolveViewTransition();
+      }, 50);
+    }
+  }, [pathname]);
+
   const toggleTheme = (e: React.MouseEvent<HTMLButtonElement>) => {
     const nextTheme = theme === 'light' ? 'dark' : 'light';
     const documentWithTransition = document as any;
@@ -37,14 +48,16 @@ export default function Navbar() {
       document.documentElement.style.setProperty("--click-y", `${y}px`);
 
       documentWithTransition.startViewTransition(() => {
-        setTheme(nextTheme);
-        if (nextTheme === 'dark') {
-          document.documentElement.setAttribute('data-theme', 'dark');
-          localStorage.setItem('theme', 'dark');
-        } else {
-          document.documentElement.removeAttribute('data-theme');
-          localStorage.setItem('theme', 'light');
-        }
+        flushSync(() => {
+          setTheme(nextTheme);
+          if (nextTheme === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
+          } else {
+            document.documentElement.removeAttribute('data-theme');
+            localStorage.setItem('theme', 'light');
+          }
+        });
       });
     } else {
       setTheme(nextTheme);
@@ -84,9 +97,9 @@ export default function Navbar() {
       className={`${styles.header} ${scrolled ? styles.scrolled : ''}`}
     >
       <nav className={styles.nav} aria-label="Main navigation">
-        <Link href="/" className={styles.logo} id="nav-logo">
+        <TransitionLink href="/" className={styles.logo} id="nav-logo">
           <span className={styles.logoText}>Prince Baah-Mensah</span>
-        </Link>
+        </TransitionLink>
 
         <ul
           className={`${styles.links} ${mobileOpen ? styles.open : ''}`}
@@ -97,13 +110,13 @@ export default function Navbar() {
               href === '/' ? pathname === '/' : pathname.startsWith(href);
             return (
               <li key={href}>
-                <Link
+                <TransitionLink
                   href={href}
                   className={`${styles.link} ${isActive ? styles.active : ''}`}
                   id={`nav-link-${id}`}
                 >
                   {label}
-                </Link>
+                </TransitionLink>
               </li>
             );
           })}

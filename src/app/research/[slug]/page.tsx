@@ -183,6 +183,7 @@ export default async function ResearchDetail({ params }: PageProps) {
                 height={450}
                 className={styles.heroImg}
                 priority
+                style={{ viewTransitionName: `research-image-${slug}` }}
               />
             </div>
           ) : (

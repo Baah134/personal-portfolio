@@ -15,7 +15,7 @@ export default function TextScramble({
   text,
   className,
   as: Component = "span",
-  duration = 800,
+  duration = 250,
 }: TextScrambleProps) {
   const [displayText, setDisplayText] = useState(text);
   const frameRef = useRef<number | null>(null);
