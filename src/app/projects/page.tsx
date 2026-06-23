@@ -99,7 +99,7 @@ export default function ProjectsPage() {
             <TransitionLink
               key={project.slug}
               href={`/projects/${project.slug}`}
-              className={styles.card}
+              className={`${styles.card} scroll-reveal`}
               onMouseMove={handleMouseMove}
               onMouseLeave={handleMouseLeave}
             >

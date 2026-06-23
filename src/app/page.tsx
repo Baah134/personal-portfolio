@@ -177,7 +177,7 @@ export default function Home() {
             </div>
             <div className={styles.statsGrid}>
               {stats.map((stat) => (
-                <div key={stat.label} className={styles.statCard}>
+                <div key={stat.label} className={`${styles.statCard} scroll-reveal`}>
                   <span className={styles.statValue}>
                     <StatCounter value={stat.value} />
                   </span>
@@ -200,7 +200,7 @@ export default function Home() {
           </p>
           <div className={styles.projectGrid}>
             {featuredProjects.map((project) => (
-              <TransitionLink key={project.title} href={project.href} className={styles.projectCard}>
+              <TransitionLink key={project.title} href={project.href} className={`${styles.projectCard} scroll-reveal`}>
                 <div className={styles.projectImageWrap}>
                   <Image
                     src={project.image}
@@ -238,7 +238,7 @@ export default function Home() {
           </h2>
           <div className={styles.skillsGrid}>
             {skillCategories.map((cat) => (
-              <div key={cat.title} className={styles.skillCategory}>
+              <div key={cat.title} className={`${styles.skillCategory} scroll-reveal`}>
                 <h3 className={styles.skillCatTitle}>{cat.title}</h3>
                 <div className={styles.skillTags}>
                   {cat.skills.map((skill) => (

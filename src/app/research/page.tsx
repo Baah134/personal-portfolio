@@ -65,7 +65,7 @@ export default function ResearchPage() {
           <h2 className={styles.sectionTitle}>Publications</h2>
           <div className={styles.grid}>
             {publications.map((pub) => (
-              <TransitionLink key={pub.slug} href={`/research/${pub.slug}`} className={styles.pubCard}>
+              <TransitionLink key={pub.slug} href={`/research/${pub.slug}`} className={`${styles.pubCard} scroll-reveal`}>
                 <div className={styles.cardImageWrap}>
                   {pub.image ? (
                     <Image
@@ -116,7 +116,7 @@ export default function ResearchPage() {
           <h2 className={styles.sectionTitle}>Current Research</h2>
           <div className={styles.grid}>
             {currentResearch.map((res) => (
-              <TransitionLink key={res.slug} href={`/research/${res.slug}`} className={styles.pubCard}>
+              <TransitionLink key={res.slug} href={`/research/${res.slug}`} className={`${styles.pubCard} scroll-reveal`}>
                 <div className={styles.cardImageWrap}>
                   {res.image ? (
                     <Image

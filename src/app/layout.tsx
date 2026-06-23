@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { inter, oswald } from './fonts';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
+import ScrollReveal from '@/components/ui/ScrollReveal';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -78,6 +79,7 @@ export default function RootLayout({
         />
       </head>
       <body>
+        <ScrollReveal />
         <Navbar />
         <main id="main-content">{children}</main>
         <Footer />
