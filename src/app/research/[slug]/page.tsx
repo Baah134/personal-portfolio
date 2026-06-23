@@ -75,54 +75,6 @@ const researchProjects: Record<
     ],
     techStack: ["Unreal Engine 5", "Blueprints", "OpenAI API", "Python", "REST API", "JSON"],
   },
-  "fpga-softcore": {
-    title: "Accelerating Embedded Neural Network Inference on FPGA Softcore Processors",
-    date: "September 2024 – May 2025",
-    category: "Hardware Acceleration & Embedded Systems",
-    status: "Completed",
-    statusType: "completed",
-    venue: "Technical Excellence Award in Computer Engineering",
-    tags: ["Artix-7 FPGA", "Xilinx MicroBlaze", "VHDL", "Vivado", "Hardware Acceleration"],
-    overview:
-      "Designed a fully on-chip hardware-software co-design framework using an FPGA-based softcore processor and custom VHDL acceleration modules, achieving a 420× speedup over software baseline execution.",
-    problem:
-      "Executing neural network inference on resource-constrained embedded devices is slow and power-intensive. Software-only implementations on microcontrollers or softcore processors cannot meet the real-time latency requirements of modern edge-computing applications.",
-    approach: [
-      "Architected a hardware-software co-design utilising Xilinx MicroBlaze softcore processor on an Artix-7 FPGA board.",
-      "Designed and implemented custom VHDL hardware accelerators specifically to parallelize matrix multiplications and activation functions.",
-      "Developed high-speed on-chip bus connections to interface MicroBlaze memory and register files with VHDL accelerators.",
-      "Built custom driver libraries in C++ to invoke accelerators from embedded application software.",
-    ],
-    results: [
-      "Achieved a 420× inference speedup compared to software-only MicroBlaze execution.",
-      "Honored with the Technical Excellence Award in Computer Engineering.",
-      "Maintained extremely low FPGA resource utilization (LUTs, block RAMs) and minimal power draw.",
-    ],
-    techStack: ["Artix-7 FPGA", "VHDL", "Xilinx MicroBlaze", "Xilinx Vivado", "Vitis IDE", "C/C++"],
-  },
-  "fpga-acceleration": {
-    title: "On-Chip vs. Off-Chip FPGA Acceleration for Embedded Neural Networks",
-    date: "September 2024 – May 2025",
-    category: "Embedded Machine Learning",
-    status: "Completed",
-    statusType: "completed",
-    tags: ["STM32", "Artix-7 FPGA", "DMA", "SPI", "FPGA Acceleration"],
-    overview:
-      "Conducted a systematic comparison of on-chip vs off-chip FPGA acceleration strategies for embedded machine learning, benchmarking four configurations to isolate the impact of communication overhead.",
-    problem:
-      "While external FPGA hardware accelerators offer massive computational speedups, the overhead of transmitting data (such as network weights and layer inputs) across communications buses can negate the hardware speed benefits.",
-    approach: [
-      "Created physical hardware testbeds pairing STM32 (Cortex-M) microcontrollers with Artix-7 FPGAs.",
-      "Programmed high-speed SPI communication interfaces utilizing Direct Memory Access (DMA) to minimize CPU cycle waste.",
-      "Benchmarked and isolated computation latency vs. communication overhead across four hardware partition configurations.",
-    ],
-    results: [
-      "Quantified exact communication latencies and identified system-design thresholds where off-chip acceleration becomes profitable.",
-      "Demonstrated that high-speed DMA SPI interfaces are critical for keeping transfer times below inference computation thresholds.",
-      "Established clear design guidelines for partitioning machine learning layers between microcontrollers and FPGAs.",
-    ],
-    techStack: ["STM32 (Cortex-M)", "Artix-7 FPGA", "Vivado", "STM32CubeIDE", "SPI / DMA", "C/C++", "VHDL"],
-  },
   "speech-emotion": {
     title: "Speech Emotion Recognition Research",
     date: "August 2025 – Present",
@@ -130,6 +82,7 @@ const researchProjects: Record<
     status: "Ongoing",
     statusType: "ongoing",
     venue: "Ashesi University Research Initiative",
+    image: "/images/ser.png",
     tags: ["Deep Learning", "Signal Processing", "PyTorch", "Audio Analysis", "Transformers"],
     overview:
       "Researching and developing deep learning systems capable of classifying human emotion from speech, focusing on closing the generalization gap for unseen speakers using Speaker-Strict comparative analysis.",
@@ -138,7 +91,7 @@ const researchProjects: Record<
     approach: [
       "Engineered advanced audio feature extraction pipelines (MFCCs, log-mel spectrograms) in Python using Librosa.",
       "Implemented Speaker-Strict cross-validation protocols to ensure models are benchmarked under rigorous, real-world generalization conditions.",
-      "Trained and compared RNN (LSTM), CNN, and Transformer architectures in PyTorch, developing hybrid CNN-Transformer models for spatial-temporal capture.",
+      "Trained and compared RNN (LSTM), CNN, and Transformer architectures in PyTorch, developing hybrid CNN-Transformers for spatial-temporal capture.",
     ],
     results: [
       "Constructed a robust speaker-agnostic SER framework leveraging Self-Supervised Learning (SSL) representations.",

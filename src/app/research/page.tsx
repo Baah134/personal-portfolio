@@ -6,7 +6,7 @@ import styles from "./page.module.css";
 export const metadata: Metadata = {
   title: "Research & Publications",
   description:
-    "Explore Prince Baah-Mensah's research in control systems, speech emotion recognition, and FPGA hardware acceleration.",
+    "Explore Prince Baah-Mensah's research in control systems, speech emotion recognition, and adaptive learning systems.",
 };
 
 const publications = [
@@ -40,24 +40,9 @@ const currentResearch = [
     title: "Speech Emotion Recognition Research",
     date: "Aug 2025 – Present",
     meta: "Ashesi University",
+    image: "/images/ser.png",
     desc: "Development of deep learning systems capable of classifying human emotion from speech, utilizing advanced signal processing and neural network architectures, benchmarking RNN, CNN, and Transformer models.",
     tags: ["Deep Learning", "Signal Processing", "PyTorch", "NLP"],
-  },
-  {
-    slug: "fpga-softcore",
-    title: "Accelerating Embedded Neural Network Inference on FPGA Softcore Processors",
-    date: "Sep 2024 - May 2025",
-    meta: "Artix-7 FPGA · MicroBlaze",
-    desc: "Designed a fully on-chip hardware-software co-design framework using FPGA-based softcore processor and custom VHDL acceleration modules. Achieved 420x speedup over baseline execution, earning the Technical Excellence Award in Computer Engineering.",
-    tags: ["Artix-7 FPGA", "Xilinx MicroBlaze", "Vivado", "VHDL"],
-  },
-  {
-    slug: "fpga-acceleration",
-    title: "On-Chip vs. Off-Chip FPGA Acceleration for Embedded Neural Networks",
-    date: "Sep 2024 - May 2025",
-    meta: "STM32 (Cortex-M) · Artix-7 FPGA",
-    desc: "Conducted systematic comparison of on-chip vs off-chip FPGA acceleration strategies for embedded machine learning. Benchmarked four distinct hardware configurations to isolate the impact of communication overhead on inference latency.",
-    tags: ["STM32", "Artix-7 FPGA", "SPI / DMA", "C/C++", "VHDL"],
   },
 ];
 
@@ -131,12 +116,22 @@ export default function ResearchPage() {
             {currentResearch.map((res) => (
               <div key={res.slug} className={styles.pubCard}>
                 <div className={styles.cardImageWrap}>
-                  <div className={styles.imagePlaceholder}>
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2" /><circle cx="9" cy="9" r="2" /><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
-                    </svg>
-                    <span>Research Image Placeholder</span>
-                  </div>
+                  {res.image ? (
+                    <Image
+                      src={res.image}
+                      alt={res.title}
+                      width={600}
+                      height={400}
+                      className={styles.cardImage}
+                    />
+                  ) : (
+                    <div className={styles.imagePlaceholder}>
+                      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2" /><circle cx="9" cy="9" r="2" /><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
+                      </svg>
+                      <span>Research Image Placeholder</span>
+                    </div>
+                  )}
                   <span className={styles.statusBadgeGeneric}>
                     {res.date}
                   </span>
@@ -146,7 +141,7 @@ export default function ResearchPage() {
                     <span className={styles.pubMeta}>{res.meta}</span>
                   </div>
                   <h3 className={styles.pubTitle}>{res.title}</h3>
-                  <p className={`${styles.pubDescription} ${res.slug === 'fpga-acceleration' ? styles.greenText : ''}`}>{res.desc}</p>
+                  <p className={styles.pubDescription}>{res.desc}</p>
                   <div className={styles.tags}>
                     {res.tags.map((tag) => (
                       <span key={tag} className="tag">{tag}</span>

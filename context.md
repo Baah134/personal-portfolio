@@ -130,7 +130,7 @@ public/
 |---|---|---|
 | `/` | Static | Homepage with hero, about, featured projects, skills, CTA |
 | `/research` | Static | Research grid of cards with status tags, brief info, and read-more links |
-| `/research/[slug]` | SSG | Individual research/publication detail pages (bayesian-pid, metaverse-education, fpga-softcore, fpga-acceleration, speech-emotion) |
+| `/research/[slug]` | SSG | Individual research/publication detail pages (bayesian-pid, metaverse-education, speech-emotion) |
 | `/projects` | Static | Project listing grid with image cards linking to detail pages |
 | `/projects/[slug]` | SSG | Individual project pages (lumina, whisper, coastal-odes, hydrogel, aquablue) |
 | `/leadership` | Static | Leadership & Volunteering categorized into IEEE, Student Clubs, Teaching, Community |
