@@ -241,8 +241,8 @@ function RoleCard({ entry }: { entry: RoleEntry }) {
 
     const xc = rect.width / 2;
     const yc = rect.height / 2;
-    const rotateX = (yc - y) / 35;
-    const rotateY = (x - xc) / 35;
+    const rotateX = (yc - y) / 80;
+    const rotateY = (x - xc) / 80;
     
     card.style.setProperty("--rotate-x", `${rotateX}deg`);
     card.style.setProperty("--rotate-y", `${rotateY}deg`);

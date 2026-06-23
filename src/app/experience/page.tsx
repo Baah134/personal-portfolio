@@ -4,6 +4,7 @@ import { useState, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import TransitionLink from "@/components/ui/TransitionLink";
+import { flushSync } from "react-dom";
 import styles from "./page.module.css";
 
 const experiences = [
@@ -67,7 +68,18 @@ export default function ExperiencePage() {
 
   const filteredExperiences = experiences.filter((exp) => exp.category === activeTab);
 
-
+  const handleTabChange = useCallback((tab: "research" | "work" | "entrepreneurship") => {
+    const documentWithTransition = document as any;
+    if (typeof window !== "undefined" && "startViewTransition" in document) {
+      documentWithTransition.startViewTransition(() => {
+        flushSync(() => {
+          setActiveTab(tab);
+        });
+      });
+    } else {
+      setActiveTab(tab);
+    }
+  }, []);
 
   return (
     <div className={styles.page}>
@@ -83,19 +95,19 @@ export default function ExperiencePage() {
         <div className={styles.tabsContainer}>
           <div className={styles.tabsList}>
             <button
-              onClick={() => setActiveTab("research")}
+              onClick={() => handleTabChange("research")}
               className={`${styles.tabBtn} ${activeTab === "research" ? styles.activeTab : ""}`}
             >
               Research
             </button>
             <button
-              onClick={() => setActiveTab("work")}
+              onClick={() => handleTabChange("work")}
               className={`${styles.tabBtn} ${activeTab === "work" ? styles.activeTab : ""}`}
             >
               Work &amp; Industry
             </button>
             <button
-              onClick={() => setActiveTab("entrepreneurship")}
+              onClick={() => handleTabChange("entrepreneurship")}
               className={`${styles.tabBtn} ${activeTab === "entrepreneurship" ? styles.activeTab : ""}`}
             >
               Entrepreneurship

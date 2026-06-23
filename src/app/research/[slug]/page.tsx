@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import TransitionLink from "@/components/ui/TransitionLink";
 import { notFound } from "next/navigation";
 import styles from "./page.module.css";
 
@@ -237,12 +238,12 @@ export default async function ResearchDetail({ params }: PageProps) {
 
         {/* Navigation */}
         <div className={styles.nav}>
-          <Link href="/research" className={styles.backLink}>
+          <TransitionLink href="/research" className={styles.backLink}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M19 12H5" /><path d="m12 19-7-7 7-7" />
             </svg>
             All Research
-          </Link>
+          </TransitionLink>
         </div>
       </div>
     </div>

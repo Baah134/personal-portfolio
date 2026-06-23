@@ -65,7 +65,7 @@ export default function ResearchPage() {
           <h2 className={styles.sectionTitle}>Publications</h2>
           <div className={styles.grid}>
             {publications.map((pub) => (
-              <div key={pub.slug} className={styles.pubCard}>
+              <TransitionLink key={pub.slug} href={`/research/${pub.slug}`} className={styles.pubCard}>
                 <div className={styles.cardImageWrap}>
                   {pub.image ? (
                     <Image
@@ -102,11 +102,11 @@ export default function ResearchPage() {
                       <span key={tag} className="tag">{tag}</span>
                     ))}
                   </div>
-                  <TransitionLink href={`/research/${pub.slug}`} className={styles.readMore}>
+                  <span className={styles.readMore}>
                     Click to read more &rarr;
-                  </TransitionLink>
+                  </span>
                 </div>
-              </div>
+              </TransitionLink>
             ))}
           </div>
         </section>
@@ -116,7 +116,7 @@ export default function ResearchPage() {
           <h2 className={styles.sectionTitle}>Current Research</h2>
           <div className={styles.grid}>
             {currentResearch.map((res) => (
-              <div key={res.slug} className={styles.pubCard}>
+              <TransitionLink key={res.slug} href={`/research/${res.slug}`} className={styles.pubCard}>
                 <div className={styles.cardImageWrap}>
                   {res.image ? (
                     <Image
@@ -150,11 +150,11 @@ export default function ResearchPage() {
                       <span key={tag} className="tag">{tag}</span>
                     ))}
                   </div>
-                  <TransitionLink href={`/research/${res.slug}`} className={styles.readMore}>
+                  <span className={styles.readMore}>
                     Click to read more &rarr;
-                  </TransitionLink>
+                  </span>
                 </div>
-              </div>
+              </TransitionLink>
             ))}
           </div>
         </section>
