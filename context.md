@@ -87,7 +87,7 @@ src/
 │   │   ├── page.tsx             # Work Experience (ARC Lab, CaRINE, CFAO, AquaBlue)
 │   │   └── page.module.css
 │   ├── leadership/
-│   │   ├── page.tsx             # Leadership & Volunteer (categorized: IEEE, Student Clubs, Teaching, Community)
+│   │   ├── page.tsx             # Leadership & Volunteering (categorized: IEEE, Student Clubs, Teaching, Community)
 │   │   └── page.module.css
 │   ├── projects/
 │   │   ├── page.tsx             # Project listing grid (links to detail pages)
@@ -129,7 +129,7 @@ public/
 | `/research` | Static | Publications (2 papers) + current research area (SER) |
 | `/projects` | Static | Project listing grid with image cards linking to detail pages |
 | `/projects/[slug]` | SSG | Individual project pages (lumina, whisper, coastal-odes, hydrogel, aquablue) |
-| `/leadership` | Static | Leadership & Volunteer categorized into IEEE, Student Clubs, Teaching, Community |
+| `/leadership` | Static | Leadership & Volunteering categorized into IEEE, Student Clubs, Teaching, Community |
 | `/blog` | Static | Coming soon state with upcoming topics |
 | `/experience` | Static | Work experience timeline (ARC Lab, CaRINE, CFAO, AquaBlue) |
 | `/contact` | Static | Contact form (Formspree) + info panel + availability |
@@ -141,7 +141,7 @@ public/
 
 ## Navigation Links
 
-7 links in Navbar: Home, Research, Projects, Leadership & Volunteer, Experience, Blog, Contact + Resume download button.
+7 links in Navbar: Home, Research, Projects, Leadership & Volunteering, Experience, Blog, Contact. (Resume button currently hidden)
 
 ---
 
@@ -191,4 +191,4 @@ public/
 
 ---
 
-*Last updated: 2026-06-23 (Integrated dark mode, SEO settings, project cover images, and CFAO experience picture)*
+*Last updated: 2026-06-23 (Integrated dark mode, SEO settings, project cover images, CFAO experience picture, homepage hero headshot, and renamed Leadership & Volunteering)*

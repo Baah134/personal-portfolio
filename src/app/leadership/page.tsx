@@ -287,7 +287,7 @@ export default function LeadershipPage() {
     <div className={styles.page}>
       <div className="container">
         <header className={styles.header}>
-          <h1 className={styles.title}>Leadership &amp; Volunteer</h1>
+          <h1 className={styles.title}>Leadership &amp; Volunteering</h1>
           <p className={styles.subtitle}>
             Building communities, organizing initiatives, and empowering the next generation
             of engineers across Ghana and the IEEE global network.

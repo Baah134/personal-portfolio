@@ -81,8 +81,8 @@ export default function Home() {
           </div>
           <div className={styles.heroImage}>
             <Image
-              src="/images/hero-banner.png"
-              alt="Abstract circuit board pattern representing electrical engineering"
+              src="/images/Prince.jpeg"
+              alt="Prince Baah-Mensah"
               width={600}
               height={600}
               priority
