@@ -74,11 +74,27 @@ const timelineEvents: TimelineEvent[] = [
   },
   {
     year: "2026 - Present",
+    role: "President",
+    org: "Effective Altruism Ashesi",
+    type: "Leadership",
+    desc: "Facilitating discussions on AI Safety and Biosecurity, and mentoring introductory fellowship cohorts.",
+    link: "/leadership#student-clubs"
+  },
+  {
+    year: "2026 - Present",
     role: "AESA President",
     org: "Ashesi Engineering Student Association",
     type: "Leadership",
     desc: "Leading engineering student branch, academic initiatives, and industry collaborations.",
     link: "/leadership#aesa"
+  },
+  {
+    year: "2026",
+    role: "Research Author",
+    org: "IEEE 3SCEA Conference",
+    type: "Publication",
+    desc: "Published and presented research on agricultural solar drone co-design for rural farming systems.",
+    link: "/research#publications"
   },
   {
     year: "2025 - Present",
@@ -103,14 +119,6 @@ const timelineEvents: TimelineEvent[] = [
     type: "Leadership",
     desc: "Scaling Ashesi's first IEEE chapter to 75+ active members branch-wide.",
     link: "/leadership#ieee"
-  },
-  {
-    year: "2024 (May - Sep)",
-    role: "CTO & Co-founder",
-    org: "AquaBlue",
-    type: "Project",
-    desc: "Developed IoT real-time community water filtration monitoring platforms using ESP32 nodes.",
-    link: "/projects#aquablue"
   }
 ];
 
