@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import styles from "./page.module.css";
 
@@ -38,6 +39,7 @@ const experiences = [
     company: "CFAO Mobility PLC Ghana",
     date: "Aug – Sep 2025",
     type: "Industry",
+    image: "/images/cfao.jpeg",
     points: [
       "Gained hands-on experience in the automotive workshop, assisting with servicing, maintenance, and fault diagnosis of vehicles while learning the function and integration of key vehicle components.",
       "Rotated across store, sales, and front desk operations, gaining insight into company structure, accountability processes, and customer relations.",
@@ -86,6 +88,17 @@ export default function ExperiencePage() {
                     <li key={j}>{point}</li>
                   ))}
                 </ul>
+                {exp.image && (
+                  <div className={styles.expImageWrap}>
+                    <Image
+                      src={exp.image}
+                      alt={exp.role}
+                      width={480}
+                      height={270}
+                      className={styles.expImage}
+                    />
+                  </div>
+                )}
                 {exp.link && (
                   <Link href={exp.link} className={styles.cardLink}>
                     View Research Outputs &amp; Publications

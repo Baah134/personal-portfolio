@@ -58,6 +58,25 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${oswald.variable}`}>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                var theme = localStorage.getItem('theme');
+                if (!theme) {
+                  theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                }
+                if (theme === 'dark') {
+                  document.documentElement.setAttribute('data-theme', 'dark');
+                } else {
+                  document.documentElement.removeAttribute('data-theme');
+                }
+              })();
+            `,
+          }}
+        />
+      </head>
       <body>
         <Navbar />
         <main id="main-content">{children}</main>

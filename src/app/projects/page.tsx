@@ -17,8 +17,8 @@ const projects = [
     category: "IoT",
     desc: "Intelligent ambient monitoring system for assisted living that translates raw motion and environmental data into human-readable safety insights using AI.",
     tags: ["ESP32", "SQL", "Nvidia Nemotron LLM", "IoT"],
-    badge: "IEEE MYOSA Global Finalist",
-    image: "/images/project-lumina.png",
+    badge: "IEEE MYOSA 2025 Global Finalist",
+    image: "/images/lumina-dashboard.jpg",
   },
   {
     slug: "whisper",
@@ -28,7 +28,7 @@ const projects = [
     desc: "Systematic evaluation and LoRA-based fine-tuning of OpenAI's Whisper, achieving a 64% reduction in Word Error Rate for African accents.",
     tags: ["PyTorch", "LoRA", "PEFT", "ASR"],
     badge: "64% WER Reduction",
-    image: "/images/project-whisper.png",
+    image: "/images/whisper.png",
   },
   {
     slug: "coastal-odes",
@@ -38,7 +38,7 @@ const projects = [
     desc: "Formulated and simulated a mathematical system of Ordinary Differential Equations (ODEs) to model the long-term impact of rising sea levels and erosion on coastal barriers, exploring stability thresholds.",
     tags: ["Python", "SciPy", "NumPy", "LaTeX"],
     badge: "Academic Project",
-    image: "/images/project-coastal.png",
+    image: "/images/climate change.jpeg",
   },
   {
     slug: "hydrogel",
@@ -48,7 +48,7 @@ const projects = [
     desc: "Investigated the impact of dissolved salts on hydrogel water-absorption kinetics for farmers affected by water contamination, with IoT-based real-time monitoring.",
     tags: ["IoT", "Soil Sensors", "Data Analysis", "Python"],
     badge: "Environmental Research",
-    image: "/images/project-hydrogel.png",
+    image: "/images/hydrogel-analysis.png",
   },
   {
     slug: "aquablue",
@@ -58,7 +58,7 @@ const projects = [
     desc: "Led business strategy and product development for a low-cost water filtration system prototype targeting rural communities in Ghana.",
     tags: ["Product Development", "Market Research", "Prototyping"],
     badge: "CTO",
-    image: "/images/project-aquablue.png",
+    image: "/images/aquablue.jpeg",
   },
 ];
 

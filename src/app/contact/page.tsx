@@ -23,7 +23,7 @@ export default function ContactPage() {
           {/* Contact Form */}
           <form
             className={styles.form}
-            action="https://formspree.io/f/PLACEHOLDER"
+            action={`https://formspree.io/f/${process.env.NEXT_PUBLIC_FORMSPREE_KEY || 'PLACEHOLDER'}`}
             method="POST"
             id="contact-form"
           >

@@ -6,21 +6,21 @@ const featuredProjects = [
   {
     title: "Lumina – AI Ambient Intelligence",
     desc: "Intelligent ambient monitoring system for assisted living using ESP32, sensors, and Nvidia Nemotron LLM.",
-    image: "/images/project-lumina.png",
-    badge: "IEEE MYOSA Global Finalist",
+    image: "/images/lumina-dashboard.jpg",
+    badge: "IEEE MYOSA 2025 Global Finalist",
     href: "/projects/lumina",
   },
   {
     title: "Hydrogel Salinity Research & IoT Monitoring",
     desc: "Investigated the impact of dissolved salts on hydrogel water-absorption kinetics for farmers affected by water contamination, with IoT-based real-time monitoring.",
-    image: "/images/project-hydrogel.png",
+    image: "/images/hydrogel-analysis.png",
     badge: "Environmental Research",
     href: "/projects/hydrogel",
   },
   {
     title: "Fine-tuning Whisper for African Accents",
     desc: "LoRA-based fine-tuning of OpenAI's Whisper achieving 64% reduction in Word Error Rate.",
-    image: "/images/project-whisper.png",
+    image: "/images/whisper.png",
     badge: "64% WER Reduction",
     href: "/projects/whisper",
   },
@@ -42,7 +42,7 @@ const skillCategories = [
 ];
 
 const stats = [
-  { value: "IEEE", label: "MYOSA Finalist" },
+  { value: "IEEE", label: "MYOSA 2025 Finalist" },
   { value: "75+", label: "IEEE Community" },
   { value: "2", label: "IEEE Publications" },
   { value: "6+", label: "Technical Projects" },

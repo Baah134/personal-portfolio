@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 const awards = [
-  { title: "IEEE MYOSA Competition Finalist", org: "IEEE Sensors Council", date: "Dec 2025" },
+  { title: "IEEE MYOSA 2025 Competition Finalist", org: "IEEE Sensors Council", date: "Dec 2025" },
   { title: "Second Place, Ashesi Experiential Transcript Challenge", org: "Ashesi University", date: "Nov 2025" },
   { title: "Kufuor Scholar Program", org: "John A. Kufuor Foundation", date: "Dec 2024 – Jun 2027" },
   { title: "Mastercard Foundation Scholars Program", org: "Ashesi University", date: "Jan 2024 – Jun 2027" },
@@ -27,16 +27,6 @@ const ieeeRoles = [
     ],
   },
   {
-    role: "Volunteer – IEEE Day",
-    org: "IEEE — Ashesi University",
-    date: "Jun – Oct 2025",
-    image: "/images/ieee day picture.jpeg",
-    certificate: "/images/IEEE Day.pdf",
-    points: [
-      "Led planning and execution of Ashesi's first IEEE Day celebration, coordinating activities and outreach for 80+ student participants.",
-    ],
-  },
-  {
     role: "Regional Coordinator, TechX 2026",
     org: "IEEE Computer Society Region 8 (Europe, Middle East, Africa)",
     date: "Apr 2026 – Present",
@@ -44,6 +34,16 @@ const ieeeRoles = [
     points: [
       "Coordinate for TechX, a regional initiative focused on fostering technical excellence and professional development within the IEEE Computer Society across Europe, the Middle East, and Africa.",
       "Manage planning and execution of technical deliverables through active collaboration with international team members.",
+    ],
+  },
+  {
+    role: "Volunteer – IEEE Day",
+    org: "IEEE — Ashesi University",
+    date: "Jun – Oct 2025",
+    image: "/images/ieee day picture.jpeg",
+    certificate: "/images/IEEE Day.pdf",
+    points: [
+      "Led planning and execution of Ashesi's first IEEE Day celebration, coordinating activities and outreach for 80+ student participants.",
     ],
   },
   {

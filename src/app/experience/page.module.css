@@ -198,3 +198,20 @@
     text-align: center;
   }
 }
+
+.expImageWrap {
+  margin-top: var(--space-4);
+  max-width: 480px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+}
+
+.expImage {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  display: block;
+}
+

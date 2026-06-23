@@ -107,6 +107,23 @@
   --section-spacing: var(--space-24);
 }
 
+/* ===== Design Tokens — Dark Theme Overrides ===== */
+[data-theme="dark"] {
+  color-scheme: dark;
+  --color-bg: #121212;
+  --color-surface: #1e1e1e;
+  --color-surface-hover: #262626;
+  --color-border: #2d2d2d;
+  --color-border-light: #222222;
+  --color-text-primary: #f3f4f6;
+  --color-text-secondary: #9ca3af;
+  --color-text-tertiary: #6b7280;
+  --color-accent: #5fa9b5;
+  --color-accent-hover: #488f9a;
+  --color-accent-light: rgba(95, 169, 181, 0.12);
+  --color-accent-medium: rgba(95, 169, 181, 0.22);
+}
+
 /* ===== Reset & Base ===== */
 *,
 *::before,
@@ -139,7 +156,13 @@ body {
   line-height: var(--lh-normal);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
+
+header, footer, section, input, textarea, select, button, a {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
 
 main {
   flex: 1;

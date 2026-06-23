@@ -26,8 +26,8 @@ const projects: Record<
     title: "Lumina – AI Ambient Intelligence System",
     date: "December 2025",
     category: "IoT · Assisted Living",
-    badge: "IEEE MYOSA Global Finalist",
-    image: "/images/project-lumina.png",
+    badge: "IEEE MYOSA 2025 Global Finalist",
+    image: "/images/lumina-dashboard.jpg",
     tags: ["ESP32", "SQL", "Nvidia Nemotron LLM", "IoT", "MQTT", "Python"],
     overview:
       "Lumina is an intelligent ambient monitoring system for assisted living that translates raw motion and environmental data into human-readable safety insights using AI. The system bridges the gap between basic sensor readings and behavioral analysis, allowing for the detection of critical events like falls or high-heat risks.",
@@ -51,7 +51,7 @@ const projects: Record<
     date: "February – May 2025",
     category: "Mathematical Modeling",
     badge: "Academic Project",
-    image: "/images/project-coastal.png",
+    image: "/images/climate change.jpeg",
     tags: ["Python", "SciPy", "NumPy", "LaTeX", "Differential Equations"],
     overview:
       "Formulated and simulated a mathematical system of Ordinary Differential Equations (ODEs) to model the long-term impact of rising sea levels and erosion on coastal barriers, exploring stability thresholds and environmental tipping points.",
@@ -78,7 +78,7 @@ const projects: Record<
     date: "May – June 2025",
     category: "AI · Speech Processing",
     badge: "64% WER Reduction",
-    image: "/images/project-whisper.png",
+    image: "/images/whisper.png",
     tags: ["PyTorch", "LoRA", "PEFT", "ASR", "Hugging Face"],
     overview:
       "A systematic evaluation and fine-tuning of OpenAI's Whisper model on African-accented English. The project identified a significant performance gap and applied Parameter-Efficient Fine-Tuning (PEFT) with LoRA to dramatically improve recognition accuracy.",
@@ -102,7 +102,7 @@ const projects: Record<
     date: "November – December 2024",
     category: "IoT · Environmental Science",
     badge: "Environmental Research",
-    image: "/images/project-hydrogel.png",
+    image: "/images/hydrogel-analysis.png",
     tags: ["IoT", "Soil Sensors", "Data Analysis", "Python", "Arduino"],
     overview:
       "An investigation into the impact of dissolved salts on hydrogel water-absorption kinetics, paired with an IoT-based monitoring system for real-time data collection. The research addresses water contamination challenges faced by Ghanaian farmers due to illegal mining (galamsey).",
@@ -126,7 +126,7 @@ const projects: Record<
     date: "January – August 2024",
     category: "Product Development · Social Impact",
     badge: "CTO & Co-founder",
-    image: "/images/project-aquablue.png",
+    image: "/images/aquablue.jpeg",
     tags: ["Product Development", "Market Research", "Prototyping", "SolidWorks"],
     overview:
       "Led technical strategy and product development for Aqua Revive (AquaBlue) — a low-cost water filtration system prototype targeting rural communities in Ghana. The project combined engineering design with market research and business strategy.",
