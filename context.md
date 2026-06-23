@@ -95,6 +95,8 @@ src/
 │   │   └── [slug]/
 │   │       ├── page.tsx         # Dynamic project detail pages (5 projects)
 │   │       └── page.module.css
+│   ├── robots.ts                # SEO Robots rules configuration
+│   ├── sitemap.ts               # SEO Sitemap.xml generator
 │   └── research/
 │       ├── page.tsx             # Research & Publications (2 papers + 2 research areas)
 │       └── page.module.css
@@ -132,6 +134,8 @@ public/
 | `/experience` | Static | Work experience timeline (ARC Lab, CaRINE, CFAO, AquaBlue) |
 | `/contact` | Static | Contact form (Formspree) + info panel + availability |
 | `/_not-found` | Static | 404 page |
+| `/robots.txt` | Static | SEO Robots rules file |
+| `/sitemap.xml` | Static | SEO Sitemap file |
 
 ---
 
@@ -180,13 +184,11 @@ public/
 
 ## Pending Tasks
 
-- [ ] **Formspree setup** — Replace `PLACEHOLDER` in `src/app/contact/page.tsx` with real Formspree form ID
-- [ ] **Replace placeholder images for projects** — User will provide real project photos for `public/images/` (currently using generic project images)
+- [ ] **Formspree setup** — Configure your Formspree ID by adding `NEXT_PUBLIC_FORMSPREE_KEY` in Vercel settings
 - [ ] **Verify GitHub/LinkedIn URLs** — Update actual profile URLs in Footer.tsx and Contact page
 - [ ] **Deploy to Vercel** — Connect GitHub repo and deploy
-- [ ] **Add sitemap.xml and robots.txt** for SEO
 - [ ] **Add Google Analytics** if desired
 
 ---
 
-*Last updated: 2026-06-22 (Integrated leadership images and project links)*
+*Last updated: 2026-06-23 (Integrated dark mode, SEO settings, project cover images, and CFAO experience picture)*
