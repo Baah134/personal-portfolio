@@ -1,0 +1,200 @@
+.page {
+  padding-top: calc(var(--navbar-height) + var(--space-16));
+  padding-bottom: var(--space-24);
+}
+
+.header {
+  margin-bottom: var(--space-12);
+  padding-bottom: var(--space-8);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.title {
+  font-family: var(--font-heading);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: var(--fw-bold);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-wide);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-4);
+}
+
+.subtitle {
+  font-size: var(--fs-lg);
+  color: var(--color-text-secondary);
+  max-width: 640px;
+  line-height: var(--lh-relaxed);
+}
+
+/* Experience List */
+.experienceList {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.expCard {
+  display: grid;
+  grid-template-columns: 160px 20px 1fr;
+  gap: var(--space-6);
+  padding-bottom: var(--space-10);
+}
+
+/* Left Column - Date */
+.expLeft {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  text-align: right;
+  padding-top: var(--space-1);
+}
+
+.expDate {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  color: var(--color-text-secondary);
+}
+
+.expType {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-wider);
+  color: var(--color-accent);
+}
+
+/* Divider */
+.expDivider {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.expDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  border: 3px solid var(--color-bg);
+  box-shadow: 0 0 0 2px var(--color-accent);
+  flex-shrink: 0;
+  margin-top: 6px;
+  z-index: 1;
+}
+
+.expLine {
+  width: 2px;
+  flex: 1;
+  background: var(--color-border);
+  margin-top: var(--space-2);
+}
+
+.expCard:last-child .expLine {
+  display: none;
+}
+
+/* Content */
+.expContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.expRole {
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-semibold);
+  color: var(--color-text-primary);
+  line-height: var(--lh-snug);
+}
+
+.expCompany {
+  font-size: var(--fs-sm);
+  color: var(--color-text-secondary);
+}
+
+.expPoints {
+  margin-top: var(--space-3);
+  padding-left: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.expPoints li {
+  font-size: var(--fs-sm);
+  color: var(--color-text-secondary);
+  line-height: var(--lh-normal);
+  list-style: disc;
+}
+
+.expPoints li::marker {
+  color: var(--color-accent);
+}
+
+.cardLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  color: var(--color-accent);
+  margin-top: var(--space-3);
+  width: fit-content;
+  transition: color var(--transition-fast);
+}
+
+.cardLink:hover {
+  color: var(--color-accent-hover);
+  text-decoration: underline;
+}
+
+.cardLink svg {
+  transition: transform var(--transition-fast);
+}
+
+.cardLink:hover svg {
+  transform: translateX(2px);
+}
+
+/* Resume CTA */
+.resumeCta {
+  margin-top: var(--space-12);
+  padding-top: var(--space-8);
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-6);
+}
+
+.resumeText {
+  font-size: var(--fs-base);
+  color: var(--color-text-secondary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .expCard {
+    grid-template-columns: 20px 1fr;
+    gap: var(--space-4);
+  }
+
+  .expLeft {
+    display: none;
+  }
+
+  .expContent::before {
+    content: attr(data-date);
+    font-size: var(--fs-xs);
+    color: var(--color-accent);
+    font-weight: var(--fw-semibold);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-wider);
+  }
+
+  .resumeCta {
+    flex-direction: column;
+    text-align: center;
+  }
+}
