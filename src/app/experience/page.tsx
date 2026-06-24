@@ -13,6 +13,7 @@ const experiences = [
     date: "Jan 2026 – Present",
     type: "Research",
     category: "research",
+    logo: "/images/ashesi.jpg",
     points: [
       "Formulate and execute control system frameworks under faculty guidance, focusing on the optimization of classical control theories through modern machine learning integration.",
       "Design, simulate, and benchmark multi-loop architectures and automated parameter-tuning algorithms to minimize overshoot, reduce settling time, and prevent actuator saturation in non-linear physical systems.",
@@ -26,6 +27,7 @@ const experiences = [
     date: "Aug 2025 – Present",
     type: "Research",
     category: "research",
+    logo: "/images/ashesi.jpg",
     points: [
       "Conduct structured investigations into deep learning architectures optimized for high-dimensional acoustic data, evaluating model performance on complex, low-resource signal streams.",
       "Engineer rigorous evaluation protocols, including Speaker-Strict comparative analysis, to identify, measure, and systematically mitigate generalization failures across diverse neural network models.",
@@ -39,7 +41,7 @@ const experiences = [
     date: "Dec 2025",
     type: "Competition",
     category: "competitions",
-    logo: "https://cdn.simpleicons.org/ieee/2b6777",
+    logo: "/images/sensors_council.png",
     points: [
       "Selected as one of the Global Finalists for the MYOSA 4.0 competition at IEEE APSCON 2026 for developing Lumina, an intelligent ambient monitoring system.",
       "Engineered a full-stack IoT architecture utilizing ESP32 microcontrollers, a local SQL database, and the Nvidia Nemotron-30B LLM to translate sensor feeds into behavioral safety insights.",
@@ -53,7 +55,7 @@ const experiences = [
     date: "Jun – Aug 2025",
     type: "Competition",
     category: "competitions",
-    logo: "https://cdn.simpleicons.org/ieee/2b6777",
+    logo: "/images/ieee-metaverse.webp",
     points: [
       "Designed and implemented an AI-driven virtual learning environment in Unreal Engine 5 with GPT-backed conversational NPCs acting as intelligent subject-matter tutors.",
       "Developed a prototype featuring dynamic assessments and adaptive learning path recommendations, which served as the foundation for our accepted research publication.",
@@ -67,6 +69,7 @@ const experiences = [
     date: "Aug – Sep 2025",
     type: "Industry",
     category: "work",
+    logo: "/images/cfao.png",
     image: "/images/cfao.jpeg",
     points: [
       "Gained hands-on experience in the automotive workshop, assisting with servicing, maintenance, and fault diagnosis of vehicles while learning the function and integration of key vehicle components.",
