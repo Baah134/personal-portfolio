@@ -32,8 +32,8 @@ const mainNavLinks: MainNavLink[] = [
       { href: '/blog', label: 'Blog', id: 'blog' },
     ],
   },
-  { href: '/experience', label: 'Experience', id: 'experience' },
   { href: '/leadership', label: 'Leadership & Volunteering', id: 'leadership' },
+  { href: '/experience', label: 'Experience', id: 'experience' },
   { href: '/contact', label: 'Contact', id: 'contact' },
 ];
 
