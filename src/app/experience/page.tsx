@@ -73,29 +73,14 @@ const experiences = [
       "Rotated across store, sales, and front desk operations, gaining insight into company structure, accountability processes, and customer relations.",
     ],
   },
-  {
-    role: "CTO & Co-founder",
-    company: "AquaRevive",
-    date: "Jan – Aug 2024",
-    type: "Startup",
-    category: "product-development",
-    points: [
-      "Led the technical design and development of the filtration system as CTO, utilizing natural materials including sand, charcoal, and zeolite to purify water.",
-      "Applied design thinking (empathizing, defining, prototyping, testing) and entrepreneurship concepts like the Business Model Canvas and MVP validation.",
-      "Conducted customer discovery, market segmentation, pricing strategies, financial modeling, and ROI projections.",
-      "Partnered with health professionals and local leaders to run educational campaigns and launch the MVP in a rural community.",
-    ],
-    link: "/projects/aquablue",
-    linkLabel: "View AquaRevive Project Details",
-  },
 ];
 
 export default function ExperiencePage() {
-  const [activeTab, setActiveTab] = useState<"research" | "work" | "product-development" | "competitions">("research");
+  const [activeTab, setActiveTab] = useState<"research" | "work" | "competitions">("research");
 
   const filteredExperiences = experiences.filter((exp) => exp.category === activeTab);
 
-  const handleTabChange = useCallback((tab: "research" | "work" | "product-development" | "competitions") => {
+  const handleTabChange = useCallback((tab: "research" | "work" | "competitions") => {
     const documentWithTransition = document as any;
     if (typeof window !== "undefined" && "startViewTransition" in document) {
       documentWithTransition.startViewTransition(() => {
@@ -114,7 +99,7 @@ export default function ExperiencePage() {
         <header className={styles.header}>
           <h1 className={styles.title}>Work Experience &amp; Achievements</h1>
           <p className={styles.subtitle}>
-            Professional experience spanning research, engineering, industry, startups, and global competitions.
+            Professional experience spanning research, engineering, industry, and global competitions.
           </p>
         </header>
 
@@ -132,12 +117,6 @@ export default function ExperiencePage() {
               className={`${styles.tabBtn} ${activeTab === "work" ? styles.activeTab : ""}`}
             >
               Work &amp; Industry
-            </button>
-            <button
-              onClick={() => handleTabChange("product-development")}
-              className={`${styles.tabBtn} ${activeTab === "product-development" ? styles.activeTab : ""}`}
-            >
-              Product Development
             </button>
             <button
               onClick={() => handleTabChange("competitions")}
