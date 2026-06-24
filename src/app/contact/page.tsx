@@ -68,9 +68,6 @@ export default function ContactPage() {
                 <p className={styles.successDesc}>
                   Thank you for reaching out. Your message has been sent successfully to <strong>princemensah915@gmail.com</strong>.
                 </p>
-                <p className={styles.successSub}>
-                  (Note: If this is the first submission, please make sure to confirm the activation link sent by Formspree to your email.)
-                </p>
                 <button onClick={() => setStatus('idle')} className="btn btn-outline">
                   Send Another Message
                 </button>

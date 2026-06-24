@@ -70,6 +70,7 @@ const researchProjects: Record<
       "Implemented gamified progression tracking with performance-based experience points (XP) to motivate learners.",
     ],
     results: [
+      "Developed initially as a key project for the 2025 IEEE Grand Metaverse Challenge, later expanded into a full research publication.",
       "Demonstrated real-time tutoring and personalized topic recommendations without a hard-coded curriculum.",
       "Reduced learner friction by matching quiz difficulty dynamically to individual user capacity.",
       "Successfully presented and accepted at the IEEE 3SCEA 2026 conference.",

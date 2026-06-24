@@ -593,12 +593,14 @@
 .asrSvg { color: #f43f5e; }
 .signalSvg { color: #0ea5e9; }
 .cvSvg { color: #8b5cf6; }
+.verilogSvg { color: #d97706; }
 
 [data-theme="dark"] .sqlSvg { color: #38bdf8; }
 [data-theme="dark"] .nlpSvg { color: #e879f9; }
 [data-theme="dark"] .asrSvg { color: #fb7185; }
 [data-theme="dark"] .signalSvg { color: #38bdf8; }
 [data-theme="dark"] .cvSvg { color: #a78bfa; }
+[data-theme="dark"] .verilogSvg { color: #fbbf24; }
 
 /* Glassmorphic Tooltip */
 .skillTooltip {
