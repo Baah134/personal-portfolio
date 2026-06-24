@@ -125,6 +125,18 @@ const timelineEvents: TimelineEvent[] = [
 function SkillLogo({ name }: { name: string }) {
   const normalized = name.toLowerCase();
 
+  if (normalized === 'matlab') {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/matlab/matlab-original.svg"
+        alt={name}
+        className={styles.skillLogo}
+        loading="lazy"
+      />
+    );
+  }
+
   // Custom SVGs for concepts
   if (normalized === 'sql') {
     return (
@@ -308,11 +320,6 @@ export default function Home() {
           <div className={styles.heroGrid}>
             {/* Left Column: Status Pill & Social Proof */}
             <div className={styles.leftCol}>
-              <div className={styles.statusPill}>
-                <span className={styles.pulseDot} />
-                <span>Available for new opportunities</span>
-              </div>
-              
               <div className={styles.socialProof}>
                 <div className={styles.avatarGroup}>
                   <div className={`${styles.avatar} ${styles.avatar1}`}>IEEE</div>

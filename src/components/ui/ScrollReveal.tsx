@@ -18,14 +18,7 @@ export default function ScrollReveal() {
       return;
     }
 
-    // Check if browser supports native CSS scroll-driven animations
-    const supportsScrollTimeline = typeof CSS !== "undefined" && CSS.supports && CSS.supports("animation-timeline", "view()");
-    if (supportsScrollTimeline) {
-      // Chrome/Edge handles it natively via CSS. No JS IntersectionObserver needed.
-      return;
-    }
-
-    // Fallback: IntersectionObserver for Safari and Firefox
+    // Fallback: IntersectionObserver for Safari, Firefox, and Chrome (since overflow-x body conflicts with CSS view() timeline)
     if (!("IntersectionObserver" in window)) {
       document.querySelectorAll(".scroll-reveal").forEach((el) => {
         el.classList.add("revealed");

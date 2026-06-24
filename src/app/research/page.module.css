@@ -350,4 +350,122 @@
   }
 }
 
+/* Research Logo tags */
+.researchLogosGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+
+.researchSkillItem {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.researchSkillItem:hover {
+  transform: translateY(-3px) scale(1.08);
+  border-color: var(--color-accent);
+  box-shadow: 0 4px 12px rgba(43, 103, 119, 0.12);
+}
+
+.researchSkillIconWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: var(--color-text-secondary);
+  transition: color var(--transition-fast);
+}
+
+.researchSkillItem:hover .researchSkillIconWrap {
+  color: var(--color-accent);
+}
+
+.researchSkillLogo {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  transition: all var(--transition-fast);
+  opacity: 0.85;
+}
+
+.researchSkillItem:hover .researchSkillLogo {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.researchSkillSvg {
+  width: 22px;
+  height: 22px;
+  transition: all var(--transition-fast);
+  opacity: 0.85;
+}
+
+.researchSkillItem:hover .researchSkillSvg {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+/* Custom concept SVG colors inside research page */
+.sqlSvg { color: #00758f; }
+.nlpSvg { color: #c026d3; }
+.asrSvg { color: #f43f5e; }
+.signalSvg { color: #0ea5e9; }
+.cvSvg { color: #8b5cf6; }
+
+[data-theme="dark"] .sqlSvg { color: #38bdf8; }
+[data-theme="dark"] .nlpSvg { color: #e879f9; }
+[data-theme="dark"] .asrSvg { color: #fb7185; }
+[data-theme="dark"] .signalSvg { color: #38bdf8; }
+[data-theme="dark"] .cvSvg { color: #a78bfa; }
+
+/* Glassmorphic Tooltip */
+.researchSkillTooltip {
+  position: absolute;
+  bottom: 100%;
+  margin-bottom: var(--space-2);
+  padding: 5px var(--space-3);
+  background: rgba(18, 18, 18, 0.85);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: var(--fw-semibold);
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(4px);
+  transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.2s ease;
+  pointer-events: none;
+  z-index: 10;
+  box-shadow: var(--shadow-sm);
+}
+
+[data-theme="dark"] .researchSkillTooltip {
+  background: rgba(255, 255, 255, 0.9);
+  color: #121212;
+  border-color: rgba(0, 0, 0, 0.05);
+}
+
+.researchSkillItem:hover .researchSkillTooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+
 

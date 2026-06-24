@@ -802,7 +802,9 @@
   padding: 0 var(--space-10);
   margin-bottom: var(--space-10);
   z-index: 2;
+  will-change: opacity, transform;
 }
+
 
 .timelineItem:last-child {
   margin-bottom: 0;

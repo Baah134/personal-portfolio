@@ -51,7 +51,7 @@ const experiences = [
     company: "AquaRevive",
     date: "Jan – Aug 2024",
     type: "Startup",
-    category: "entrepreneurship",
+    category: "product-development",
     points: [
       "Led the technical design and development of the filtration system as CTO, utilizing natural materials including sand, charcoal, and zeolite to purify water.",
       "Applied design thinking (empathizing, defining, prototyping, testing) and entrepreneurship concepts like the Business Model Canvas and MVP validation.",
@@ -64,11 +64,11 @@ const experiences = [
 ];
 
 export default function ExperiencePage() {
-  const [activeTab, setActiveTab] = useState<"research" | "work" | "entrepreneurship">("research");
+  const [activeTab, setActiveTab] = useState<"research" | "work" | "product-development">("research");
 
   const filteredExperiences = experiences.filter((exp) => exp.category === activeTab);
 
-  const handleTabChange = useCallback((tab: "research" | "work" | "entrepreneurship") => {
+  const handleTabChange = useCallback((tab: "research" | "work" | "product-development") => {
     const documentWithTransition = document as any;
     if (typeof window !== "undefined" && "startViewTransition" in document) {
       documentWithTransition.startViewTransition(() => {
@@ -107,10 +107,10 @@ export default function ExperiencePage() {
               Work &amp; Industry
             </button>
             <button
-              onClick={() => handleTabChange("entrepreneurship")}
-              className={`${styles.tabBtn} ${activeTab === "entrepreneurship" ? styles.activeTab : ""}`}
+              onClick={() => handleTabChange("product-development")}
+              className={`${styles.tabBtn} ${activeTab === "product-development" ? styles.activeTab : ""}`}
             >
-              Entrepreneurship
+              Product Development
             </button>
           </div>
         </div>

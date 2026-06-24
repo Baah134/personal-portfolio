@@ -14,7 +14,7 @@ export default function Footer() {
             </p>
             <div className={styles.socialIcons}>
               <a
-                href="https://github.com/princebaah"
+                href="https://github.com/Baah134"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.socialIcon}
@@ -26,7 +26,7 @@ export default function Footer() {
                 </svg>
               </a>
               <a
-                href="https://linkedin.com/in/princebaah-mensah"
+                href="https://linkedin.com/in/prince-baah-mensah"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.socialIcon}
@@ -38,7 +38,7 @@ export default function Footer() {
                 </svg>
               </a>
               <a
-                href="mailto:prince.baah@ashesi.edu.gh"
+                href="mailto:princemensah915@gmail.com"
                 className={styles.socialIcon}
                 id="footer-email"
                 aria-label="Email"
@@ -57,8 +57,8 @@ export default function Footer() {
             <address className={styles.contactInfo}>
               <p className={styles.contactLine}>Ashesi University</p>
               <p className={styles.contactLine}>Berekuso, Ghana</p>
-              <a href="mailto:prince.baah@ashesi.edu.gh" className={styles.contactEmail} id="footer-contact-email">
-                prince.baah@ashesi.edu.gh
+              <a href="mailto:princemensah915@gmail.com" className={styles.contactEmail} id="footer-contact-email">
+                princemensah915@gmail.com
               </a>
             </address>
           </div>

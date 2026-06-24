@@ -1,13 +1,44 @@
-import type { Metadata } from "next";
+'use client';
+
+import { useState, useCallback } from "react";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "Contact",
-  description:
-    "Get in touch with Prince Baah-Mensah for research collaborations, internships, or speaking opportunities.",
-};
-
 export default function ContactPage() {
+  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setStatus('submitting');
+    setErrorMessage('');
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
+    try {
+      const endpoint = process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT || "https://formspree.io/princemensah915@gmail.com";
+      const response = await fetch(endpoint, {
+        method: "POST",
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        setStatus('success');
+        form.reset();
+      } else {
+        const data = await response.json();
+        setErrorMessage(data.error || "Failed to send message. Please try again later.");
+        setStatus('error');
+      }
+    } catch (err) {
+      setErrorMessage("Network error. Please check your internet connection and try again.");
+      setStatus('error');
+    }
+  };
+
   return (
     <div className={styles.page}>
       <div className="container">
@@ -20,66 +51,105 @@ export default function ContactPage() {
         </header>
 
         <div className={styles.grid}>
-          {/* Contact Form */}
-          <form
-            className={styles.form}
-            action={`https://formspree.io/f/${process.env.NEXT_PUBLIC_FORMSPREE_KEY || 'PLACEHOLDER'}`}
-            method="POST"
-            id="contact-form"
-          >
-            <div className={styles.formRow}>
-              <div className={styles.formGroup}>
-                <label htmlFor="contact-name" className={styles.label}>Name</label>
-                <input
-                  type="text"
-                  id="contact-name"
-                  name="name"
-                  required
-                  className={styles.input}
-                  placeholder="Your name"
-                />
+          {/* Contact Form Container */}
+          <div className={styles.formContainer}>
+            {status === 'success' ? (
+              <div className={styles.successState}>
+                <div className={styles.successIcon}>
+                  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                </div>
+                <h2 className={styles.successTitle}>Message Sent!</h2>
+                <p className={styles.successDesc}>
+                  Thank you for reaching out. Your message has been sent successfully to <strong>princemensah915@gmail.com</strong>.
+                </p>
+                <p className={styles.successSub}>
+                  (Note: If this is the first submission, please make sure to confirm the activation link sent by Formspree to your email.)
+                </p>
+                <button onClick={() => setStatus('idle')} className="btn btn-outline">
+                  Send Another Message
+                </button>
               </div>
-              <div className={styles.formGroup}>
-                <label htmlFor="contact-email" className={styles.label}>Email</label>
-                <input
-                  type="email"
-                  id="contact-email"
-                  name="email"
-                  required
-                  className={styles.input}
-                  placeholder="your@email.com"
-                />
-              </div>
-            </div>
-            <div className={styles.formGroup}>
-              <label htmlFor="contact-subject" className={styles.label}>Subject</label>
-              <input
-                type="text"
-                id="contact-subject"
-                name="subject"
-                required
-                className={styles.input}
-                placeholder="Research collaboration, Internship, etc."
-              />
-            </div>
-            <div className={styles.formGroup}>
-              <label htmlFor="contact-message" className={styles.label}>Message</label>
-              <textarea
-                id="contact-message"
-                name="message"
-                required
-                rows={6}
-                className={styles.textarea}
-                placeholder="Tell me about your project or idea..."
-              />
-            </div>
-            <button type="submit" className={`btn btn-primary ${styles.submitBtn}`} id="contact-submit">
-              Send Message
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <line x1="22" y1="2" x2="11" y2="13" /><polygon points="22 2 15 22 11 13 2 9 22 2" />
-              </svg>
-            </button>
-          </form>
+            ) : (
+              <form
+                className={styles.form}
+                onSubmit={handleSubmit}
+                id="contact-form"
+              >
+                {status === 'error' && (
+                  <div className={styles.errorAlert}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
+                    </svg>
+                    <span>{errorMessage}</span>
+                  </div>
+                )}
+
+                <div className={styles.formRow}>
+                  <div className={styles.formGroup}>
+                    <label htmlFor="contact-name" className={styles.label}>Name</label>
+                    <input
+                      type="text"
+                      id="contact-name"
+                      name="name"
+                      required
+                      className={styles.input}
+                      placeholder="Your name"
+                      disabled={status === 'submitting'}
+                    />
+                  </div>
+                  <div className={styles.formGroup}>
+                    <label htmlFor="contact-email" className={styles.label}>Email</label>
+                    <input
+                      type="email"
+                      id="contact-email"
+                      name="email"
+                      required
+                      className={styles.input}
+                      placeholder="your@email.com"
+                      disabled={status === 'submitting'}
+                    />
+                  </div>
+                </div>
+                <div className={styles.formGroup}>
+                  <label htmlFor="contact-subject" className={styles.label}>Subject</label>
+                  <input
+                    type="text"
+                    id="contact-subject"
+                    name="subject"
+                    required
+                    className={styles.input}
+                    placeholder="Research collaboration, Internship, etc."
+                    disabled={status === 'submitting'}
+                  />
+                </div>
+                <div className={styles.formGroup}>
+                  <label htmlFor="contact-message" className={styles.label}>Message</label>
+                  <textarea
+                    id="contact-message"
+                    name="message"
+                    required
+                    rows={6}
+                    className={styles.textarea}
+                    placeholder="Tell me about your project or idea..."
+                    disabled={status === 'submitting'}
+                  />
+                </div>
+                <button 
+                  type="submit" 
+                  className={`btn btn-primary ${styles.submitBtn}`} 
+                  id="contact-submit"
+                  disabled={status === 'submitting'}
+                >
+                  {status === 'submitting' ? 'Sending Message...' : 'Send Message'}
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <line x1="22" y1="2" x2="11" y2="13" /><polygon points="22 2 15 22 11 13 2 9 22 2" />
+                  </svg>
+                </button>
+              </form>
+            )}
+          </div>
 
           {/* Info Panel */}
           <aside className={styles.info}>
@@ -91,12 +161,43 @@ export default function ContactPage() {
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg>
                 </div>
                 <div className={styles.infoEmails}>
-                  <a href="mailto:prince.baah@ashesi.edu.gh" className={styles.infoLink}>
-                    prince.baah@ashesi.edu.gh
+                  <a href="mailto:princemensah915@gmail.com" className={styles.infoLink} style={{ display: 'flex', alignItems: 'center' }}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src="https://cdn.simpleicons.org/gmail" alt="Gmail" className={styles.emailIcon} />
+                    princemensah915@gmail.com <span className={styles.emailTag}>(Gmail - Primary)</span>
                   </a>
-                  <a href="mailto:princemensah915@gmail.com" className={styles.infoLink}>
-                    princemensah915@gmail.com
+                  <a href="mailto:prince.baah@ashesi.edu.gh" className={styles.infoLink} style={{ display: 'flex', alignItems: 'center' }}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src="https://cdn.simpleicons.org/microsoftoutlook" alt="Outlook" className={styles.emailIcon} />
+                    prince.baah@ashesi.edu.gh <span className={styles.emailTag}>(Outlook - Secondary)</span>
                   </a>
+                </div>
+              </div>
+
+              <div className={styles.infoItem}>
+                <div className={styles.infoIcon}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                  </svg>
+                </div>
+                <div className={styles.phoneDetails}>
+                  <a href="tel:+233593420602" className={styles.infoLink}>
+                    +233 593420602
+                  </a>
+                  <div className={styles.phoneTagsContainer}>
+                    <span className={`${styles.phoneTag} ${styles.whatsappTag}`}>
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style={{ marginRight: '4px', verticalAlign: 'middle', display: 'inline-block' }}>
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.746.953 3.71 1.458 5.704 1.459h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                      </svg>
+                      WhatsApp
+                    </span>
+                    <span className={`${styles.phoneTag} ${styles.callTag}`}>
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ marginRight: '4px', verticalAlign: 'middle', display: 'inline-block' }}>
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                      </svg>
+                      Call
+                    </span>
+                  </div>
                 </div>
               </div>
 
@@ -109,7 +210,7 @@ export default function ContactPage() {
 
               <div className={styles.socials}>
                 <a
-                  href="https://github.com/princebaah"
+                  href="https://github.com/Baah134"
                   target="_blank"
                   rel="noopener noreferrer"
                   className={styles.socialLink}
@@ -122,7 +223,7 @@ export default function ContactPage() {
                   <span>GitHub</span>
                 </a>
                 <a
-                  href="https://linkedin.com/in/princebaah-mensah"
+                  href="https://linkedin.com/in/prince-baah-mensah"
                   target="_blank"
                   rel="noopener noreferrer"
                   className={styles.socialLink}

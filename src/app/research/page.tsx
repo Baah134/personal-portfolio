@@ -1,14 +1,8 @@
-import type { Metadata } from "next";
+'use client';
+
 import Image from "next/image";
-import Link from "next/link";
 import TransitionLink from "@/components/ui/TransitionLink";
 import styles from "./page.module.css";
-
-export const metadata: Metadata = {
-  title: "Research & Publications",
-  description:
-    "Explore Prince Baah-Mensah's research in control systems, speech emotion recognition, and adaptive learning systems.",
-};
 
 const publications = [
   {
@@ -46,6 +40,155 @@ const currentResearch = [
     tags: ["Deep Learning", "Signal Processing", "PyTorch", "NLP"],
   },
 ];
+
+function ResearchSkillLogo({ name }: { name: string }) {
+  const normalized = name.toLowerCase();
+
+  // Custom SVGs for concepts
+  if (normalized === 'nlp') {
+    return (
+      <svg className={`${styles.researchSkillSvg} ${styles.nlpSvg}`} viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        <path d="M8 7h8M8 11h6"></path>
+      </svg>
+    );
+  }
+  if (normalized === 'asr') {
+    return (
+      <svg className={`${styles.researchSkillSvg} ${styles.asrSvg}`} viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+        <path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8"></path>
+      </svg>
+    );
+  }
+  if (normalized === 'signal processing') {
+    return (
+      <svg className={`${styles.researchSkillSvg} ${styles.signalSvg}`} viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M3 12h3l3-9 4 18 3-12 5 3"></path>
+      </svg>
+    );
+  }
+  if (normalized === 'computer vision') {
+    return (
+      <svg className={`${styles.researchSkillSvg} ${styles.cvSvg}`} viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+        <circle cx="12" cy="12" r="3"></circle>
+        <path d="M3 3h2M3 21h2M21 3h-2M21 21h-2"></path>
+      </svg>
+    );
+  }
+  if (normalized === 'matlab') {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/matlab/matlab-original.svg"
+        alt={name}
+        className={styles.researchSkillLogo}
+        loading="lazy"
+      />
+    );
+  }
+
+  // Custom concept SVGs for research
+  if (normalized === 'pid control') {
+    return (
+      <svg className={styles.researchSkillSvg} style={{ color: '#3b82f6' }} viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M2.5 12c4-8 4 8 8 0s4-4 8 0 3-1 3-1" />
+        <line x1="2" y1="2" x2="2" y2="22" />
+        <line x1="2" y1="22" x2="22" y2="22" />
+      </svg>
+    );
+  }
+  if (normalized === 'bayesian optimization') {
+    return (
+      <svg className={styles.researchSkillSvg} style={{ color: '#10b981' }} viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M3 20c3-1 5-16 9-16s6 15 9 16" />
+        <line x1="12" y1="4" x2="12" y2="20" />
+      </svg>
+    );
+  }
+  if (normalized === 'optuna') {
+    return (
+      <svg className={styles.researchSkillSvg} style={{ color: '#00b4d8' }} viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="10" />
+        <circle cx="12" cy="12" r="6" />
+        <circle cx="12" cy="12" r="2" />
+      </svg>
+    );
+  }
+  if (normalized === 'rest api') {
+    return (
+      <svg className={styles.researchSkillSvg} style={{ color: '#10b981' }} viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <rect x="2" y="2" width="20" height="8" rx="2" ry="2" />
+        <rect x="2" y="14" width="20" height="8" rx="2" ry="2" />
+        <line x1="6" y1="10" x2="6" y2="14" />
+        <line x1="18" y1="10" x2="18" y2="14" />
+      </svg>
+    );
+  }
+  if (normalized === 'metaverse') {
+    return (
+      <svg className={styles.researchSkillSvg} style={{ color: '#ec4899' }} viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M4 8h16l1 6H3l1-6z" />
+        <circle cx="8" cy="11" r="2" />
+        <circle cx="16" cy="11" r="2" />
+      </svg>
+    );
+  }
+  if (normalized === 'deep learning') {
+    return (
+      <svg className={styles.researchSkillSvg} style={{ color: '#8b5cf6' }} viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <circle cx="12" cy="5" r="2.5" />
+        <circle cx="5" cy="12" r="2.5" />
+        <circle cx="19" cy="12" r="2.5" />
+        <circle cx="12" cy="19" r="2.5" />
+        <line x1="12" y1="7.5" x2="12" y2="16.5" />
+        <line x1="7.2" y1="10.8" x2="16.8" y2="13.2" />
+        <line x1="7.2" y1="13.2" x2="16.8" y2="10.8" />
+      </svg>
+    );
+  }
+
+  // Brand logos via Simple Icons CDN
+  let iconSlug = '';
+  switch (normalized) {
+    case 'pytorch':
+      iconSlug = 'pytorch';
+      break;
+    case 'python':
+      iconSlug = 'python';
+      break;
+    case 'unreal engine 5':
+      iconSlug = 'unrealengine';
+      break;
+    case 'openai gpt api':
+      iconSlug = 'openai';
+      break;
+    default:
+      iconSlug = '';
+  }
+
+  if (iconSlug) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src={`https://cdn.simpleicons.org/${iconSlug}`}
+        alt={name}
+        className={styles.researchSkillLogo}
+        loading="lazy"
+      />
+    );
+  }
+
+  // Fallback icon
+  return (
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="10"></circle>
+      <line x1="12" y1="16" x2="12" y2="12"></line>
+      <line x1="12" y1="8" x2="12.01" y2="8"></line>
+    </svg>
+  );
+}
 
 export default function ResearchPage() {
   return (
@@ -97,9 +240,14 @@ export default function ResearchPage() {
                   <h3 className={styles.pubTitle}>{pub.title}</h3>
                   <p className={styles.pubVenue}>{pub.venue}</p>
                   <p className={styles.pubDescription}>{pub.desc}</p>
-                  <div className={styles.tags}>
+                  <div className={styles.researchLogosGrid}>
                     {pub.tags.map((tag) => (
-                      <span key={tag} className="tag">{tag}</span>
+                      <div key={tag} className={styles.researchSkillItem} onClick={(e) => e.preventDefault()}>
+                        <div className={styles.researchSkillIconWrap}>
+                          <ResearchSkillLogo name={tag} />
+                        </div>
+                        <span className={styles.researchSkillTooltip}>{tag}</span>
+                      </div>
                     ))}
                   </div>
                   <span className={styles.readMore}>
@@ -145,9 +293,14 @@ export default function ResearchPage() {
                   </div>
                   <h3 className={styles.pubTitle}>{res.title}</h3>
                   <p className={styles.pubDescription}>{res.desc}</p>
-                  <div className={styles.tags}>
+                  <div className={styles.researchLogosGrid}>
                     {res.tags.map((tag) => (
-                      <span key={tag} className="tag">{tag}</span>
+                      <div key={tag} className={styles.researchSkillItem} onClick={(e) => e.preventDefault()}>
+                        <div className={styles.researchSkillIconWrap}>
+                          <ResearchSkillLogo name={tag} />
+                        </div>
+                        <span className={styles.researchSkillTooltip}>{tag}</span>
+                      </div>
                     ))}
                   </div>
                   <span className={styles.readMore}>
@@ -162,3 +315,4 @@ export default function ResearchPage() {
     </div>
   );
 }
+
