@@ -6,9 +6,7 @@ import styles from "./page.module.css";
 
 const awards = [
   { title: "Dean's List (Consecutive for all 6 semesters)", org: "Ashesi University", date: "2023 – 2026" },
-  { title: "Global Finalist, IEEE MYOSA 4.0 Competition", org: "IEEE Sensors Council", date: "Dec 2025" },
   { title: "Second Place, Ashesi Experiential Transcript Challenge", org: "Ashesi University", date: "Nov 2025" },
-  { title: "Competitor, IEEE Grand Metaverse Challenge", org: "IEEE", date: "Jun – Aug 2025" },
   { title: "Kufuor Scholar Program", org: "John A. Kufuor Foundation", date: "Dec 2024 – Jun 2027" },
   { title: "Mastercard Foundation Scholars Program", org: "Ashesi University", date: "Jan 2024 – Jun 2027" },
 ];
@@ -327,7 +325,7 @@ export default function LeadershipPage() {
         <section className={styles.section} id="awards">
           <div className={styles.categoryHeader}>
             <div className={styles.categoryIcon}><IconMedal /></div>
-            <h2 className={styles.categoryTitle}>Awards, Scholarships &amp; Competitions</h2>
+            <h2 className={styles.categoryTitle}>Awards &amp; Scholarships</h2>
           </div>
           <div className={styles.awardsGrid}>
             {awards.map((award) => (

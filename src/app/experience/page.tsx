@@ -2,7 +2,6 @@
 
 import { useState, useCallback } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import TransitionLink from "@/components/ui/TransitionLink";
 import { flushSync } from "react-dom";
 import styles from "./page.module.css";
@@ -35,6 +34,34 @@ const experiences = [
     link: "/research",
   },
   {
+    role: "Global Finalist",
+    company: "IEEE MYOSA 4.0 Competition",
+    date: "Dec 2025",
+    type: "Competition",
+    category: "competitions",
+    logo: "https://cdn.simpleicons.org/ieee/2b6777",
+    points: [
+      "Selected as one of the Global Finalists for the MYOSA 4.0 competition at IEEE APSCON 2026 for developing Lumina, an intelligent ambient monitoring system.",
+      "Engineered a full-stack IoT architecture utilizing ESP32 microcontrollers, a local SQL database, and the Nvidia Nemotron-30B LLM to translate sensor feeds into behavioral safety insights.",
+    ],
+    link: "/projects/lumina",
+    linkLabel: "View Lumina Project Details",
+  },
+  {
+    role: "Competitor & Project Lead",
+    company: "2025 IEEE Grand Metaverse Challenge",
+    date: "Jun – Aug 2025",
+    type: "Competition",
+    category: "competitions",
+    logo: "https://cdn.simpleicons.org/ieee/2b6777",
+    points: [
+      "Designed and implemented an AI-driven virtual learning environment in Unreal Engine 5 with GPT-backed conversational NPCs acting as intelligent subject-matter tutors.",
+      "Developed a prototype featuring dynamic assessments and adaptive learning path recommendations, which served as the foundation for our accepted research publication.",
+    ],
+    link: "/research/metaverse-education",
+    linkLabel: "View Metaverse Classroom Research",
+  },
+  {
     role: "Workshop Intern",
     company: "CFAO Mobility PLC Ghana",
     date: "Aug – Sep 2025",
@@ -64,11 +91,11 @@ const experiences = [
 ];
 
 export default function ExperiencePage() {
-  const [activeTab, setActiveTab] = useState<"research" | "work" | "product-development">("research");
+  const [activeTab, setActiveTab] = useState<"research" | "work" | "product-development" | "competitions">("research");
 
   const filteredExperiences = experiences.filter((exp) => exp.category === activeTab);
 
-  const handleTabChange = useCallback((tab: "research" | "work" | "product-development") => {
+  const handleTabChange = useCallback((tab: "research" | "work" | "product-development" | "competitions") => {
     const documentWithTransition = document as any;
     if (typeof window !== "undefined" && "startViewTransition" in document) {
       documentWithTransition.startViewTransition(() => {
@@ -85,9 +112,9 @@ export default function ExperiencePage() {
     <div className={styles.page}>
       <div className="container">
         <header className={styles.header}>
-          <h1 className={styles.title}>Work Experience</h1>
+          <h1 className={styles.title}>Work Experience &amp; Achievements</h1>
           <p className={styles.subtitle}>
-            Professional experience spanning research, engineering, industry, and entrepreneurship.
+            Professional experience spanning research, engineering, industry, startups, and global competitions.
           </p>
         </header>
 
@@ -112,6 +139,12 @@ export default function ExperiencePage() {
             >
               Product Development
             </button>
+            <button
+              onClick={() => handleTabChange("competitions")}
+              className={`${styles.tabBtn} ${activeTab === "competitions" ? styles.activeTab : ""}`}
+            >
+              Competitions
+            </button>
           </div>
         </div>
         
@@ -130,8 +163,18 @@ export default function ExperiencePage() {
                 <div className={styles.expLine} />
               </div>
               <div className={styles.expContent} data-date={exp.date}>
-                <h2 className={styles.expRole}>{exp.role}</h2>
-                <p className={styles.expCompany}>{exp.company}</p>
+                <div className={styles.expHeader}>
+                  {exp.logo && (
+                    <div className={styles.expLogoContainer}>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={exp.logo} alt="" className={styles.expLogo} />
+                    </div>
+                  )}
+                  <div>
+                    <h2 className={styles.expRole}>{exp.role}</h2>
+                    <p className={styles.expCompany}>{exp.company}</p>
+                  </div>
+                </div>
                 <ul className={styles.expPoints}>
                   {exp.points.map((point, j) => (
                     <li key={j}>{point}</li>
