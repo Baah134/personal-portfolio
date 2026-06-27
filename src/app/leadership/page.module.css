@@ -208,6 +208,39 @@
   gap: var(--space-4);
 }
 
+.roleHeaderArea {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+  margin-bottom: var(--space-1);
+}
+
+.roleLogoContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  flex-shrink: 0;
+  padding: 4px;
+  margin-top: 2px;
+}
+
+.roleLogo {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+.roleTitleContainer {
+  flex-grow: 1;
+  min-width: 0; /* Prevent flex children from overflowing */
+}
+
 .roleName {
   font-size: var(--fs-base);
   font-weight: var(--fw-semibold);

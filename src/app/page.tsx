@@ -35,7 +35,7 @@ const featuredProjects = [
 const skillCategories = [
   {
     title: "AI & Machine Learning",
-    skills: ["TensorFlow", "PyTorch", "NLP", "ASR", "Signal Processing", "Computer Vision"],
+    skills: ["TensorFlow", "PyTorch", "NLP", "ASR", "Signal Processing"],
   },
   {
     title: "Hardware & Embedded",
@@ -125,19 +125,17 @@ const timelineEvents: TimelineEvent[] = [
 function SkillLogo({ name }: { name: string }) {
   const normalized = name.toLowerCase();
 
+  // 1. MATLAB
   if (normalized === 'matlab') {
     return (
-      // eslint-disable-next-line @next/next/no-img-element
-      <img
-        src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/matlab/matlab-original.svg"
-        alt={name}
-        className={styles.skillLogo}
-        loading="lazy"
-      />
+      <svg className={`${styles.skillSvg}`} viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#e05915" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M3 20h18M3 4v16" strokeWidth="1.5" />
+        <path d="M3 14 Q 7 4, 11 12 T 19 8" strokeWidth="2.5" />
+      </svg>
     );
   }
 
-  // Custom SVGs for concepts
+  // 2. SQL
   if (normalized === 'sql') {
     return (
       <svg className={`${styles.skillSvg} ${styles.sqlSvg}`} viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -147,6 +145,8 @@ function SkillLogo({ name }: { name: string }) {
       </svg>
     );
   }
+
+  // 3. NLP
   if (normalized === 'nlp') {
     return (
       <svg className={`${styles.skillSvg} ${styles.nlpSvg}`} viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -155,6 +155,8 @@ function SkillLogo({ name }: { name: string }) {
       </svg>
     );
   }
+
+  // 4. ASR
   if (normalized === 'asr') {
     return (
       <svg className={`${styles.skillSvg} ${styles.asrSvg}`} viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -163,22 +165,19 @@ function SkillLogo({ name }: { name: string }) {
       </svg>
     );
   }
+
+  // 5. Signal Processing
   if (normalized === 'signal processing') {
     return (
       <svg className={`${styles.skillSvg} ${styles.signalSvg}`} viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        <path d="M3 12h3l3-9 4 18 3-12 5 3"></path>
+        <line x1="2" y1="12" x2="22" y2="12" strokeWidth="1" strokeDasharray="2 2" />
+        <line x1="12" y1="2" x2="12" y2="22" strokeWidth="1" strokeDasharray="2 2" />
+        <path d="M2 12 C 4.5 4, 7 4, 9.5 12 C 12 20, 14.5 20, 17 12 C 19.5 4, 22 4, 24 12" strokeWidth="2.5" />
       </svg>
     );
   }
-  if (normalized === 'computer vision') {
-    return (
-      <svg className={`${styles.skillSvg} ${styles.cvSvg}`} viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-        <circle cx="12" cy="12" r="3"></circle>
-        <path d="M3 3h2M3 21h2M21 3h-2M21 21h-2"></path>
-      </svg>
-    );
-  }
+
+  // 6. Verilog
   if (normalized === 'verilog') {
     return (
       <svg className={`${styles.skillSvg} ${styles.verilogSvg}`} viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -196,50 +195,119 @@ function SkillLogo({ name }: { name: string }) {
     );
   }
 
-  // Brand logos via Simple Icons CDN
-  let iconSlug = '';
-  switch (normalized) {
-    case 'tensorflow':
-      iconSlug = 'tensorflow';
-      break;
-    case 'pytorch':
-      iconSlug = 'pytorch';
-      break;
-    case 'pcb design':
-    case 'fusion 360':
-      iconSlug = 'autodesk';
-      break;
-    case 'eagle / kicad':
-      iconSlug = 'kicad';
-      break;
-    case 'esp32':
-      iconSlug = 'espressif';
-      break;
-    case 'arduino':
-      iconSlug = 'arduino';
-      break;
-    case 'solidworks':
-      iconSlug = 'dassaultsystemes';
-      break;
-    case 'python':
-      iconSlug = 'python';
-      break;
-    case 'c/c++':
-      iconSlug = 'cplusplus';
-      break;
-    default:
-      iconSlug = '';
+  // 7. TensorFlow
+  if (normalized === 'tensorflow') {
+    return (
+      <svg className={`${styles.skillSvg}`} viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#ff6f00" strokeWidth="2" strokeLinejoin="round" aria-hidden="true">
+        <path d="M12 2L4 6.5v9L12 20l8-4.5v-9L12 2z" fill="#ff6f00" fillOpacity="0.15" />
+        <path d="M12 2L4 6.5v9l8 4.5" />
+        <path d="M12 2l8 4.5v9L12 20" />
+        <path d="M12 2v18" strokeDasharray="2 2" strokeWidth="1.5" />
+        <path d="M4 6.5L12 11l8-4.5" />
+      </svg>
+    );
   }
 
-  if (iconSlug) {
+  // 8. PyTorch
+  if (normalized === 'pytorch') {
     return (
-      // eslint-disable-next-line @next/next/no-img-element
-      <img
-        src={`https://cdn.simpleicons.org/${iconSlug}`}
-        alt={name}
-        className={styles.skillLogo}
-        loading="lazy"
-      />
+      <svg className={`${styles.skillSvg}`} viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#ee4c2c" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M12 2C8.5 6 5 9.5 5 13.5A7 7 0 0 0 12 20.5A7 7 0 0 0 19 13.5C19 9.5 15.5 6 12 2Z" fill="#ee4c2c" fillOpacity="0.15" />
+        <path d="M12 2.5C9 6.5 6 9.5 6 13.5C6 16.8 8.7 19.5 12 19.5C15.3 19.5 18 16.8 18 13.5C18 9.5 15 6.5 12 2.5Z" />
+        <circle cx="12" cy="12.5" r="2.5" fill="#ee4c2c" stroke="none" />
+      </svg>
+    );
+  }
+
+  // 9. Python
+  if (normalized === 'python') {
+    return (
+      <svg className={`${styles.skillSvg}`} viewBox="0 0 24 24" width="32" height="32" fill="currentColor" aria-hidden="true">
+        <path d="M11.93 2C6.88 2 7.15 4.18 7.15 4.18L7.17 6.4H12V7.07H5.1C5.1 7.07 2 7.37 2 12.38C2 17.39 4.67 17.15 4.67 17.15H6.28V14.9C6.28 14.9 6.09 11.96 11.23 11.96H16.03V7.07C16.03 7.07 16.42 2 11.93 2ZM9.03 4.17C9.53 4.17 9.93 4.57 9.93 5.07C9.93 5.57 9.53 5.97 9.03 5.97C8.53 5.97 8.13 5.57 8.13 5.07C8.13 4.57 8.53 4.17 9.03 4.17Z" fill="#3776ab"/>
+        <path d="M12.07 22C17.12 22 16.85 19.82 16.85 19.82L16.83 17.6H12V16.93H18.9C18.9 16.93 22 16.63 22 11.62C22 6.61 19.33 6.85 19.33 6.85H17.72V9.1C17.72 9.1 17.91 12.04 12.77 12.04H7.97V16.93C7.97 16.93 7.58 22 12.07 22ZM14.97 19.83C14.47 19.83 14.07 19.43 14.07 18.93C14.07 18.43 14.47 18.03 14.97 18.03C15.47 18.03 15.87 18.43 15.87 18.93C15.87 19.43 15.47 19.83 14.97 19.83Z" fill="#ffd343"/>
+      </svg>
+    );
+  }
+
+  // 10. C/C++
+  if (normalized === 'c/c++') {
+    return (
+      <svg className={`${styles.skillSvg}`} viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#00599c" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M15 6 A 6 6 0 1 0 15 18" strokeWidth="3.5" />
+        <path d="M17 10h4M19 8v4M17 14h4M19 12v4" strokeWidth="2" />
+      </svg>
+    );
+  }
+
+  // 11. PCB Design
+  if (normalized === 'pcb design') {
+    return (
+      <svg className={`${styles.skillSvg}`} viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#00a38d" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <rect x="2" y="2" width="20" height="20" rx="3" />
+        <circle cx="8" cy="8" r="2" fill="#00a38d" stroke="none" />
+        <circle cx="16" cy="16" r="2" fill="#00a38d" stroke="none" />
+        <path d="M10 8h4a2 2 0 0 1 2 2v4" />
+        <path d="M14 16H10a2 2 0 0 1-2-2V10" />
+      </svg>
+    );
+  }
+
+  // 12. Eagle / KiCad
+  if (normalized === 'eagle / kicad') {
+    return (
+      <svg className={`${styles.skillSvg}`} viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#3d6cb9" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M6 6 L6 18 L18 12 Z" />
+        <line x1="2" y1="9" x2="6" y2="9" />
+        <line x1="2" y1="15" x2="6" y2="15" />
+        <line x1="18" y1="12" x2="22" y2="12" />
+        <text x="8" y="11" fontSize="6" fontFamily="monospace" fill="#3d6cb9" stroke="none">+</text>
+        <text x="8" y="16" fontSize="6" fontFamily="monospace" fill="#3d6cb9" stroke="none">-</text>
+      </svg>
+    );
+  }
+
+  // 13. ESP32
+  if (normalized === 'esp32') {
+    return (
+      <svg className={`${styles.skillSvg}`} viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#e0123c" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <rect x="4" y="4" width="16" height="16" rx="2" />
+        <path d="M9 2v2M15 2v2M9 20v2M15 20v2M2 9h2M2 15h2M20 9h2M20 15h2" />
+        <path d="M10 12 A 2 2 0 0 1 14 12" />
+        <path d="M8 10 A 4 4 0 0 1 16 10" />
+      </svg>
+    );
+  }
+
+  // 14. Arduino
+  if (normalized === 'arduino') {
+    return (
+      <svg className={`${styles.skillSvg}`} viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#00979d" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M12 12 C 9 6, 4 6, 4 12 C 4 18, 9 18, 12 12 C 15 6, 20 6, 20 12 C 20 18, 15 18, 12 12 Z" />
+        <path d="M7 12h2M8 11v2M15 12h2" />
+      </svg>
+    );
+  }
+
+  // 15. SolidWorks
+  if (normalized === 'solidworks') {
+    return (
+      <svg className={`${styles.skillSvg}`} viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#e61c24" strokeWidth="2" strokeLinejoin="round" aria-hidden="true">
+        <path d="M12 2L3 7v10l9 5 9-5V7l-9-5Z" />
+        <path d="M12 22V12" />
+        <path d="M3 7l9 5 9-5" />
+        <path d="M12 12l6.5-3.5M12 12l-6.5-3.5" strokeDasharray="1.5 1.5" />
+      </svg>
+    );
+  }
+
+  // 16. Fusion 360
+  if (normalized === 'fusion 360') {
+    return (
+      <svg className={`${styles.skillSvg}`} viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#f68b1f" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="8" />
+        <path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5l1.5 1.5M5 19l1.5-1.5M17.5 6.5l1.5-1.5" />
+        <circle cx="12" cy="12" r="3" fill="#f68b1f" stroke="none" />
+      </svg>
     );
   }
 

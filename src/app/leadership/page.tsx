@@ -17,6 +17,7 @@ const ieeeRoles = [
     org: "IEEE Ashesi Student Branch",
     date: "Nov 2024 – Present",
     image: "/images/ieee_SB_Chair.jpeg",
+    logo: "https://cdn.simpleicons.org/ieee/2b6777",
     points: [
       "Founded and scaled Ashesi's first IEEE chapter from zero to 75+ active members — the largest IEEE student branch in Ghana.",
       "Spearheading the organization of workshops and technical competitions, fostering student-led research in emerging fields like AI and robotics.",
@@ -27,6 +28,7 @@ const ieeeRoles = [
     org: "IEEE Computer Society Region 8 (Europe, Middle East, Africa)",
     date: "Apr 2026 – Present",
     image: "/images/techx.jpeg",
+    logo: "https://cdn.simpleicons.org/ieee/2b6777",
     points: [
       "Coordinate for TechX, a regional initiative focused on fostering technical excellence and professional development within the IEEE Computer Society across Europe, the Middle East, and Africa.",
       "Manage planning and execution of technical deliverables through active collaboration with international team members.",
@@ -38,6 +40,7 @@ const ieeeRoles = [
     date: "Jun – Oct 2025",
     image: "/images/ieee day picture.jpeg",
     certificate: "/images/IEEE Day.pdf",
+    logo: "https://cdn.simpleicons.org/ieee/2b6777",
     points: [
       "Led planning and execution of Ashesi's first IEEE Day celebration, coordinating activities and outreach for 80+ student participants.",
     ],
@@ -47,6 +50,7 @@ const ieeeRoles = [
     org: "IEEE — Ashesi University",
     date: "Jun – Oct 2025",
     image: "/images/Asypc.jpeg",
+    logo: "https://cdn.simpleicons.org/ieee/2b6777",
     points: [
       "Coordinated Ashesi University's student delegation, overseeing logistics and protocol.",
       "Strengthened Ashesi's presence within Region 8 by engaging with professionals and technical societies.",
@@ -56,6 +60,7 @@ const ieeeRoles = [
     role: "Peer Reviewer",
     org: "IEEE IECON 2026",
     date: "2026 – Present",
+    logo: "https://cdn.simpleicons.org/ieee/2b6777",
     points: [
       "Evaluating technical paper submissions in control systems, robotics, and artificial intelligence tracks for the 52nd Annual Conference of the IEEE Industrial Electronics Society (IECON 2026).",
     ],
@@ -65,6 +70,7 @@ const ieeeRoles = [
     org: "IEEE Region 8 — Ashesi University",
     date: "Jun 2025 – Present",
     certificate: "/images/humanitarin.jpeg",
+    logo: "https://cdn.simpleicons.org/ieee/2b6777",
     points: [
       "Facilitated the creation of the first IEEE SIGHT (Special Interest Group on Humanitarian Technology) student chapter in Ghana.",
       "Leading efforts to secure an EPICS in IEEE grant for a student-led project developing an offline, personalized AI educational system for rural learners.",
@@ -75,6 +81,7 @@ const ieeeRoles = [
     org: "IEEE — Ashesi University",
     date: "Jun – Oct 2025",
     certificate: "/images/IEEE Xtreme.pdf",
+    logo: "https://cdn.simpleicons.org/ieee/2b6777",
     points: [
       "Recruited 5 teams — the highest in the Ghana Section — for the global 24-hour programming competition.",
       "Ranked Ambassador of the Month twice for IEEE Xtreme 19.0.",
@@ -91,6 +98,7 @@ const studentClubs = [
       "Sep 2024 – Dec 2025 (Organizer)",
     ],
     image: "/images/AESA.JPEG",
+    logo: "/images/ashesi.jpg",
     points: [
       "Leading the primary engineering student body at Ashesi University, coordinating academic, technical, and industry-facing initiatives across engineering disciplines.",
       "Organizer (Sep 2024 – Dec 2025): Organized two 6-hour hackathons with 100+ participants, fostering innovation through CAD, programming, and electronics competitions.",
@@ -102,6 +110,7 @@ const studentClubs = [
     org: "Effective Altruism Ashesi",
     date: "Jan 2026 – Present",
     image: "/images/EA.jpeg",
+    logo: "https://cdn.simpleicons.org/effectivealtruism/2b6777",
     points: [
       "Facilitate high-level discussions and fellowships on global EA priorities, including AI Safety, Biosecurity, fostering rigorous debate and evidence-based inquiry.",
       "Mentoring a cohort of 15 students through the Introduction to Effective Altruism fellowship.",
@@ -123,6 +132,7 @@ const studentClubs = [
     org: "MasterCard Foundation Scholars Community Platform, Baobab",
     date: "Jul 2024 – Present",
     image: "/images/kenya.jpeg",
+    logo: "https://cdn.simpleicons.org/mastercard/2b6777",
     points: [
       "Selected as one of the few Mastercard Foundation Scholars to represent Ashesi University at the 2025 Baobab Summit ('Baobab Rising') in Nairobi, Kenya.",
       "Collaborated with scholars and alumni across the continent on driving Africa's transformation through youth-led leadership and collective action.",
@@ -134,6 +144,7 @@ const studentClubs = [
     role: "Course Representative",
     org: "Academic Committee — Ashesi University",
     date: "Feb – Aug 2024",
+    logo: "/images/ashesi.jpg",
     points: [
       "Liaised between 80 engineering students and academic council, providing feedback on student's academic status.",
     ],
@@ -147,6 +158,7 @@ const teaching = [
     date: "Jul – Aug 2025",
     image: "/images/AIX.jpeg",
     certificate: "/images/AIX Certificate.jpeg",
+    logo: "/images/ashesi.jpg",
     points: [
       "Introduced 25+ high school students to Arduino programming, circuit design, and 3D modeling fundamentals.",
       "Guided a team project building a smart high-speed train prototype using CAD design, laser cutting, and rapid prototyping.",
@@ -166,6 +178,7 @@ const teaching = [
     role: "Calculus Tutor",
     org: "Math Resource Center — Ashesi University",
     date: "Jan – May 2025",
+    logo: "/images/ashesi.jpg",
     points: [
       "Provided one-on-one and group academic support to 100+ freshmen in Calculus I and II.",
     ],
@@ -177,6 +190,7 @@ const community = [
     role: "Volunteer Teacher",
     org: "Berekuso STEM Project — Ashesi University",
     date: "Sep – Dec 2024",
+    logo: "/images/ashesi.jpg",
     points: [
       "Facilitate teaching and learning of STEM topics such as Physics for 20+ high school students in underserved communities such as Berekuso.",
     ],
@@ -227,6 +241,7 @@ type RoleEntry = {
   image?: string;
   certificate?: string;
   placeholder?: boolean;
+  logo?: string;
 };
 
 function RoleCard({ entry }: { entry: RoleEntry }) {
@@ -272,33 +287,43 @@ function RoleCard({ entry }: { entry: RoleEntry }) {
         <ImagePlaceholder />
       ) : null}
       <div className={styles.roleContent}>
-        <div className={styles.roleHeader}>
-          <h3 className={styles.roleName}>{entry.role}</h3>
-          {entry.dates ? (
-            <div className={styles.roleDatesList}>
-              {entry.dates.map((d, index) => (
-                <span key={index} className={styles.roleDate}>
-                  {d}
-                  {index === 0 && entry.certificate && (
+        <div className={styles.roleHeaderArea}>
+          {entry.logo && (
+            <div className={styles.roleLogoContainer}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={entry.logo} alt="" className={styles.roleLogo} />
+            </div>
+          )}
+          <div className={styles.roleTitleContainer}>
+            <div className={styles.roleHeader}>
+              <h3 className={styles.roleName}>{entry.role}</h3>
+              {entry.dates ? (
+                <div className={styles.roleDatesList}>
+                  {entry.dates.map((d, index) => (
+                    <span key={index} className={styles.roleDate}>
+                      {d}
+                      {index === 0 && entry.certificate && (
+                        <a href={entry.certificate} target="_blank" rel="noopener noreferrer" className={styles.certLink}>
+                          [View Certificate ↗]
+                        </a>
+                      )}
+                    </span>
+                  ))}
+                </div>
+              ) : (
+                <span className={styles.roleDate}>
+                  {entry.date}
+                  {entry.certificate && (
                     <a href={entry.certificate} target="_blank" rel="noopener noreferrer" className={styles.certLink}>
                       [View Certificate ↗]
                     </a>
                   )}
                 </span>
-              ))}
-            </div>
-          ) : (
-            <span className={styles.roleDate}>
-              {entry.date}
-              {entry.certificate && (
-                <a href={entry.certificate} target="_blank" rel="noopener noreferrer" className={styles.certLink}>
-                  [View Certificate ↗]
-                </a>
               )}
-            </span>
-          )}
+            </div>
+            <p className={styles.roleOrg}>{entry.org}</p>
+          </div>
         </div>
-        <p className={styles.roleOrg}>{entry.org}</p>
         <ul className={styles.rolePoints}>
           {entry.points.map((point, i) => (
             <li key={i}>{point}</li>
