@@ -61,6 +61,17 @@ const projects = [
     image: "/images/aquablue.jpeg",
     filters: ["Product Development"],
   },
+  {
+    slug: "llm-wiki",
+    title: "LLM Wiki — Personal AI Knowledge Base",
+    date: "Jun 2026",
+    category: "AI Agent",
+    desc: "AI agent that synthesises articles and papers into a compounding personal wiki, built with NVIDIA's free API.",
+    tags: ["Python", "LLM Agents", "Flask", "NVIDIA NIM"],
+    badge: "Open Source",
+    image: "/images/project-llm-wiki.jpg",
+    filters: ["Mini Projects"],
+  },
 ];
 
 function ProjectSkillLogo({ name }: { name: string }) {
@@ -226,6 +237,16 @@ function ProjectSkillLogo({ name }: { name: string }) {
       </svg>
     );
   }
+  if (normalized === 'llm agents') {
+    return (
+      <svg className={styles.projectSkillSvg} style={{ color: '#ec4899' }} viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="10"></circle>
+        <circle cx="12" cy="10" r="3"></circle>
+        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+        <path d="M2 12h20"></path>
+      </svg>
+    );
+  }
 
   // Brand logos via Simple Icons CDN
   let iconSlug = '';
@@ -259,11 +280,15 @@ function ProjectSkillLogo({ name }: { name: string }) {
       iconSlug = 'cplusplus';
       break;
     case 'nvidia':
+    case 'nvidia nim':
     case 'nvidia nemotron llm':
       iconSlug = 'nvidia';
       break;
     case 'latex':
       iconSlug = 'latex';
+      break;
+    case 'flask':
+      iconSlug = 'flask';
       break;
     default:
       iconSlug = '';
@@ -322,7 +347,7 @@ export default function ProjectsPage() {
     ? projects
     : projects.filter(project => project.filters.includes(activeFilter));
 
-  const filterCategories = ["All", "AI & Machine Learning", "IoT & Embedded", "Mathematical Modeling", "Product Development"];
+  const filterCategories = ["All", "AI & Machine Learning", "IoT & Embedded", "Mathematical Modeling", "Product Development", "Mini Projects"];
 
   return (
     <div className={styles.page}>

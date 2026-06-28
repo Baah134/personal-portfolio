@@ -170,6 +170,34 @@ const projects: Record<
       "Community Launch",
     ],
   },
+  "llm-wiki": {
+    title: "LLM Wiki — Personal AI Knowledge Base",
+    date: "June 2026",
+    category: "AI Agent · Knowledge Graph",
+    badge: "Open Source",
+    image: "/images/project-llm-wiki.jpg",
+    tags: ["Python", "LLM Agents", "Flask", "NVIDIA NIM", "AI Agent"],
+    overview:
+      "LLM Wiki is a personal knowledge base agent inspired by Andrej Karpathy's LLM Wiki pattern. The agent automatically compiles articles, research papers, and PDFs into a structured, interlinked, compounding personal wiki. Unlike traditional note-taking systems where information sits isolated, every new source processed by the agent enriches and updates existing entries, creating a cohesive, evolving web of knowledge.",
+    problem:
+      "Traditional personal knowledge management systems are static and fragmented; information is stored in isolated files (such as folders of PDFs or single notes) with no automated synthesis. When a new document is added, it does not automatically link to, update, or resolve contradictions with prior knowledge, leading to information silos and cognitive overload.",
+    approach: [
+      "Designed a personal knowledge base agent utilizing Python and Flask for the user interface and backend operations.",
+      "Implemented an index-first compilation pattern where the agent reads new documents and determines how to integrate them into the existing wiki index before generating new content.",
+      "Engineered real-time conflict detection and resolution routines to flag and merge contradictory statements when new information is ingested.",
+      "Integrated NVIDIA NIM's free inference API for high-performance LLM processing and semantic indexing.",
+      "Built a gap detector feature that analyzes the coverage of the knowledge base to pinpoint missing areas or logical leaps.",
+    ],
+    results: [
+      "Created a fully functional, self-compounding personal wiki that updates dynamically in response to new source materials.",
+      "Successfully integrated NVIDIA NIM's API to run inference efficiently without relying on paid proprietary LLM APIs.",
+      "Enabled index-first synthesis that prevents redundancy, resulting in a cohesive personal AI assistant for research and learning.",
+    ],
+    techStack: ["Python", "LLM Agents", "Flask", "NVIDIA NIM", "API Integration", "Markdown Processing"],
+    links: [
+      { label: "GitHub Repository", href: "https://github.com/Baah134/llm-wiki" },
+    ],
+  },
 };
 
 /* ───────────── metadata ───────────── */
