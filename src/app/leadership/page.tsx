@@ -5,10 +5,42 @@ import Image from "next/image";
 import styles from "./page.module.css";
 
 const awards = [
-  { title: "Dean's List (Consecutive for all 6 semesters)", org: "Ashesi University", date: "2023 – 2026" },
-  { title: "Second Place, Ashesi Experiential Transcript Challenge", org: "Ashesi University", date: "Nov 2025" },
-  { title: "Kufuor Scholar Program", org: "John A. Kufuor Foundation", date: "Dec 2024 – Jun 2027" },
-  { title: "Mastercard Foundation Scholars Program", org: "Ashesi University", date: "Jan 2024 – Jun 2027" },
+  {
+    title: "2026 IEEE IMS Undergraduate Scholarship",
+    org: "IEEE Instrumentation and Measurement Society",
+    date: "2026",
+    logo: "/images/ims.png"
+  },
+  {
+    title: "Finalist, IEEE MYOSA 4.0 Competition",
+    org: "IEEE Sensors Council",
+    date: "2025",
+    logo: "/images/sensors_council.png"
+  },
+  {
+    title: "Dean's List (Consecutive for all 6 semesters)",
+    org: "Ashesi University",
+    date: "2023 – 2026",
+    logo: "/images/ashesi.jpg"
+  },
+  {
+    title: "Second Place, Ashesi Experiential Transcript Challenge",
+    org: "Ashesi University",
+    date: "Nov 2025",
+    logo: "/images/ashesi.jpg"
+  },
+  {
+    title: "Kufuor Scholar Program",
+    org: "John A. Kufuor Foundation",
+    date: "Dec 2024 – Jun 2027",
+    logo: "/images/KSP.jpeg"
+  },
+  {
+    title: "Mastercard Foundation Scholars Program",
+    org: "Ashesi University",
+    date: "Jan 2024 – Jun 2027",
+    logo: "https://cdn.simpleicons.org/mastercard"
+  },
 ];
 
 const ieeeRoles = [
@@ -17,7 +49,7 @@ const ieeeRoles = [
     org: "IEEE Ashesi Student Branch",
     date: "Nov 2024 – Present",
     image: "/images/ieee_SB_Chair.jpeg",
-    logo: "https://cdn.simpleicons.org/ieee/2b6777",
+    logo: "https://cdn.simpleicons.org/ieee",
     points: [
       "Founded and scaled Ashesi's first IEEE chapter from zero to 75+ active members — the largest IEEE student branch in Ghana.",
       "Spearheading the organization of workshops and technical competitions, fostering student-led research in emerging fields like AI and robotics.",
@@ -28,7 +60,7 @@ const ieeeRoles = [
     org: "IEEE Computer Society Region 8 (Europe, Middle East, Africa)",
     date: "Apr 2026 – Present",
     image: "/images/techx.jpeg",
-    logo: "https://cdn.simpleicons.org/ieee/2b6777",
+    logo: "/images/ieee-cs.png",
     points: [
       "Coordinate for TechX, a regional initiative focused on fostering technical excellence and professional development within the IEEE Computer Society across Europe, the Middle East, and Africa.",
       "Manage planning and execution of technical deliverables through active collaboration with international team members.",
@@ -40,7 +72,7 @@ const ieeeRoles = [
     date: "Jun – Oct 2025",
     image: "/images/ieee day picture.jpeg",
     certificate: "/images/IEEE Day.pdf",
-    logo: "https://cdn.simpleicons.org/ieee/2b6777",
+    logo: "https://cdn.simpleicons.org/ieee",
     points: [
       "Led planning and execution of Ashesi's first IEEE Day celebration, coordinating activities and outreach for 80+ student participants.",
     ],
@@ -50,7 +82,7 @@ const ieeeRoles = [
     org: "IEEE — Ashesi University",
     date: "Jun – Oct 2025",
     image: "/images/Asypc.jpeg",
-    logo: "https://cdn.simpleicons.org/ieee/2b6777",
+    logo: "https://cdn.simpleicons.org/ieee",
     points: [
       "Coordinated Ashesi University's student delegation, overseeing logistics and protocol.",
       "Strengthened Ashesi's presence within Region 8 by engaging with professionals and technical societies.",
@@ -60,7 +92,7 @@ const ieeeRoles = [
     role: "Peer Reviewer",
     org: "IEEE IECON 2026",
     date: "2026 – Present",
-    logo: "https://cdn.simpleicons.org/ieee/2b6777",
+    logo: "/images/ieee-ies.jpg",
     points: [
       "Evaluating technical paper submissions in control systems, robotics, and artificial intelligence tracks for the 52nd Annual Conference of the IEEE Industrial Electronics Society (IECON 2026).",
     ],
@@ -70,7 +102,7 @@ const ieeeRoles = [
     org: "IEEE Region 8 — Ashesi University",
     date: "Jun 2025 – Present",
     certificate: "/images/humanitarin.jpeg",
-    logo: "https://cdn.simpleicons.org/ieee/2b6777",
+    logo: "https://cdn.simpleicons.org/ieee",
     points: [
       "Facilitated the creation of the first IEEE SIGHT (Special Interest Group on Humanitarian Technology) student chapter in Ghana.",
       "Leading efforts to secure an EPICS in IEEE grant for a student-led project developing an offline, personalized AI educational system for rural learners.",
@@ -81,7 +113,7 @@ const ieeeRoles = [
     org: "IEEE — Ashesi University",
     date: "Jun – Oct 2025",
     certificate: "/images/IEEE Xtreme.pdf",
-    logo: "https://cdn.simpleicons.org/ieee/2b6777",
+    logo: "https://cdn.simpleicons.org/ieee",
     points: [
       "Recruited 5 teams — the highest in the Ghana Section — for the global 24-hour programming competition.",
       "Ranked Ambassador of the Month twice for IEEE Xtreme 19.0.",
@@ -110,7 +142,7 @@ const studentClubs = [
     org: "Effective Altruism Ashesi",
     date: "Jan 2026 – Present",
     image: "/images/EA.jpeg",
-    logo: "https://cdn.simpleicons.org/effectivealtruism/2b6777",
+    logo: "https://cdn.simpleicons.org/effectivealtruism",
     points: [
       "Facilitate high-level discussions and fellowships on global EA priorities, including AI Safety, Biosecurity, fostering rigorous debate and evidence-based inquiry.",
       "Mentoring a cohort of 15 students through the Introduction to Effective Altruism fellowship.",
@@ -122,6 +154,7 @@ const studentClubs = [
     date: "Dec 2024 – Jun 2027",
     image: "/images/Kufour.jpeg",
     certificate: "/images/Kufour_Certificate.jpeg",
+    logo: "/images/KSP.jpeg",
     points: [
       "Established by Former President His Excellency John Agyekum Kufour, the Kufour Scholar Program is a leadership program designed to train students to tackle Africa's problem.",
       "Privileged to be selected as 1 of 31 from a pool of 4000 applicants nationwide from all universities in Ghana.",
@@ -132,7 +165,7 @@ const studentClubs = [
     org: "MasterCard Foundation Scholars Community Platform, Baobab",
     date: "Jul 2024 – Present",
     image: "/images/kenya.jpeg",
-    logo: "https://cdn.simpleicons.org/mastercard/2b6777",
+    logo: "https://cdn.simpleicons.org/mastercard",
     points: [
       "Selected as one of the few Mastercard Foundation Scholars to represent Ashesi University at the 2025 Baobab Summit ('Baobab Rising') in Nairobi, Kenya.",
       "Collaborated with scholars and alumni across the continent on driving Africa's transformation through youth-led leadership and collective action.",
@@ -355,7 +388,14 @@ export default function LeadershipPage() {
           <div className={styles.awardsGrid}>
             {awards.map((award) => (
               <div key={award.title} className={styles.awardCard}>
-                <div className={styles.awardIcon}><IconMedal /></div>
+                {award.logo ? (
+                  <div className={styles.awardLogoContainer}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={award.logo} alt="" className={styles.awardLogo} />
+                  </div>
+                ) : (
+                  <div className={styles.awardIcon}><IconMedal /></div>
+                )}
                 <div>
                   <h3 className={styles.awardTitle}>{award.title}</h3>
                   <p className={styles.awardOrg}>{award.org}</p>
