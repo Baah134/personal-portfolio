@@ -198,6 +198,31 @@ const projects: Record<
       { label: "GitHub Repository", href: "https://github.com/Baah134/llm-wiki" },
     ],
   },
+  "fpga-autoresearch": {
+    title: "FPGA Autoresearch – Autonomous Vivado RTL Loop",
+    date: "July 2026",
+    category: "AI Agent · Hardware Co-design",
+    badge: "Active Development",
+    image: "/images/project-fpga-autoresearch.jpg",
+    tags: ["Python", "Verilog", "Vivado Tcl", "NVIDIA NIM", "Git"],
+    overview:
+      "FPGA Autoresearch is an autonomous AI agent system that applies the 'autoresearch' paradigm — pioneered by Andrej Karpathy for LLM training — to FPGA hardware design. Rather than manually tuning RTL source code and constraints, the system runs an unattended overnight loop: a large language model proposes targeted design changes, Vivado synthesizes and implements them in batch mode, metrics are extracted from the reports, and a keep-or-revert mechanism commits improvements and discards regressions via git. The goal is a general automated research environment for FPGA and RTL design — one that grows smarter with every experiment. The LLM backend runs entirely on NVIDIA NIM's free inference tier, making the system accessible without cloud spending.",
+    problem:
+      "FPGA and RTL design involves a lot of slow, repetitive iteration — change something, re-run synthesis, read the reports, decide what to try next. This project automates that cycle. The human writes a program.md file describing the design goals and constraints in plain English, then steps away. By morning, the git log contains a record of every experiment tried, what changed, and whether it helped. The system is designed to grow with the researcher — as understanding of the design space deepens, program.md gets updated and the agent explores further.",
+    approach: [
+      "Research memory: program.md holds the human-authored research agenda, while experiment_log.md is auto-updated each iteration with a summary of what was tried and the resulting metrics, preventing context loss across hundreds of runs.",
+      "Agent loop: A Python orchestrator manages the keep-or-revert logic, calling the NIM API to get a proposed RTL patch, validating it syntactically, applying it with git apply, running Vivado, parsing reports, and committing/reverting.",
+      "Vivado integration: Scripted the entire Vivado implementation flow in Tcl to run headlessly via batch mode ('vivado -mode batch -source eval.tcl') outputting a standardized metrics.json file.",
+      "NVIDIA NIM backend: Connected all agent model queries to NVIDIA NIM's free inference tier via an OpenAI-compatible endpoint, enabling free, cardless inference.",
+      "Self-reflection: Every N iterations, a secondary model call re-reads the full experiment log and autonomously updates the research strategy."
+    ],
+    results: [
+      "Currently in active development building the core agent loop and Vivado batch integration.",
+      "Treats FPGA design as a research problem to be solved by autonomous experimentation rather than manual iteration.",
+      "Developed headless Tcl synthesis scripts and custom parser for Vivado timing, area, and power metrics."
+    ],
+    techStack: ["Python", "Vivado Tcl", "Verilog", "NVIDIA NIM API", "Git", "iverilog"],
+  },
 };
 
 /* ───────────── metadata ───────────── */

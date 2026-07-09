@@ -72,6 +72,17 @@ const projects = [
     image: "/images/project-llm-wiki.jpg",
     filters: ["Mini Projects"],
   },
+  {
+    slug: "fpga-autoresearch",
+    title: "FPGA Autoresearch – Autonomous Vivado RTL Loop",
+    date: "Jul 2026",
+    category: "AI Agent",
+    desc: "An agentic loop that autonomously runs Vivado experiments overnight and iterates toward better hardware designs, powered by free NVIDIA NIM LLMs.",
+    tags: ["Python", "Verilog", "Vivado Tcl", "NVIDIA NIM", "Git"],
+    badge: "Active Dev",
+    image: "/images/project-fpga-autoresearch.jpg",
+    filters: ["AI & Machine Learning", "IoT & Embedded", "Mini Projects"],
+  },
 ];
 
 function ProjectSkillLogo({ name }: { name: string }) {
@@ -116,6 +127,22 @@ function ProjectSkillLogo({ name }: { name: string }) {
         <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
         <circle cx="12" cy="12" r="3"></circle>
         <path d="M3 3h2M3 21h2M21 3h-2M21 21h-2"></path>
+      </svg>
+    );
+  }
+  if (normalized === 'verilog') {
+    return (
+      <svg className={styles.projectSkillSvg} viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
+        <rect x="9" y="9" width="6" height="6"></rect>
+        <line x1="9" y1="1" x2="9" y2="4"></line>
+        <line x1="15" y1="1" x2="15" y2="4"></line>
+        <line x1="9" y1="20" x2="9" y2="23"></line>
+        <line x1="15" y1="20" x2="15" y2="23"></line>
+        <line x1="20" y1="9" x2="23" y2="9"></line>
+        <line x1="20" y1="15" x2="23" y2="15"></line>
+        <line x1="1" y1="9" x2="4" y2="9"></line>
+        <line x1="1" y1="15" x2="4" y2="15"></line>
       </svg>
     );
   }
@@ -289,6 +316,13 @@ function ProjectSkillLogo({ name }: { name: string }) {
       break;
     case 'flask':
       iconSlug = 'flask';
+      break;
+    case 'git':
+      iconSlug = 'git';
+      break;
+    case 'tcl':
+    case 'vivado tcl':
+      iconSlug = 'tcl';
       break;
     default:
       iconSlug = '';
