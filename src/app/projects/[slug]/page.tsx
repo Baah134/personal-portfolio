@@ -223,6 +223,31 @@ const projects: Record<
     ],
     techStack: ["Python", "Vivado Tcl", "Verilog", "NVIDIA NIM API", "Git", "iverilog"],
   },
+  "sparse-compute-accelerator": {
+    title: "Sparse-Compute AI Hardware Accelerator",
+    date: "July 2026 – Present",
+    category: "AI Hardware · ASIC/FPGA Co-design",
+    badge: "Work in Progress",
+    image: "/images/project-sparse-accelerator.jpg",
+    tags: ["Verilog", "Vivado Tcl", "FSM Control", "Block RAM", "Simulink"],
+    overview:
+      "An ongoing hardware-software co-design project developing a custom ASIC/FPGA-targeted compute engine optimized for activation sparsity in neural networks. In modern deep learning models, non-linear functions (like ReLU) produce a massive percentage of zero-valued activations. This project focuses on designing hardware control logic that dynamically detects and skips these zero-value computations, saving clock cycles and significantly reducing operational power on edge devices.",
+    problem:
+      "Traditional neural network hardware accelerators evaluate every single multiplication and addition sequentially, wasting significant clock cycles and dynamic power on multiplying and adding zero values produced by non-linear activation functions like ReLU.",
+    approach: [
+      "Activation-Sparsity Skip Logic: Designing a hardware control path to detect null activations before they reach the execution stage. By bypassing zero-valued operands, the multiplier-accumulator (MAC) unit conserves dynamic switching power and speeds up inference times.",
+      "FSM-Driven Hardware Control: Implementing a robust Finite State Machine (FSM) in Verilog to coordinate data movement, gate physical control pins, and handle execution states (loading, processing, and idle safety states) safely.",
+      "On-Chip Memory Subsystem: Creating optimized on-chip ROM/RAM structures to store and stream neural network parameters into the compute engine with clean, synchronous read/write timing.",
+      "Simulation-First Verification: Leveraging Xilinx Vivado to run behavioral simulations and testbenches, ensuring clock-cycle accuracy and functional safety before physical synthesis."
+    ],
+    results: [
+      "Completed & Simulated FSM Control Path using Verilog RTL and the Vivado Simulator.",
+      "Initialized & Verified On-Chip Block RAM storage structures using custom Python data-preparation scripts.",
+      "Developing the physical core HDL for the Sparse-Compute Unit under active simulation.",
+      "Building a custom testbench suite for continuous integration verification of execution states."
+    ],
+    techStack: ["Verilog RTL", "Vivado Simulator", "Block RAM", "Python (Data Prep)", "HDL Design", "CI Testbenches", "FSM Controller"],
+  },
 };
 
 /* ───────────── metadata ───────────── */

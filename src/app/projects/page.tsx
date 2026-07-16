@@ -83,6 +83,17 @@ const projects = [
     image: "/images/project-fpga-autoresearch.jpg",
     filters: ["AI & Machine Learning", "IoT & Embedded", "Mini Projects"],
   },
+  {
+    slug: "sparse-compute-accelerator",
+    title: "Sparse-Compute AI Hardware Accelerator",
+    date: "Jul 2026 – Present",
+    category: "AI Hardware",
+    desc: "An ASIC/FPGA-targeted compute engine designed in Verilog that dynamically skips zero-valued activations to save clock cycles and operational power on edge devices.",
+    tags: ["Verilog", "Vivado Tcl", "FSM Control", "Block RAM", "Simulink"],
+    badge: "Work in Progress",
+    image: "/images/project-sparse-accelerator.jpg",
+    filters: ["AI & Machine Learning", "IoT & Embedded"],
+  },
 ];
 
 function ProjectSkillLogo({ name }: { name: string }) {
@@ -143,6 +154,23 @@ function ProjectSkillLogo({ name }: { name: string }) {
         <line x1="20" y1="15" x2="23" y2="15"></line>
         <line x1="1" y1="9" x2="4" y2="9"></line>
         <line x1="1" y1="15" x2="4" y2="15"></line>
+      </svg>
+    );
+  }
+  if (normalized === 'fsm control') {
+    return (
+      <svg className={styles.projectSkillSvg} viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <circle cx="6" cy="12" r="3" />
+        <circle cx="18" cy="12" r="3" />
+        <path d="M9 12h6M12 9l3 3-3 3M18 12c0-3.3-2.7-6-6-6-3.3 0-6 2.7-6 6" />
+      </svg>
+    );
+  }
+  if (normalized === 'block ram') {
+    return (
+      <svg className={styles.projectSkillSvg} viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <rect x="3" y="3" width="18" height="18" rx="2" />
+        <path d="M3 9h18M3 15h18M9 3v18M15 3v18" />
       </svg>
     );
   }
@@ -323,6 +351,9 @@ function ProjectSkillLogo({ name }: { name: string }) {
     case 'tcl':
     case 'vivado tcl':
       iconSlug = 'tcl';
+      break;
+    case 'simulink':
+      iconSlug = 'simulink';
       break;
     default:
       iconSlug = '';
