@@ -45,23 +45,29 @@ const CODE_LINES = [
 /* ── Vivado terminal lines ── */
 const TERM_LINES = [
   { text: 'vivado> read_verilog ./src/prince_display.v', color: '#e8e8ed', delay: 0 },
-  { text: 'INFO: [filemgmt 56-3] Analyzing Verilog file "./src/prince_display.v" successfully.', color: '#98c379', delay: 20 },
-  { text: 'vivado> synth_design -top Prince_Baah_Mensah -part xc7a35tcsg324-1', color: '#e8e8ed', delay: 45 },
-  { text: 'WARNING: [Synth 8-3331] design Prince_Baah_Mensah has unconnected port led_out[7]', color: '#e5c07b', delay: 65 },
-  { text: 'INFO: [Synth 8-638] synthesizing module \'Prince_Baah_Mensah\'', color: '#e8e8ed', delay: 85 },
-  { text: 'INFO: [Synth 8-256] done synthesizing module \'Prince_Baah_Mensah\' (1#1)', color: '#98c379', delay: 110 },
-  { text: '---------------------------------------------------------------------------------', color: '#5c6370', delay: 125 },
-  { text: 'Part Resources  |  Used  |  Available  |  Utilization %', color: '#abb2bf', delay: 140 },
-  { text: 'Slice LUTs      |    38  |      20800  |          0.18', color: '#abb2bf', delay: 155 },
-  { text: 'Slice Registers |    54  |      41600  |          0.13', color: '#abb2bf', delay: 170 },
-  { text: 'Block RAM       |     1  |         50  |          2.00', color: '#abb2bf', delay: 185 },
-  { text: '---------------------------------------------------------------------------------', color: '#5c6370', delay: 200 },
-  { text: 'vivado> place_design', color: '#e8e8ed', delay: 220 },
-  { text: 'INFO: [Place 30-611] Multithreading enabled for place_design using 8 logical cores.', color: '#98c379', delay: 240 },
-  { text: 'INFO: [Place 30-574] Place completed. WNS = 2.144 ns (Setup Met).', color: '#98c379', delay: 260 },
-  { text: 'vivado> route_design', color: '#e8e8ed', delay: 280 },
-  { text: 'INFO: [Route 35-16] Router completed successfully. WHS = 0.086 ns (Hold Met).', color: '#98c379', delay: 295 },
-  { text: 'vivado> write_bitstream prince_baah_mensah.bit', color: '#e8e8ed', delay: 315 },
+  { text: 'INFO: [filemgmt 56-3] Analyzing Verilog file "./src/prince_display.v" successfully.', color: '#98c379', delay: 15 },
+  { text: 'vivado> synth_design -top Prince_Baah_Mensah -part xc7a35tcsg324-1', color: '#e8e8ed', delay: 30 },
+  { text: 'WARNING: [Synth 8-3331] design Prince_Baah_Mensah has unconnected port led_out[7]', color: '#e5c07b', delay: 45 },
+  { text: 'INFO: [Synth 8-638] synthesizing module \'Prince_Baah_Mensah\'', color: '#e8e8ed', delay: 60 },
+  { text: 'INFO: [Synth 8-256] done synthesizing module \'Prince_Baah_Mensah\' (1#1)', color: '#98c379', delay: 80 },
+  { text: '---------------------------------------------------------------------------------', color: '#5c6370', delay: 95 },
+  { text: 'Part Resources  |  Used  |  Available  |  Utilization %', color: '#abb2bf', delay: 105 },
+  { text: 'Slice LUTs      |    38  |      20800  |          0.18', color: '#abb2bf', delay: 115 },
+  { text: 'Slice Registers |    54  |      41600  |          0.13', color: '#abb2bf', delay: 125 },
+  { text: 'Block RAM       |     1  |         50  |          2.00', color: '#abb2bf', delay: 135 },
+  { text: '---------------------------------------------------------------------------------', color: '#5c6370', delay: 145 },
+  { text: 'vivado> opt_design', color: '#e8e8ed', delay: 160 },
+  { text: 'INFO: [Opt 31-138] Pushed 0 inverter gates into LUTs.', color: '#98c379', delay: 175 },
+  { text: 'INFO: [Opt 31-389] Phase Retarget created 0 cells and removed 0 cells.', color: '#98c379', delay: 190 },
+  { text: 'vivado> place_design', color: '#e8e8ed', delay: 205 },
+  { text: 'INFO: [Place 30-611] Multithreading enabled for place_design using 8 logical cores.', color: '#98c379', delay: 220 },
+  { text: 'INFO: [Place 30-574] Place completed. WNS = 2.144 ns (Setup Met).', color: '#98c379', delay: 235 },
+  { text: 'vivado> route_design', color: '#e8e8ed', delay: 250 },
+  { text: 'INFO: [Route 35-57] Router completed. WNS = 2.144 ns, WHS = 0.086 ns (All Timing Met).', color: '#98c379', delay: 265 },
+  { text: 'vivado> write_bitstream prince_baah_mensah.bit', color: '#e8e8ed', delay: 280 },
+  { text: 'INFO: [DRC 12-121] DRC passed with 0 errors, 0 warnings.', color: '#98c379', delay: 295 },
+  { text: 'INFO: [Designutils 9-102] Writing config packet...', color: '#98c379', delay: 310 },
+  { text: 'INFO: [Physopt 32-117] Physical optimization completed. 0 nets optimized.', color: '#98c379', delay: 325 },
 ];
 
 /* ── Subtitle text per phase ── */
@@ -325,19 +331,30 @@ export default function HeroIntro({ onComplete, forcePlay = false }: HeroIntroPr
         const sweepX = sigStart + Math.min(waveFrame * 1.35, sigEndMax - sigStart);
         const segW = Math.max(8, Math.min(12, W * 0.012));
 
-        // Grid
-        ctx.strokeStyle = 'rgba(255,255,255,0.025)';
+        // Time ruler & Cycle count
+        ctx.font = '7px JetBrains Mono, monospace';
+        ctx.fillStyle = '#222';
+        for (let x = sigStart; x < sigEndMax; x += segW * 2) {
+          const cycle = Math.floor((x - sigStart) / (segW * 2));
+          ctx.fillText(`C${cycle}`, x, 40);
+        }
+        // Grid lines (vertical cycles and horizontal lanes)
+        ctx.strokeStyle = 'rgba(255,255,255,0.015)';
         ctx.lineWidth = 0.5;
-        for (let x = sigStart; x < sigEndMax; x += 22) {
+        for (let x = sigStart; x < sigEndMax; x += segW * 2) {
           ctx.beginPath(); ctx.moveTo(x, 34); ctx.lineTo(x, H - 60); ctx.stroke();
         }
-
+        const gridY = [60, 107, 160, 215, 265];
+        gridY.forEach(y => {
+          ctx.beginPath(); ctx.moveTo(sigStart, y); ctx.lineTo(sigEndMax, y); ctx.stroke();
+        });
         // Signals
         const signals = [
           { label: 'clk', y: 68, h: 22 },
           { label: 'rst_n', y: 115, h: 22 },
           { label: 'data[7:0]', y: 170, h: 26 },
           { label: 'valid', y: 225, h: 22 },
+          { label: 'state[1:0]', y: 275, h: 24 },
         ];
 
         // Labels panel
@@ -422,6 +439,52 @@ export default function HeroIntro({ onComplete, forcePlay = false }: HeroIntroPr
           else ctx.lineTo(x + segW, vHi);
         }
         ctx.stroke();
+
+        // STATE[1:0] bus
+        ctx.strokeStyle = '#c678dd';
+        ctx.lineWidth = 1.5;
+        const stateTop = signals[4].y, stateMid = signals[4].y + signals[4].h / 2, stateBot = signals[4].y + signals[4].h;
+        ctx.beginPath();
+        for (let x = sigStart; x < sigEnd; x += segW) {
+          const idx = Math.floor((x - sigStart) / segW);
+          if (idx === 6 || idx === 42) {
+            ctx.moveTo(x, stateTop); ctx.lineTo(x + 4, stateMid); ctx.lineTo(x, stateBot);
+            ctx.moveTo(x, stateBot); ctx.lineTo(x + 4, stateMid);
+          }
+          ctx.moveTo(x, stateTop); ctx.lineTo(x + segW, stateTop);
+          ctx.moveTo(x, stateBot); ctx.lineTo(x + segW, stateBot);
+        }
+        ctx.stroke();
+
+        // State text labels
+        ctx.font = '7px JetBrains Mono, monospace';
+        ctx.fillStyle = 'rgba(198,120,221,0.6)';
+        if (sigStart + 3 * segW < sigEnd) {
+          ctx.fillText('IDLE', sigStart + 10, stateMid + 3);
+        }
+        if (sigStart + 18 * segW < sigEnd) {
+          ctx.fillText('READ', sigStart + 6 * segW + 15, stateMid + 3);
+        }
+        if (sigStart + 43 * segW < sigEnd) {
+          ctx.fillText('DONE', sigStart + 42 * segW + 10, stateMid + 3);
+        }
+
+        // Logic Analyzer Trigger Line (TRIG at index 6)
+        if (sigStart + 6 * segW < sigEnd) {
+          const trigX = sigStart + 6 * segW;
+          ctx.strokeStyle = '#e5c07b';
+          ctx.lineWidth = 1;
+          ctx.setLineDash([2, 2]);
+          ctx.beginPath();
+          ctx.moveTo(trigX, 34);
+          ctx.lineTo(trigX, H - 60);
+          ctx.stroke();
+          ctx.setLineDash([]);
+
+          ctx.font = '7px JetBrains Mono, monospace';
+          ctx.fillStyle = '#e5c07b';
+          ctx.fillText('T=>0 (TRIG)', trigX + 4, 38);
+        }
 
         // Sweep cursor
         if (sweepX < sigEndMax) {
