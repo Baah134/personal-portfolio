@@ -327,6 +327,46 @@
   letter-spacing: var(--ls-widest);
 }
 
+.replayButton {
+  position: absolute;
+  bottom: 84px; /* Centered right above logosRow */
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+  font-size: var(--fs-2xs);
+  font-weight: var(--fw-medium);
+  color: var(--color-text-secondary);
+  background: rgba(255, 255, 255, 0.4);
+  border: 1px solid var(--color-border);
+  padding: var(--space-2) var(--space-4);
+  border-radius: 6px;
+  cursor: pointer;
+  z-index: 15;
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+[data-theme="dark"] .replayButton {
+  background: rgba(18, 18, 18, 0.4);
+}
+
+.replayButton:hover {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+  background: rgba(95, 169, 181, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+@media (max-width: 768px) {
+  .replayButton {
+    bottom: 120px; /* offset higher for mobile wrapping logosRow */
+  }
+}
+
 /* ===== Section Heading ===== */
 .sectionHeading {
   font-family: var(--font-heading);

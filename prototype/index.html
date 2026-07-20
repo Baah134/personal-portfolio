@@ -1,0 +1,3476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hero Name Concepts — Prototype Playground</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0a0a0f;
+      color: #e8e8ed;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    .page-header {
+      text-align: center;
+      padding: 3rem 2rem 2rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .page-header h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #4ecdc4, #7b68ee);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.5rem;
+    }
+    .page-header p {
+      color: #888;
+      font-size: 0.95rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* ── Grid ── */
+    .concepts-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      padding: 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* ── Concept Card ── */
+    .concept-card {
+      background: #111118;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: border-color 0.3s;
+    }
+    .concept-card:hover { border-color: rgba(78, 205, 196, 0.3); }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .card-header .card-label {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .card-number {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: #4ecdc4;
+      background: rgba(78,205,196,0.1);
+      padding: 0.25rem 0.5rem;
+      border-radius: 6px;
+    }
+    .card-title {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      font-size: 1.05rem;
+    }
+    .card-subtitle {
+      font-size: 0.8rem;
+      color: #666;
+      margin-top: 2px;
+    }
+
+    .play-btn {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: #4ecdc4;
+      background: rgba(78,205,196,0.08);
+      border: 1px solid rgba(78,205,196,0.25);
+      padding: 0.4rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .play-btn:hover {
+      background: rgba(78,205,196,0.15);
+      border-color: rgba(78,205,196,0.5);
+    }
+
+    /* ── Demo Area ── */
+    .demo-area {
+      min-height: 280px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* ── Common code block styling ── */
+    .code-block {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      line-height: 1.7;
+      background: #0d0d14;
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 10px;
+      padding: 1.5rem 2rem;
+      width: 100%;
+      max-width: 650px;
+      white-space: pre;
+      overflow-x: auto;
+      position: relative;
+    }
+    .code-block .cursor {
+      display: inline-block;
+      width: 8px;
+      height: 1.1em;
+      background: #4ecdc4;
+      vertical-align: text-bottom;
+      animation: blink 1s step-end infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* Syntax colors */
+    .kw { color: #c678dd; }    /* keyword */
+    .fn { color: #61afef; }    /* function */
+    .str { color: #98c379; }   /* string */
+    .cm { color: #5c6370; }    /* comment */
+    .ty { color: #e5c07b; }    /* type */
+    .op { color: #56b6c2; }    /* operator */
+    .num { color: #d19a66; }   /* number */
+    .sig { color: #61afef; }   /* signal name */
+    .dir { color: #e06c75; }   /* directive/io */
+
+    /* ── Concept-specific ── */
+
+    /* 3: Logic Analyzer */
+    .logic-canvas { width: 100%; height: 240px; border-radius: 8px; background: #0d0d14; }
+
+    /* 4: Bitstream */
+    .bitstream-container { text-align: center; width: 100%; max-width: 550px; }
+    .terminal-line {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: #4ecdc4;
+      text-align: left;
+      margin-bottom: 0.4rem;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .terminal-line.visible { opacity: 1; }
+    .progress-bar-container {
+      width: 100%;
+      height: 6px;
+      background: #1a1a24;
+      border-radius: 3px;
+      margin: 1rem 0 1.5rem;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #4ecdc4, #7b68ee);
+      border-radius: 3px;
+      transition: width 0.05s;
+    }
+    .dot-matrix-display {
+      display: flex;
+      gap: 2px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .dot-char {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 2rem;
+      font-weight: 700;
+      color: transparent;
+      text-shadow: none;
+      transition: all 0.4s;
+      letter-spacing: 2px;
+    }
+    .dot-char.on {
+      color: #4ecdc4;
+      text-shadow: 0 0 12px rgba(78,205,196,0.6), 0 0 30px rgba(78,205,196,0.2);
+    }
+
+    /* 6: PCB Trace */
+    .pcb-canvas { width: 100%; height: 260px; border-radius: 8px; background: #0a2e0a; }
+
+    /* 7: Oscilloscope */
+    .scope-canvas { width: 100%; height: 260px; border-radius: 8px; background: #0d0d14; border: 1px solid #1a1a24; }
+
+    /* 8: FSM */
+    .fsm-svg { width: 100%; max-width: 600px; height: 240px; }
+
+    /* 9: Seven-Segment */
+    .seven-seg-display {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .seg-char {
+      width: 32px;
+      height: 52px;
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .seg-char span {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .seg-char.on span {
+      color: #ff3333;
+      text-shadow: 0 0 8px rgba(255,50,50,0.7), 0 0 20px rgba(255,50,50,0.3);
+    }
+    .seg-char.test span {
+      color: #441111;
+      text-shadow: none;
+    }
+    .seg-subtitle {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: #4ecdc4;
+      margin-top: 1.5rem;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+    .seg-subtitle.visible { opacity: 1; }
+
+    /* 10: Git Commit */
+    .git-log {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      line-height: 2;
+      width: 100%;
+      max-width: 650px;
+    }
+    .git-line {
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.4s ease-out;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .git-line.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .git-hash { color: #d19a66; }
+    .git-tag { color: #4ecdc4; font-weight: 700; }
+    .git-msg { color: #e8e8ed; }
+
+    /* 11: Hex Dump */
+    .hex-block {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      line-height: 1.8;
+      background: #0d0d14;
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 10px;
+      padding: 1.5rem 2rem;
+      width: 100%;
+      max-width: 620px;
+    }
+    .hex-addr { color: #5c6370; }
+    .hex-val { color: #61afef; }
+    .hex-ascii { color: #98c379; }
+    .hex-line {
+      opacity: 0;
+      transition: opacity 0.15s;
+    }
+    .hex-line.visible { opacity: 1; }
+
+    /* 12: Neural Net */
+    .nn-canvas { width: 100%; height: 280px; border-radius: 8px; background: #0d0d14; }
+
+    /* 13: Spectrogram */
+    .spec-canvas { width: 100%; height: 260px; border-radius: 8px; background: #0d0d14; }
+
+    /* ── Status line ── */
+    .status-line {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: #98c379;
+      margin-top: 1rem;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+    .status-line.visible { opacity: 1; }
+
+    /* ── Footer ── */
+    .page-footer {
+      text-align: center;
+      padding: 3rem 2rem;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      color: #555;
+      font-size: 0.8rem;
+    }
+
+    /* ── Section divider ── */
+    .section-divider {
+      text-align: center;
+      padding: 3rem 2rem 1rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .section-divider h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #e5c07b, #e06c75);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.5rem;
+    }
+    .section-divider p {
+      color: #666;
+      font-size: 0.85rem;
+      max-width: 550px;
+      margin: 0 auto;
+    }
+    .rec-badge {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      font-weight: 700;
+      color: #e5c07b;
+      background: rgba(229,192,123,0.1);
+      border: 1px solid rgba(229,192,123,0.25);
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+      margin-left: 0.5rem;
+      vertical-align: middle;
+    }
+
+    /* ── Combo-specific ── */
+    .combo-card { border-color: rgba(229,192,123,0.12); }
+    .combo-card:hover { border-color: rgba(229,192,123,0.35); }
+    .combo-card .card-number {
+      color: #e5c07b;
+      background: rgba(229,192,123,0.1);
+    }
+    .combo-card .play-btn {
+      color: #e5c07b;
+      background: rgba(229,192,123,0.08);
+      border-color: rgba(229,192,123,0.25);
+    }
+    .combo-card .play-btn:hover {
+      background: rgba(229,192,123,0.15);
+      border-color: rgba(229,192,123,0.5);
+    }
+
+    .combo-demo {
+      min-height: 380px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      gap: 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .combo-canvas {
+      width: 100%;
+      height: 360px;
+      border-radius: 8px;
+      background: #0d0d14;
+    }
+    .combo-status {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: #98c379;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+    .combo-status.visible { opacity: 1; }
+  </style>
+</head>
+<body>
+
+  <header class="page-header">
+    <h1>Hero Name Concepts</h1>
+    <p>Prototype playground — click ▶ Play on each card to see the animation. Nothing here touches your live portfolio.</p>
+  </header>
+
+  <main class="concepts-grid">
+
+    <!-- ═══ 1: Verilog Module ═══ -->
+    <div class="concept-card" id="concept-1">
+      <div class="card-header">
+        <div class="card-label">
+          <span class="card-number">01</span>
+          <div>
+            <div class="card-title">Verilog Module Declaration</div>
+            <div class="card-subtitle">Hardware RTL Style</div>
+          </div>
+        </div>
+        <button class="play-btn" onclick="playVerilog()">▶ Play</button>
+      </div>
+      <div class="demo-area">
+        <div class="code-block" id="verilog-block"></div>
+      </div>
+    </div>
+
+    <!-- ═══ 2: Firmware Main ═══ -->
+    <div class="concept-card" id="concept-2">
+      <div class="card-header">
+        <div class="card-label">
+          <span class="card-number">02</span>
+          <div>
+            <div class="card-title">Firmware Main Function</div>
+            <div class="card-subtitle">Embedded C Style</div>
+          </div>
+        </div>
+        <button class="play-btn" onclick="playFirmware()">▶ Play</button>
+      </div>
+      <div class="demo-area">
+        <div class="code-block" id="firmware-block"></div>
+      </div>
+    </div>
+
+    <!-- ═══ 3: Logic Analyzer ═══ -->
+    <div class="concept-card" id="concept-3">
+      <div class="card-header">
+        <div class="card-label">
+          <span class="card-number">03</span>
+          <div>
+            <div class="card-title">Logic Analyzer Sweep</div>
+            <div class="card-subtitle">Signal Processing Style</div>
+          </div>
+        </div>
+        <button class="play-btn" onclick="playLogicAnalyzer()">▶ Play</button>
+      </div>
+      <div class="demo-area">
+        <canvas class="logic-canvas" id="logic-canvas"></canvas>
+      </div>
+    </div>
+
+    <!-- ═══ 4: FPGA Bitstream ═══ -->
+    <div class="concept-card" id="concept-4">
+      <div class="card-header">
+        <div class="card-label">
+          <span class="card-number">04</span>
+          <div>
+            <div class="card-title">FPGA Bitstream Flash</div>
+            <div class="card-subtitle">Hardware Startup Style</div>
+          </div>
+        </div>
+        <button class="play-btn" onclick="playBitstream()">▶ Play</button>
+      </div>
+      <div class="demo-area">
+        <div class="bitstream-container" id="bitstream-container">
+          <div class="terminal-line" id="bs-line1">JTAG&gt; Scanning chain... Device found: XC7A35T</div>
+          <div class="terminal-line" id="bs-line2">JTAG&gt; Loading bitstream: prince_baah_mensah.bit</div>
+          <div class="progress-bar-container">
+            <div class="progress-fill" id="bs-progress"></div>
+          </div>
+          <div class="terminal-line" id="bs-line3">JTAG&gt; Programming complete. Booting...</div>
+          <div class="dot-matrix-display" id="dot-matrix"></div>
+          <div class="status-line" id="bs-status">✓ Bitstream verified — CRC OK</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ 5: Agent Constructor ═══ -->
+    <div class="concept-card" id="concept-5">
+      <div class="card-header">
+        <div class="card-label">
+          <span class="card-number">05</span>
+          <div>
+            <div class="card-title">Agent Constructor</div>
+            <div class="card-subtitle">Python / AI Style</div>
+          </div>
+        </div>
+        <button class="play-btn" onclick="playAgent()">▶ Play</button>
+      </div>
+      <div class="demo-area">
+        <div class="code-block" id="agent-block"></div>
+      </div>
+    </div>
+
+    <!-- ═══ 6: PCB Trace ═══ -->
+    <div class="concept-card" id="concept-6">
+      <div class="card-header">
+        <div class="card-label">
+          <span class="card-number">06</span>
+          <div>
+            <div class="card-title">PCB Trace Route</div>
+            <div class="card-subtitle">Circuit Board Style</div>
+          </div>
+        </div>
+        <button class="play-btn" onclick="playPCB()">▶ Play</button>
+      </div>
+      <div class="demo-area">
+        <canvas class="pcb-canvas" id="pcb-canvas"></canvas>
+      </div>
+    </div>
+
+    <!-- ═══ 7: Oscilloscope Lissajous ═══ -->
+    <div class="concept-card" id="concept-7">
+      <div class="card-header">
+        <div class="card-label">
+          <span class="card-number">07</span>
+          <div>
+            <div class="card-title">Oscilloscope Lissajous</div>
+            <div class="card-subtitle">Analog Meets Digital</div>
+          </div>
+        </div>
+        <button class="play-btn" onclick="playScope()">▶ Play</button>
+      </div>
+      <div class="demo-area">
+        <canvas class="scope-canvas" id="scope-canvas"></canvas>
+      </div>
+    </div>
+
+    <!-- ═══ 8: FSM Diagram ═══ -->
+    <div class="concept-card" id="concept-8">
+      <div class="card-header">
+        <div class="card-label">
+          <span class="card-number">08</span>
+          <div>
+            <div class="card-title">Finite State Machine</div>
+            <div class="card-subtitle">FSM Diagram Style</div>
+          </div>
+        </div>
+        <button class="play-btn" onclick="playFSM()">▶ Play</button>
+      </div>
+      <div class="demo-area" style="flex-direction:column;">
+        <canvas id="fsm-canvas" width="600" height="220" style="max-width:100%;border-radius:8px;background:#0d0d14;"></canvas>
+        <div class="status-line" id="fsm-output" style="font-size:0.85rem;"></div>
+      </div>
+    </div>
+
+    <!-- ═══ 9: Seven-Segment ═══ -->
+    <div class="concept-card" id="concept-9">
+      <div class="card-header">
+        <div class="card-label">
+          <span class="card-number">09</span>
+          <div>
+            <div class="card-title">Seven-Segment LED Display</div>
+            <div class="card-subtitle">Retro Hardware</div>
+          </div>
+        </div>
+        <button class="play-btn" onclick="playSevenSeg()">▶ Play</button>
+      </div>
+      <div class="demo-area" style="flex-direction: column;">
+        <div class="seven-seg-display" id="seven-seg"></div>
+        <div class="seg-subtitle" id="seg-sub">Electrical Engineer</div>
+      </div>
+    </div>
+
+    <!-- ═══ 10: Git Commit Log ═══ -->
+    <div class="concept-card" id="concept-10">
+      <div class="card-header">
+        <div class="card-label">
+          <span class="card-number">10</span>
+          <div>
+            <div class="card-title">Git Commit Log</div>
+            <div class="card-subtitle">Developer Workflow Style</div>
+          </div>
+        </div>
+        <button class="play-btn" onclick="playGitLog()">▶ Play</button>
+      </div>
+      <div class="demo-area">
+        <div class="git-log" id="git-log"></div>
+      </div>
+    </div>
+
+    <!-- ═══ 11: Hex Dump ═══ -->
+    <div class="concept-card" id="concept-11">
+      <div class="card-header">
+        <div class="card-label">
+          <span class="card-number">11</span>
+          <div>
+            <div class="card-title">Memory Map / Hex Dump</div>
+            <div class="card-subtitle">Low-Level Debug Style</div>
+          </div>
+        </div>
+        <button class="play-btn" onclick="playHexDump()">▶ Play</button>
+      </div>
+      <div class="demo-area">
+        <div class="hex-block" id="hex-block"></div>
+      </div>
+    </div>
+
+    <!-- ═══ 12: Neural Network ═══ -->
+    <div class="concept-card" id="concept-12">
+      <div class="card-header">
+        <div class="card-label">
+          <span class="card-number">12</span>
+          <div>
+            <div class="card-title">Neural Network Forward Pass</div>
+            <div class="card-subtitle">AI Hardware Style</div>
+          </div>
+        </div>
+        <button class="play-btn" onclick="playNeuralNet()">▶ Play</button>
+      </div>
+      <div class="demo-area" style="flex-direction:column;">
+        <canvas class="nn-canvas" id="nn-canvas"></canvas>
+        <div class="status-line" id="nn-status"></div>
+      </div>
+    </div>
+
+    <!-- ═══ 13: Spectrogram ═══ -->
+    <div class="concept-card" id="concept-13">
+      <div class="card-header">
+        <div class="card-label">
+          <span class="card-number">13</span>
+          <div>
+            <div class="card-title">Waveform + Spectrogram</div>
+            <div class="card-subtitle">Signal Processing / SER Style</div>
+          </div>
+        </div>
+        <button class="play-btn" onclick="playSpectrogram()">▶ Play</button>
+      </div>
+      <div class="demo-area">
+        <canvas class="spec-canvas" id="spec-canvas"></canvas>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- ═══ RECOMMENDED COMBOS SECTION ═══ -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <div class="section-divider">
+      <h2>⭐ Recommended Combos</h2>
+      <p>Multi-phase animations that tell a cohesive story. These are what I'd actually ship.</p>
+    </div>
+
+    <!-- ═══ COMBO A: The Hardware Boot ═══ -->
+    <div class="concept-card combo-card" id="combo-a">
+      <div class="card-header">
+        <div class="card-label">
+          <span class="card-number">A</span>
+          <div>
+            <div class="card-title">The Hardware Boot <span class="rec-badge">TOP PICK</span></div>
+            <div class="card-subtitle">Bitstream Flash → FSM Traversal → Seven-Segment Reveal</div>
+          </div>
+        </div>
+        <button class="play-btn" onclick="playComboA()">▶ Play</button>
+      </div>
+      <div class="combo-demo">
+        <canvas class="combo-canvas" id="combo-a-canvas"></canvas>
+        <div class="combo-status" id="combo-a-status"></div>
+      </div>
+    </div>
+
+    <!-- ═══ COMBO B: Design-to-Verification ═══ -->
+    <div class="concept-card combo-card" id="combo-b">
+      <div class="card-header">
+        <div class="card-label">
+          <span class="card-number">B</span>
+          <div>
+            <div class="card-title">Design-to-Verification</div>
+            <div class="card-subtitle">Verilog Module Typing → Logic Analyzer Waveform Decode</div>
+          </div>
+        </div>
+        <button class="play-btn" onclick="playComboB()">▶ Play</button>
+      </div>
+      <div class="combo-demo">
+        <canvas class="combo-canvas" id="combo-b-canvas"></canvas>
+        <div class="combo-status" id="combo-b-status"></div>
+      </div>
+    </div>
+
+    <!-- ═══ COMBO B+: Design → Verify → LED Reveal ═══ -->
+    <div class="concept-card combo-card" id="combo-bplus">
+      <div class="card-header">
+        <div class="card-label">
+          <span class="card-number">B+</span>
+          <div>
+            <div class="card-title">Design → Verify → LED Reveal <span class="rec-badge">NEW TOP PICK</span></div>
+            <div class="card-subtitle">Verilog Typing → Waveform Decode → FPGA Board LEDs Light Up</div>
+          </div>
+        </div>
+        <button class="play-btn" onclick="playComboB2()">▶ Play</button>
+      </div>
+      <div class="combo-demo">
+        <canvas class="combo-canvas" id="combo-b2-canvas" style="height:420px;"></canvas>
+        <div class="combo-status" id="combo-b2-status"></div>
+      </div>
+    </div>
+
+    <!-- ═══ COMBO D: Code → Bitstream → Waveform ═══ -->
+    <div class="concept-card combo-card" id="combo-d">
+      <div class="card-header">
+        <div class="card-label">
+          <span class="card-number">D</span>
+          <div>
+            <div class="card-title">Code → Bitstream → Waveform <span class="rec-badge">FINAL PICK</span></div>
+            <div class="card-subtitle">Verilog RTL → Bitstream Generation → Full-Width Waveform Decode</div>
+          </div>
+        </div>
+        <button class="play-btn" onclick="playComboD()">▶ Play</button>
+      </div>
+      <div class="combo-demo">
+        <canvas class="combo-canvas" id="combo-d-canvas" style="height:400px;"></canvas>
+        <div class="combo-status" id="combo-d-status"></div>
+      </div>
+    </div>
+
+    <!-- ═══ COMBO C: Sparse Inference ═══ -->
+    <div class="concept-card combo-card" id="combo-c">
+      <div class="card-header">
+        <div class="card-label">
+          <span class="card-number">C</span>
+          <div>
+            <div class="card-title">Sparse Inference</div>
+            <div class="card-subtitle">Neural Network Forward Pass → Memory Buffer Hex Dump Decode</div>
+          </div>
+        </div>
+        <button class="play-btn" onclick="playComboC()">▶ Play</button>
+      </div>
+      <div class="combo-demo">
+        <canvas class="combo-canvas" id="combo-c-canvas"></canvas>
+        <div class="combo-status" id="combo-c-status"></div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="page-footer">
+    Prototype Playground — Nothing here affects the live portfolio.
+  </footer>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   SHARED UTILITIES
+   ═══════════════════════════════════════════════════════════════ */
+const NAME = "Prince Baah-Mensah";
+
+function typeLines(container, lines, speed, callback) {
+  container.innerHTML = '';
+  let lineIdx = 0;
+  let charIdx = 0;
+  let currentHTML = '';
+
+  function nextChar() {
+    if (lineIdx >= lines.length) {
+      container.innerHTML = currentHTML;
+      if (callback) callback();
+      return;
+    }
+    const line = lines[lineIdx];
+    if (charIdx < line.length) {
+      currentHTML += line[charIdx];
+      charIdx++;
+      container.innerHTML = currentHTML + '<span class="cursor"></span>';
+      setTimeout(nextChar, speed);
+    } else {
+      currentHTML += '\n';
+      lineIdx++;
+      charIdx = 0;
+      setTimeout(nextChar, speed * 2);
+    }
+  }
+  nextChar();
+}
+
+function typeRichLines(container, lines, speed, callback) {
+  container.innerHTML = '';
+  let lineIdx = 0;
+
+  function typeLine() {
+    if (lineIdx >= lines.length) {
+      if (callback) callback();
+      return;
+    }
+    const line = lines[lineIdx];
+    const div = document.createElement('div');
+    div.innerHTML = line;
+    div.style.opacity = '0';
+    div.style.transform = 'translateY(4px)';
+    div.style.transition = 'all 0.3s ease-out';
+    container.appendChild(div);
+    requestAnimationFrame(() => {
+      div.style.opacity = '1';
+      div.style.transform = 'translateY(0)';
+    });
+    lineIdx++;
+    setTimeout(typeLine, speed);
+  }
+  typeLine();
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   1. VERILOG MODULE
+   ═══════════════════════════════════════════════════════════════ */
+function playVerilog() {
+  const el = document.getElementById('verilog-block');
+  const lines = [
+    '<span class="kw">module</span> <span class="fn">Prince_Baah_Mensah</span> (',
+    '    <span class="dir">input</span>  <span class="kw">wire</span>        <span class="sig">clk</span>,',
+    '    <span class="dir">input</span>  <span class="kw">wire</span>        <span class="sig">rst_n</span>,',
+    '    <span class="dir">output</span> <span class="kw">reg</span>  [<span class="num">63</span>:<span class="num">0</span>] <span class="sig">expertise</span>,',
+    '    <span class="dir">output</span> <span class="kw">wire</span>        <span class="sig">innovation</span>',
+    ');',
+    '',
+    '<span class="cm">// AI Hardware | Embedded | FPGA</span>',
+    '<span class="cm">// Synthesis: 0 warnings ✓</span>',
+  ];
+  typeRichLines(el, lines, 200);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   2. FIRMWARE MAIN
+   ═══════════════════════════════════════════════════════════════ */
+function playFirmware() {
+  const el = document.getElementById('firmware-block');
+  const lines = [
+    '<span class="ty">Engineer</span><span class="op">*</span> <span class="fn">main</span>(<span class="kw">void</span>) {',
+    '    <span class="ty">Engineer</span> <span class="op">*</span><span class="sig">prince</span> <span class="op">=</span> <span class="fn">engineer_init</span>(<span class="str">"Prince Baah-Mensah"</span>);',
+    '    <span class="sig">prince</span><span class="op">-></span><span class="sig">skills</span> <span class="op">|=</span> (<span class="num">AI_ACCEL</span> <span class="op">|</span> <span class="num">FPGA</span> <span class="op">|</span> <span class="num">EMBEDDED</span>);',
+    '',
+    '    <span class="kw">while</span> (<span class="sig">prince</span><span class="op">-></span><span class="sig">is_passionate</span>) {',
+    '        <span class="fn">engineer_innovate</span>(<span class="sig">prince</span>);',
+    '    }',
+    '    <span class="kw">return</span> <span class="sig">prince</span>;',
+    '}',
+  ];
+  typeRichLines(el, lines, 180);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   3. LOGIC ANALYZER
+   ═══════════════════════════════════════════════════════════════ */
+function playLogicAnalyzer() {
+  const canvas = document.getElementById('logic-canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = canvas.clientWidth * 2;
+  canvas.height = canvas.clientHeight * 2;
+  ctx.scale(2, 2);
+  const W = canvas.clientWidth;
+  const H = canvas.clientHeight;
+
+  let sweep = 0;
+  const sweepSpeed = 2.5;
+  const decoded = NAME;
+
+  function draw() {
+    ctx.fillStyle = '#0d0d14';
+    ctx.fillRect(0, 0, W, H);
+
+    // Grid lines
+    ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+    ctx.lineWidth = 0.5;
+    for (let x = 0; x < W; x += 30) {
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+    }
+    for (let y = 0; y < H; y += 30) {
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+    }
+
+    // Labels
+    ctx.font = '11px JetBrains Mono';
+    ctx.fillStyle = '#5c6370';
+    ctx.fillText('CLK', 8, 48);
+    ctx.fillText('RST_N', 8, 108);
+    ctx.fillText('DATA[7:0]', 8, 168);
+
+    const left = 90;
+    const right = W - 20;
+    const segW = (right - left) / 40;
+
+    // CLK signal
+    ctx.strokeStyle = '#4ecdc4';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    for (let i = 0; i < 40; i++) {
+      const x = left + i * segW;
+      if (x > sweep) break;
+      const hi = 30; const lo = 55;
+      if (i % 2 === 0) {
+        ctx.lineTo(x, hi); ctx.lineTo(x + segW, hi);
+      } else {
+        ctx.lineTo(x, lo); ctx.lineTo(x + segW, lo);
+      }
+    }
+    ctx.stroke();
+
+    // RST_N signal
+    ctx.strokeStyle = '#e06c75';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(left, 120);
+    for (let i = 0; i < 40; i++) {
+      const x = left + i * segW;
+      if (x > sweep) break;
+      if (i < 4) {
+        ctx.lineTo(x + segW, 120);
+      } else if (i === 4) {
+        ctx.lineTo(x, 120); ctx.lineTo(x, 90); ctx.lineTo(x + segW, 90);
+      } else {
+        ctx.lineTo(x + segW, 90);
+      }
+    }
+    ctx.stroke();
+
+    // DATA bus (hatched/bus style)
+    ctx.strokeStyle = '#61afef';
+    ctx.lineWidth = 1.5;
+    const dataY = 155;
+    const dataH = 25;
+    ctx.beginPath();
+    for (let i = 0; i < 40; i++) {
+      const x = left + i * segW;
+      if (x > sweep) break;
+      if (i < 6) {
+        ctx.moveTo(x, dataY); ctx.lineTo(x + segW, dataY);
+        ctx.moveTo(x, dataY + dataH); ctx.lineTo(x + segW, dataY + dataH);
+      } else {
+        // Transition at char boundaries
+        const charIdx = Math.floor((i - 6) / 2);
+        if ((i - 6) % 2 === 0 && charIdx < decoded.length) {
+          ctx.moveTo(x, dataY); ctx.lineTo(x + 3, dataY + dataH/2); ctx.lineTo(x, dataY + dataH);
+          ctx.moveTo(x, dataY); ctx.lineTo(x - 3, dataY + dataH/2); ctx.lineTo(x, dataY + dataH);
+        }
+        ctx.moveTo(x, dataY); ctx.lineTo(x + segW, dataY);
+        ctx.moveTo(x, dataY + dataH); ctx.lineTo(x + segW, dataY + dataH);
+      }
+    }
+    ctx.stroke();
+
+    // Decoded text
+    ctx.font = '12px JetBrains Mono';
+    ctx.fillStyle = '#98c379';
+    const decodeStart = left + 6 * segW;
+    let displayText = '';
+    for (let i = 0; i < decoded.length; i++) {
+      const charX = decodeStart + i * 2 * segW;
+      if (charX < sweep) displayText += decoded[i];
+    }
+    if (displayText) {
+      ctx.fillText('Decoded: "' + displayText + '"', left, H - 18);
+    }
+
+    // Sweep line
+    if (sweep < right) {
+      ctx.strokeStyle = 'rgba(78, 205, 196, 0.5)';
+      ctx.lineWidth = 1;
+      ctx.setLineDash([4, 4]);
+      ctx.beginPath(); ctx.moveTo(sweep, 0); ctx.lineTo(sweep, H); ctx.stroke();
+      ctx.setLineDash([]);
+    }
+
+    sweep += sweepSpeed;
+    if (sweep < right + 40) {
+      requestAnimationFrame(draw);
+    }
+  }
+  sweep = 90;
+  draw();
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   4. FPGA BITSTREAM
+   ═══════════════════════════════════════════════════════════════ */
+function playBitstream() {
+  const line1 = document.getElementById('bs-line1');
+  const line2 = document.getElementById('bs-line2');
+  const line3 = document.getElementById('bs-line3');
+  const progress = document.getElementById('bs-progress');
+  const dotMatrix = document.getElementById('dot-matrix');
+  const status = document.getElementById('bs-status');
+
+  // Reset
+  [line1, line2, line3].forEach(l => l.classList.remove('visible'));
+  status.classList.remove('visible');
+  progress.style.width = '0%';
+  dotMatrix.innerHTML = '';
+
+  // Build dot matrix chars
+  const chars = NAME.split('');
+  chars.forEach(ch => {
+    const span = document.createElement('span');
+    span.className = 'dot-char';
+    span.textContent = ch === ' ' ? '\u00A0' : ch;
+    dotMatrix.appendChild(span);
+  });
+
+  // Sequence
+  setTimeout(() => line1.classList.add('visible'), 200);
+  setTimeout(() => line2.classList.add('visible'), 800);
+
+  // Progress bar
+  let pct = 0;
+  const progInterval = setInterval(() => {
+    pct += 2;
+    progress.style.width = pct + '%';
+    if (pct >= 100) {
+      clearInterval(progInterval);
+      setTimeout(() => {
+        line3.classList.add('visible');
+        // Turn on chars one by one
+        const allDots = dotMatrix.querySelectorAll('.dot-char');
+        allDots.forEach((d, i) => {
+          setTimeout(() => d.classList.add('on'), i * 80);
+        });
+        setTimeout(() => status.classList.add('visible'), chars.length * 80 + 400);
+      }, 300);
+    }
+  }, 30);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   5. AGENT CONSTRUCTOR
+   ═══════════════════════════════════════════════════════════════ */
+function playAgent() {
+  const el = document.getElementById('agent-block');
+  const lines = [
+    '<span class="kw">class</span> <span class="ty">Prince</span>(<span class="ty">AutonomousAgent</span>):',
+    '    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="sig">self</span>):',
+    '        <span class="fn">super</span>().<span class="fn">__init__</span>(<span class="sig">role</span>=<span class="str">"Co-Design Engineer"</span>)',
+    '        <span class="sig">self</span>.<span class="sig">memory</span> = <span class="ty">ResearchMemory</span>(<span class="sig">focus</span>=<span class="str">"ASIC/FPGA"</span>)',
+    '        <span class="sig">self</span>.<span class="sig">engine</span> = <span class="ty">AutoresearchLoop</span>(<span class="sig">status</span>=<span class="str">"iterating"</span>)',
+    '',
+    '<span class="sig">prince</span> = <span class="ty">Prince</span>()  <span class="cm"># ✓ Agent initialized</span>',
+  ];
+  typeRichLines(el, lines, 180);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   6. PCB TRACE ROUTE
+   ═══════════════════════════════════════════════════════════════ */
+function playPCB() {
+  const canvas = document.getElementById('pcb-canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = canvas.clientWidth * 2;
+  canvas.height = canvas.clientHeight * 2;
+  ctx.scale(2, 2);
+  const W = canvas.clientWidth;
+  const H = canvas.clientHeight;
+
+  // PCB substrate
+  ctx.fillStyle = '#0a2e0a';
+  ctx.fillRect(0, 0, W, H);
+
+  // Grid dots
+  ctx.fillStyle = 'rgba(255,255,255,0.04)';
+  for (let x = 10; x < W; x += 15) {
+    for (let y = 10; y < H; y += 15) {
+      ctx.beginPath(); ctx.arc(x, y, 0.5, 0, Math.PI * 2); ctx.fill();
+    }
+  }
+
+  const text = NAME.toUpperCase();
+  ctx.font = 'bold 36px Outfit';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+
+  // Get letter positions
+  const textW = ctx.measureText(text).width;
+  const startX = (W - textW) / 2;
+  const centerY = H / 2;
+
+  // Draw traces animation
+  let progress = 0;
+  const totalSteps = 120;
+
+  function drawFrame() {
+    ctx.fillStyle = '#0a2e0a';
+    ctx.fillRect(0, 0, W, H);
+
+    // Grid dots
+    ctx.fillStyle = 'rgba(255,255,255,0.04)';
+    for (let x = 10; x < W; x += 15) {
+      for (let y = 10; y < H; y += 15) {
+        ctx.beginPath(); ctx.arc(x, y, 0.5, 0, Math.PI * 2); ctx.fill();
+      }
+    }
+
+    // Horizontal traces (decorative)
+    const traceProgress = Math.min(progress / totalSteps, 1);
+    const traceLen = W * traceProgress;
+    ctx.strokeStyle = '#c9a44a';
+    ctx.lineWidth = 1;
+    for (let i = 0; i < 6; i++) {
+      const y = 30 + i * 38;
+      ctx.beginPath();
+      ctx.moveTo(10, y);
+      const endX = Math.min(10 + traceLen, W - 10);
+      // Route with right-angle bends
+      const midX = 10 + (endX - 10) * 0.3;
+      ctx.lineTo(midX, y);
+      ctx.lineTo(midX, y + (i % 2 === 0 ? 8 : -8));
+      ctx.lineTo(endX, y + (i % 2 === 0 ? 8 : -8));
+      ctx.stroke();
+    }
+
+    // Name text (copper fill)
+    const alpha = Math.max(0, (progress - 40) / 60);
+    if (alpha > 0) {
+      ctx.save();
+      ctx.globalAlpha = Math.min(alpha, 1);
+      ctx.fillStyle = '#c9a44a';
+      ctx.font = 'bold 36px Outfit';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(text, W/2, centerY);
+
+      // Silkscreen label
+      ctx.font = '9px JetBrains Mono';
+      ctx.fillStyle = '#f0f0f0';
+      ctx.globalAlpha = Math.min(alpha, 0.7);
+      ctx.fillText('U1 — Electrical Engineer', W/2, centerY + 30);
+
+      // Via holes
+      ctx.fillStyle = '#1a5a1a';
+      ctx.strokeStyle = '#c9a44a';
+      ctx.lineWidth = 1.5;
+      ctx.globalAlpha = Math.min(alpha, 1);
+      const vias = [[startX - 10, centerY - 20], [startX + textW + 10, centerY - 20],
+                     [startX - 10, centerY + 20], [startX + textW + 10, centerY + 20]];
+      vias.forEach(([vx, vy]) => {
+        ctx.beginPath(); ctx.arc(vx, vy, 5, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+        ctx.beginPath(); ctx.arc(vx, vy, 2, 0, Math.PI * 2); ctx.fillStyle = '#0a2e0a'; ctx.fill();
+        ctx.fillStyle = '#1a5a1a';
+      });
+      ctx.restore();
+    }
+
+    progress++;
+    if (progress < totalSteps + 30) requestAnimationFrame(drawFrame);
+  }
+  progress = 0;
+  drawFrame();
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   7. OSCILLOSCOPE LISSAJOUS
+   ═══════════════════════════════════════════════════════════════ */
+function playScope() {
+  const canvas = document.getElementById('scope-canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = canvas.clientWidth * 2;
+  canvas.height = canvas.clientHeight * 2;
+  ctx.scale(2, 2);
+  const W = canvas.clientWidth;
+  const H = canvas.clientHeight;
+
+  let t = 0;
+  const duration = 300;
+
+  // We'll morph from Lissajous to the name
+  // First, get the name path points
+  const offscreenCanvas = document.createElement('canvas');
+  offscreenCanvas.width = W;
+  offscreenCanvas.height = H;
+  const offCtx = offscreenCanvas.getContext('2d');
+  offCtx.font = 'bold 40px Outfit';
+  offCtx.textAlign = 'center';
+  offCtx.textBaseline = 'middle';
+  offCtx.fillStyle = '#fff';
+  offCtx.fillText(NAME.toUpperCase(), W/2, H/2);
+
+  const imgData = offCtx.getImageData(0, 0, W, H).data;
+  const namePoints = [];
+  for (let y = 0; y < H; y += 3) {
+    for (let x = 0; x < W; x += 3) {
+      if (imgData[(y * W + x) * 4 + 3] > 128) {
+        namePoints.push([x, y]);
+      }
+    }
+  }
+
+  function draw() {
+    ctx.fillStyle = 'rgba(13,13,20,0.15)';
+    ctx.fillRect(0, 0, W, H);
+
+    // Grid
+    if (t === 0) {
+      ctx.fillStyle = '#0d0d14';
+      ctx.fillRect(0, 0, W, H);
+      ctx.strokeStyle = 'rgba(255,255,255,0.03)';
+      ctx.lineWidth = 0.5;
+      for (let x = 0; x < W; x += 40) {
+        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+      }
+      for (let y = 0; y < H; y += 40) {
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+      }
+    }
+
+    const morphFactor = Math.min(1, Math.max(0, (t - 120) / 120));
+
+    // Draw points
+    const numPts = Math.min(namePoints.length, 500);
+    ctx.fillStyle = `rgba(78, 205, 196, ${0.4 + morphFactor * 0.5})`;
+    for (let i = 0; i < numPts; i++) {
+      const angle = (i / numPts) * Math.PI * 2 + t * 0.02;
+      // Lissajous position
+      const lx = W/2 + Math.sin(angle * 3 + t * 0.01) * (W * 0.35);
+      const ly = H/2 + Math.sin(angle * 2 + t * 0.015) * (H * 0.35);
+      // Name position
+      const idx = Math.floor((i / numPts) * namePoints.length);
+      const [nx, ny] = namePoints[idx] || [W/2, H/2];
+      // Interpolate
+      const px = lx + (nx - lx) * morphFactor;
+      const py = ly + (ny - ly) * morphFactor;
+      ctx.beginPath();
+      ctx.arc(px, py, 1 + morphFactor, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // Readout
+    if (morphFactor > 0.8) {
+      ctx.font = '9px JetBrains Mono';
+      ctx.fillStyle = `rgba(92, 99, 112, ${(morphFactor - 0.8) * 5})`;
+      ctx.fillText('Freq Lock: Stable | CH1: 60Hz | CH2: 120Hz', 12, H - 10);
+    }
+
+    t++;
+    if (t < duration) requestAnimationFrame(draw);
+  }
+  t = 0;
+  ctx.fillStyle = '#0d0d14';
+  ctx.fillRect(0, 0, W, H);
+  draw();
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   8. FSM DIAGRAM
+   ═══════════════════════════════════════════════════════════════ */
+function playFSM() {
+  const canvas = document.getElementById('fsm-canvas');
+  const ctx = canvas.getContext('2d');
+  const W = 600, H = 220;
+
+  const states = [
+    { x: 80,  y: 110, label: 'IDLE',    color: '#5c6370' },
+    { x: 220, y: 110, label: 'LOAD',    color: '#e5c07b' },
+    { x: 360, y: 110, label: 'PROCESS', color: '#61afef' },
+    { x: 520, y: 110, label: 'OUTPUT',  color: '#4ecdc4' },
+  ];
+
+  let currentState = -1;
+  let outputText = '';
+  const outputEl = document.getElementById('fsm-output');
+  outputEl.classList.remove('visible');
+  outputEl.innerHTML = '';
+
+  function drawFSM(activeIdx, dotProgress) {
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = '#0d0d14';
+    ctx.fillRect(0, 0, W, H);
+
+    // Draw arrows
+    for (let i = 0; i < states.length - 1; i++) {
+      const from = states[i];
+      const to = states[i + 1];
+      const isActive = i < activeIdx || (i === activeIdx && dotProgress > 0);
+      ctx.strokeStyle = isActive ? '#4ecdc4' : 'rgba(255,255,255,0.1)';
+      ctx.lineWidth = isActive ? 2 : 1;
+      ctx.beginPath();
+      ctx.moveTo(from.x + 42, from.y);
+      ctx.lineTo(to.x - 42, to.y);
+      ctx.stroke();
+      // Arrow head
+      const ax = to.x - 42;
+      const ay = to.y;
+      ctx.fillStyle = ctx.strokeStyle;
+      ctx.beginPath();
+      ctx.moveTo(ax, ay - 5);
+      ctx.lineTo(ax + 8, ay);
+      ctx.lineTo(ax, ay + 5);
+      ctx.fill();
+    }
+
+    // Draw state circles
+    states.forEach((s, i) => {
+      const isActive = i === activeIdx;
+      const isPast = i < activeIdx;
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, 38, 0, Math.PI * 2);
+      ctx.fillStyle = isActive ? s.color + '33' : isPast ? 'rgba(78,205,196,0.05)' : 'rgba(255,255,255,0.02)';
+      ctx.fill();
+      ctx.strokeStyle = isActive ? s.color : isPast ? 'rgba(78,205,196,0.3)' : 'rgba(255,255,255,0.08)';
+      ctx.lineWidth = isActive ? 2.5 : 1;
+      ctx.stroke();
+
+      // Glow
+      if (isActive) {
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, 42, 0, Math.PI * 2);
+        ctx.strokeStyle = s.color + '44';
+        ctx.lineWidth = 3;
+        ctx.stroke();
+      }
+
+      ctx.font = '11px JetBrains Mono';
+      ctx.fillStyle = isActive ? s.color : isPast ? '#4ecdc4' : '#5c6370';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(s.label, s.x, s.y);
+    });
+
+    // Traveling dot
+    if (activeIdx >= 0 && activeIdx < states.length - 1 && dotProgress > 0 && dotProgress < 1) {
+      const from = states[activeIdx];
+      const to = states[activeIdx + 1];
+      const dx = (to.x - 42) - (from.x + 42);
+      const px = (from.x + 42) + dx * dotProgress;
+      ctx.beginPath();
+      ctx.arc(px, from.y, 4, 0, Math.PI * 2);
+      ctx.fillStyle = '#4ecdc4';
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(px, from.y, 8, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(78,205,196,0.2)';
+      ctx.fill();
+    }
+  }
+
+  // Animate sequence
+  const nameChars = NAME.split('');
+  let step = 0;
+
+  function animate() {
+    const phase = Math.floor(step / 40);
+    const sub = (step % 40) / 40;
+
+    if (phase < 4) {
+      drawFSM(phase, phase < 3 ? sub : 0);
+    }
+
+    if (phase === 3 && step % 40 === 0) {
+      // Start typing output
+      let charIdx = 0;
+      outputEl.classList.add('visible');
+      const typeInterval = setInterval(() => {
+        if (charIdx >= nameChars.length) {
+          clearInterval(typeInterval);
+          outputEl.innerHTML = '<span style="color:#5c6370">OUT[7:0] = </span><span style="color:#98c379">"' + NAME + '"</span> <span style="color:#4ecdc4">✓</span>';
+          return;
+        }
+        outputText += nameChars[charIdx];
+        outputEl.innerHTML = '<span style="color:#5c6370">OUT[7:0] = </span><span style="color:#98c379">"' + outputText + '<span class="cursor"></span>"</span>';
+        charIdx++;
+      }, 70);
+    }
+
+    step++;
+    if (step < 180) requestAnimationFrame(animate);
+  }
+
+  currentState = -1;
+  outputText = '';
+  step = 0;
+  animate();
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   9. SEVEN-SEGMENT LED
+   ═══════════════════════════════════════════════════════════════ */
+function playSevenSeg() {
+  const container = document.getElementById('seven-seg');
+  const subtitle = document.getElementById('seg-sub');
+  container.innerHTML = '';
+  subtitle.classList.remove('visible');
+
+  const chars = NAME.toUpperCase().split('');
+  chars.forEach(ch => {
+    const div = document.createElement('div');
+    div.className = 'seg-char';
+    const span = document.createElement('span');
+    span.textContent = ch === ' ' ? '\u00A0' : ch;
+    div.appendChild(span);
+    container.appendChild(div);
+  });
+
+  const allChars = container.querySelectorAll('.seg-char');
+
+  // Phase 1: Flash test (all segments on)
+  setTimeout(() => {
+    allChars.forEach(c => c.classList.add('test'));
+  }, 200);
+
+  // Phase 2: Turn off
+  setTimeout(() => {
+    allChars.forEach(c => c.classList.remove('test'));
+  }, 600);
+
+  // Phase 3: Sweep on
+  setTimeout(() => {
+    allChars.forEach((c, i) => {
+      setTimeout(() => c.classList.add('on'), i * 60);
+    });
+    // Subtitle
+    setTimeout(() => subtitle.classList.add('visible'), chars.length * 60 + 300);
+  }, 900);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   10. GIT COMMIT LOG
+   ═══════════════════════════════════════════════════════════════ */
+function playGitLog() {
+  const el = document.getElementById('git-log');
+  el.innerHTML = '';
+
+  const commits = [
+    { hash: '736d36b', tag: '(HEAD -> main)', msg: 'feat: sparse-compute AI accelerator' },
+    { hash: 'b7ba2e4', tag: '', msg: 'feat: FPGA autoresearch autonomous loop' },
+    { hash: '8c6f32b', tag: '', msg: 'feat: LLM Wiki personal knowledge base' },
+    { hash: 'df29784', tag: '', msg: 'feat: Bayesian PID optimization paper' },
+    { hash: '57fdbc4', tag: '', msg: 'feat: speech emotion recognition system' },
+    { hash: 'fc882f5', tag: '', msg: 'init: Prince Baah-Mensah — Electrical Engineer' },
+  ];
+
+  // Build from bottom up (oldest first)
+  const reversed = [...commits].reverse();
+  reversed.forEach((c) => {
+    const div = document.createElement('div');
+    div.className = 'git-line';
+    div.innerHTML = `<span style="color:#5c6370">*</span> <span class="git-hash">${c.hash}</span>` +
+      (c.tag ? ` <span class="git-tag">${c.tag}</span>` : '') +
+      ` <span class="git-msg">${c.msg}</span>`;
+    el.appendChild(div);
+  });
+
+  const allLines = el.querySelectorAll('.git-line');
+  // Reveal bottom to top
+  const total = allLines.length;
+  for (let i = 0; i < total; i++) {
+    setTimeout(() => {
+      allLines[total - 1 - i].classList.add('visible');
+    }, i * 350);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   11. HEX DUMP
+   ═══════════════════════════════════════════════════════════════ */
+function playHexDump() {
+  const el = document.getElementById('hex-block');
+  el.innerHTML = '';
+
+  const bytes = [];
+  for (let i = 0; i < NAME.length; i++) bytes.push(NAME.charCodeAt(i));
+  // Pad to multiple of 8
+  while (bytes.length % 8 !== 0) bytes.push(0);
+
+  const lines = [];
+  for (let i = 0; i < bytes.length; i += 8) {
+    const addr = '0x' + i.toString(16).padStart(4, '0');
+    const hexPart = bytes.slice(i, i + 8).map(b => b.toString(16).padStart(2, '0').toUpperCase()).join(' ');
+    const asciiPart = bytes.slice(i, i + 8).map(b => b >= 32 && b < 127 ? String.fromCharCode(b) : '.').join('');
+    lines.push({ addr, hex: hexPart, ascii: asciiPart });
+  }
+
+  lines.forEach((line) => {
+    const div = document.createElement('div');
+    div.className = 'hex-line';
+    div.innerHTML = `<span class="hex-addr">${line.addr}:</span>  <span class="hex-val">${line.hex}</span>  <span class="hex-ascii">|${line.ascii}|</span>`;
+    el.appendChild(div);
+  });
+
+  const allLines = el.querySelectorAll('.hex-line');
+  allLines.forEach((line, i) => {
+    setTimeout(() => line.classList.add('visible'), i * 250);
+  });
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   12. NEURAL NETWORK FORWARD PASS
+   ═══════════════════════════════════════════════════════════════ */
+function playNeuralNet() {
+  const canvas = document.getElementById('nn-canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = canvas.clientWidth * 2;
+  canvas.height = canvas.clientHeight * 2;
+  ctx.scale(2, 2);
+  const W = canvas.clientWidth;
+  const H = canvas.clientHeight;
+
+  const statusEl = document.getElementById('nn-status');
+  statusEl.classList.remove('visible');
+  statusEl.innerHTML = '';
+
+  // Layer definitions
+  const layers = [
+    { count: 5, x: 60,  label: 'Input' },
+    { count: 7, x: 180, label: 'Hidden 1' },
+    { count: 7, x: 300, label: 'Hidden 2' },
+    { count: 6, x: 440, label: 'Output' },
+  ];
+
+  // Compute node positions
+  layers.forEach(layer => {
+    layer.nodes = [];
+    const totalH = (layer.count - 1) * 30;
+    const startY = (H - 30) / 2 - totalH / 2;
+    for (let i = 0; i < layer.count; i++) {
+      layer.nodes.push({ x: layer.x, y: startY + i * 30 });
+    }
+  });
+
+  // Random sparse connections (some will be "dead")
+  const connections = [];
+  for (let l = 0; l < layers.length - 1; l++) {
+    for (let i = 0; i < layers[l].count; i++) {
+      for (let j = 0; j < layers[l + 1].count; j++) {
+        const alive = Math.random() > 0.35; // 35% sparsity
+        connections.push({
+          from: layers[l].nodes[i],
+          to: layers[l + 1].nodes[j],
+          layer: l,
+          alive,
+        });
+      }
+    }
+  }
+
+  const outputChars = NAME.split('').slice(0, layers[3].count);
+  let frame = 0;
+  const totalFrames = 200;
+
+  function draw() {
+    ctx.fillStyle = '#0d0d14';
+    ctx.fillRect(0, 0, W, H);
+
+    const pulseLayer = Math.floor((frame / totalFrames) * (layers.length + 1));
+
+    // Draw connections
+    connections.forEach(conn => {
+      const isActivating = conn.layer < pulseLayer;
+      if (conn.alive) {
+        ctx.strokeStyle = isActivating ? 'rgba(78, 205, 196, 0.25)' : 'rgba(255,255,255,0.04)';
+      } else {
+        ctx.strokeStyle = 'rgba(255,255,255,0.02)';
+      }
+      ctx.lineWidth = 0.5;
+      ctx.beginPath();
+      ctx.moveTo(conn.from.x, conn.from.y);
+      ctx.lineTo(conn.to.x, conn.to.y);
+      ctx.stroke();
+
+      // Pulse dot traveling along active connections
+      if (conn.alive && conn.layer === pulseLayer - 1) {
+        const subProgress = (frame % (totalFrames / (layers.length + 1))) / (totalFrames / (layers.length + 1));
+        const px = conn.from.x + (conn.to.x - conn.from.x) * subProgress;
+        const py = conn.from.y + (conn.to.y - conn.from.y) * subProgress;
+        ctx.beginPath();
+        ctx.arc(px, py, 1.5, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(78, 205, 196, 0.5)';
+        ctx.fill();
+      }
+    });
+
+    // Draw nodes
+    layers.forEach((layer, l) => {
+      const isActive = l < pulseLayer;
+      layer.nodes.forEach((node, i) => {
+        ctx.beginPath();
+        ctx.arc(node.x, node.y, 8, 0, Math.PI * 2);
+        if (isActive) {
+          // Check if this node has any alive input (simplified)
+          const hasInput = l === 0 || connections.some(c => c.to === node && c.alive && c.layer === l - 1);
+          ctx.fillStyle = hasInput ? 'rgba(78, 205, 196, 0.3)' : 'rgba(224, 108, 117, 0.15)';
+          ctx.strokeStyle = hasInput ? '#4ecdc4' : 'rgba(224, 108, 117, 0.4)';
+        } else {
+          ctx.fillStyle = 'rgba(255,255,255,0.03)';
+          ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+        }
+        ctx.fill();
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        // Output labels
+        if (l === layers.length - 1 && isActive && i < outputChars.length) {
+          ctx.font = 'bold 10px JetBrains Mono';
+          ctx.fillStyle = '#4ecdc4';
+          ctx.textAlign = 'left';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(outputChars[i], node.x + 14, node.y);
+        }
+      });
+
+      // Layer label
+      ctx.font = '8px JetBrains Mono';
+      ctx.fillStyle = '#5c6370';
+      ctx.textAlign = 'center';
+      ctx.fillText(layer.label, layer.x, H - 12);
+    });
+
+    frame++;
+    if (frame < totalFrames) {
+      requestAnimationFrame(draw);
+    } else {
+      statusEl.innerHTML = 'Sparsity: 35% | Cycles Saved: 847 | Output: <span style="color:#4ecdc4">"' + outputChars.join('') + '"</span>';
+      statusEl.classList.add('visible');
+    }
+  }
+
+  frame = 0;
+  draw();
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   13. SPECTROGRAM
+   ═══════════════════════════════════════════════════════════════ */
+function playSpectrogram() {
+  const canvas = document.getElementById('spec-canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = canvas.clientWidth * 2;
+  canvas.height = canvas.clientHeight * 2;
+  ctx.scale(2, 2);
+  const W = canvas.clientWidth;
+  const H = canvas.clientHeight;
+
+  // Pre-render text to get pixel positions
+  const offCanvas = document.createElement('canvas');
+  offCanvas.width = W;
+  offCanvas.height = Math.floor(H * 0.55);
+  const offCtx = offCanvas.getContext('2d');
+  offCtx.font = 'bold 28px Outfit';
+  offCtx.textAlign = 'center';
+  offCtx.textBaseline = 'middle';
+  offCtx.fillStyle = '#fff';
+  offCtx.fillText(NAME.toUpperCase(), W / 2, offCanvas.height / 2);
+  const textImgData = offCtx.getImageData(0, 0, offCanvas.width, offCanvas.height).data;
+
+  let col = 0;
+  const waveformH = Math.floor(H * 0.35);
+  const specH = H - waveformH - 15;
+  const specY = waveformH + 15;
+
+  // Clear
+  ctx.fillStyle = '#0d0d14';
+  ctx.fillRect(0, 0, W, H);
+
+  // Labels
+  ctx.font = '9px JetBrains Mono';
+  ctx.fillStyle = '#5c6370';
+  ctx.fillText('Amplitude', 8, 12);
+  ctx.fillText('Mel Spectrogram', 8, specY - 4);
+
+  function drawColumn() {
+    if (col >= W) {
+      // Final label
+      ctx.font = '9px JetBrains Mono';
+      ctx.fillStyle = '#98c379';
+      ctx.textAlign = 'right';
+      ctx.fillText('Emotion: Passionate | Confidence: 0.97', W - 10, H - 5);
+      return;
+    }
+
+    // Waveform
+    const waveVal = Math.sin(col * 0.05) * Math.sin(col * 0.12) * (waveformH * 0.35)
+                  + Math.sin(col * 0.3) * 8
+                  + (Math.random() - 0.5) * 10;
+    ctx.fillStyle = '#4ecdc4';
+    ctx.globalAlpha = 0.8;
+    const barH = Math.abs(waveVal);
+    ctx.fillRect(col, waveformH / 2 - barH / 2, 1, barH);
+    ctx.globalAlpha = 1;
+
+    // Spectrogram column
+    const specCols = Math.floor(specH / 2);
+    for (let row = 0; row < specCols; row++) {
+      // Base spectrogram noise
+      let intensity = Math.sin(row * 0.15 + col * 0.03) * 0.3
+                    + Math.sin(row * 0.08 - col * 0.02) * 0.2
+                    + Math.random() * 0.15;
+
+      // Check if this pixel corresponds to text
+      const texRow = Math.floor((row / specCols) * offCanvas.height);
+      const texCol = col;
+      if (texCol < offCanvas.width && texRow < offCanvas.height) {
+        const idx = (texRow * offCanvas.width + texCol) * 4;
+        if (textImgData[idx + 3] > 128) {
+          intensity += 0.6; // Boost where text is
+        }
+      }
+
+      intensity = Math.max(0, Math.min(1, intensity));
+
+      // Color: dark blue -> cyan -> yellow -> white
+      const r = Math.floor(intensity * intensity * 255);
+      const g = Math.floor(intensity * 200 + (1 - intensity) * 30);
+      const b = Math.floor((1 - intensity) * 180 + intensity * 50);
+      ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${0.3 + intensity * 0.7})`;
+      ctx.fillRect(col, specY + row * 2, 1, 2);
+    }
+
+    col += 2;
+    requestAnimationFrame(drawColumn);
+  }
+
+  col = 0;
+  ctx.fillStyle = '#0d0d14';
+  ctx.fillRect(0, 0, W, H);
+  ctx.font = '9px JetBrains Mono';
+  ctx.fillStyle = '#5c6370';
+  ctx.fillText('Amplitude', 8, 12);
+  ctx.fillText('Mel Spectrogram', 8, specY - 4);
+  drawColumn();
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   COMBO A: THE HARDWARE BOOT
+   Bitstream Flash → FSM Traversal → Seven-Segment Reveal
+   ═══════════════════════════════════════════════════════════════ */
+function playComboA() {
+  const canvas = document.getElementById('combo-a-canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = canvas.clientWidth * 2;
+  canvas.height = canvas.clientHeight * 2;
+  ctx.scale(2, 2);
+  const W = canvas.clientWidth;
+  const H = canvas.clientHeight;
+  const statusEl = document.getElementById('combo-a-status');
+  statusEl.classList.remove('visible');
+  statusEl.innerHTML = '';
+
+  const MONO = '12px JetBrains Mono';
+  const MONO_SM = '10px JetBrains Mono';
+  const MONO_XS = '9px JetBrains Mono';
+  let frame = 0;
+
+  // Phase timings (in frames at ~60fps)
+  const PHASE1_END = 180;   // Terminal + progress bar
+  const PHASE2_END = 360;   // FSM traversal
+  const PHASE3_END = 540;   // Seven-segment reveal
+
+  // FSM states
+  const fsmStates = [
+    { x: 100, y: 175, label: 'IDLE', color: '#5c6370' },
+    { x: 220, y: 175, label: 'LOAD', color: '#e5c07b' },
+    { x: 350, y: 175, label: 'EXEC', color: '#61afef' },
+    { x: 480, y: 175, label: 'OUT',  color: '#4ecdc4' },
+  ];
+
+  const nameChars = NAME.toUpperCase().split('');
+
+  function draw() {
+    ctx.fillStyle = '#0d0d14';
+    ctx.fillRect(0, 0, W, H);
+
+    // ── PHASE 1: Terminal + Bitstream Loading ──
+    if (frame < PHASE1_END) {
+      const termX = 30, termY = 40;
+      ctx.font = MONO;
+
+      // Line 1: JTAG scan
+      if (frame > 10) {
+        ctx.fillStyle = '#5c6370';
+        ctx.fillText('JTAG>', termX, termY);
+        ctx.fillStyle = '#e8e8ed';
+        const line1 = ' Scanning chain... Device found: XC7A35T';
+        const chars1 = Math.min(Math.floor((frame - 10) / 1.2), line1.length);
+        ctx.fillText(line1.substring(0, chars1), termX + 42, termY);
+      }
+
+      // Line 2: Loading bitstream
+      if (frame > 60) {
+        ctx.fillStyle = '#5c6370';
+        ctx.fillText('JTAG>', termX, termY + 22);
+        ctx.fillStyle = '#4ecdc4';
+        const line2 = ' Loading: prince_baah_mensah.bit';
+        const chars2 = Math.min(Math.floor((frame - 60) / 1.2), line2.length);
+        ctx.fillText(line2.substring(0, chars2), termX + 42, termY + 22);
+      }
+
+      // Progress bar
+      if (frame > 90) {
+        const barX = termX, barY = termY + 45;
+        const barW = W - 60, barH = 8;
+        const pct = Math.min((frame - 90) / 80, 1);
+
+        // Background
+        ctx.fillStyle = '#1a1a24';
+        ctx.beginPath();
+        ctx.roundRect(barX, barY, barW, barH, 4);
+        ctx.fill();
+
+        // Fill
+        const grad = ctx.createLinearGradient(barX, 0, barX + barW, 0);
+        grad.addColorStop(0, '#4ecdc4');
+        grad.addColorStop(1, '#7b68ee');
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.roundRect(barX, barY, barW * pct, barH, 4);
+        ctx.fill();
+
+        // Percentage
+        ctx.font = MONO_SM;
+        ctx.fillStyle = '#888';
+        ctx.textAlign = 'right';
+        ctx.fillText(Math.floor(pct * 100) + '%', barX + barW, barY + 22);
+        ctx.textAlign = 'left';
+      }
+
+      // Line 3: Boot message
+      if (frame > 170) {
+        ctx.fillStyle = '#98c379';
+        ctx.font = MONO;
+        ctx.fillText('✓ Programming complete. Booting FSM...', termX, termY + 85);
+      }
+
+      // Phase label
+      ctx.font = MONO_XS;
+      ctx.fillStyle = '#333';
+      ctx.textAlign = 'right';
+      ctx.fillText('Phase 1/3: Bitstream Load', W - 20, H - 12);
+      ctx.textAlign = 'left';
+    }
+
+    // ── PHASE 2: FSM Traversal ──
+    else if (frame < PHASE2_END) {
+      const p2 = frame - PHASE1_END;
+      const activeState = Math.min(Math.floor(p2 / 45), 3);
+      const subProgress = (p2 % 45) / 45;
+
+      // Draw arrows
+      for (let i = 0; i < fsmStates.length - 1; i++) {
+        const from = fsmStates[i];
+        const to = fsmStates[i + 1];
+        const isActive = i < activeState;
+        ctx.strokeStyle = isActive ? '#4ecdc4' : 'rgba(255,255,255,0.08)';
+        ctx.lineWidth = isActive ? 2 : 1;
+        ctx.beginPath();
+        ctx.moveTo(from.x + 38, from.y);
+        ctx.lineTo(to.x - 38, to.y);
+        ctx.stroke();
+        // Arrowhead
+        const ax = to.x - 38;
+        ctx.fillStyle = ctx.strokeStyle;
+        ctx.beginPath();
+        ctx.moveTo(ax, from.y - 4); ctx.lineTo(ax + 7, from.y); ctx.lineTo(ax, from.y + 4);
+        ctx.fill();
+      }
+
+      // Draw state circles
+      fsmStates.forEach((s, i) => {
+        const isActive = i === activeState;
+        const isPast = i < activeState;
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, 34, 0, Math.PI * 2);
+        ctx.fillStyle = isActive ? s.color + '25' : isPast ? 'rgba(78,205,196,0.05)' : 'rgba(255,255,255,0.02)';
+        ctx.fill();
+        ctx.strokeStyle = isActive ? s.color : isPast ? 'rgba(78,205,196,0.3)' : 'rgba(255,255,255,0.06)';
+        ctx.lineWidth = isActive ? 2.5 : 1;
+        ctx.stroke();
+
+        if (isActive) {
+          ctx.beginPath(); ctx.arc(s.x, s.y, 38, 0, Math.PI * 2);
+          ctx.strokeStyle = s.color + '33'; ctx.lineWidth = 3; ctx.stroke();
+        }
+
+        ctx.font = '11px JetBrains Mono';
+        ctx.fillStyle = isActive ? s.color : isPast ? '#4ecdc4' : '#444';
+        ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.fillText(s.label, s.x, s.y);
+        ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+      });
+
+      // Traveling dot
+      if (activeState < 3 && subProgress > 0) {
+        const from = fsmStates[activeState];
+        const to = fsmStates[activeState + 1];
+        const dx = (to.x - 38) - (from.x + 38);
+        const px = (from.x + 38) + dx * subProgress;
+        ctx.beginPath(); ctx.arc(px, from.y, 4, 0, Math.PI * 2);
+        ctx.fillStyle = '#4ecdc4'; ctx.fill();
+        ctx.beginPath(); ctx.arc(px, from.y, 8, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(78,205,196,0.15)'; ctx.fill();
+      }
+
+      // State description
+      const descriptions = ['Waiting for reset...', 'Loading parameters...', 'Processing inference...', 'Writing output buffer...'];
+      ctx.font = MONO_SM;
+      ctx.fillStyle = fsmStates[activeState].color;
+      ctx.textAlign = 'center';
+      ctx.fillText(descriptions[activeState], W / 2, 240);
+      ctx.textAlign = 'left';
+
+      // Separator line at top
+      ctx.fillStyle = '#4ecdc4';
+      ctx.font = MONO_XS;
+      ctx.fillText('✓ Bitstream loaded', 20, 25);
+
+      ctx.font = MONO_XS;
+      ctx.fillStyle = '#333';
+      ctx.textAlign = 'right';
+      ctx.fillText('Phase 2/3: FSM Execution', W - 20, H - 12);
+      ctx.textAlign = 'left';
+    }
+
+    // ── PHASE 3: Seven-Segment Reveal ──
+    else if (frame < PHASE3_END) {
+      const p3 = frame - PHASE2_END;
+
+      // Header
+      ctx.font = MONO_XS;
+      ctx.fillStyle = '#4ecdc4';
+      ctx.fillText('✓ Bitstream loaded', 20, 25);
+      ctx.fillText('✓ FSM: OUTPUT state reached', 20, 40);
+
+      // Seven-segment display
+      const segY = 120;
+      const charW = 28;
+      const totalW = nameChars.length * charW;
+      const startX = (W - totalW) / 2;
+
+      // Test phase: all segments flash (frames 0-30)
+      if (p3 < 30) {
+        ctx.font = 'bold 32px JetBrains Mono';
+        ctx.textAlign = 'center';
+        nameChars.forEach((ch, i) => {
+          const x = startX + i * charW + charW / 2;
+          // Dim red glow (test pattern)
+          ctx.fillStyle = p3 % 10 < 5 ? '#331111' : '#221111';
+          ctx.fillText(ch === ' ' ? '' : '8', x, segY);
+        });
+        ctx.textAlign = 'left';
+      }
+      // Sweep on: characters light up
+      else {
+        const litCount = Math.min(Math.floor((p3 - 40) / 6), nameChars.length);
+        ctx.font = 'bold 32px JetBrains Mono';
+        ctx.textAlign = 'center';
+        nameChars.forEach((ch, i) => {
+          const x = startX + i * charW + charW / 2;
+          if (i < litCount) {
+            // Lit LED
+            ctx.fillStyle = '#ff3333';
+            ctx.shadowColor = 'rgba(255,50,50,0.6)';
+            ctx.shadowBlur = 12;
+            ctx.fillText(ch === ' ' ? '' : ch, x, segY);
+            ctx.shadowBlur = 0;
+          } else {
+            // Dark segment outline
+            ctx.fillStyle = '#1a1111';
+            ctx.fillText(ch === ' ' ? '' : '8', x, segY);
+          }
+        });
+        ctx.textAlign = 'left';
+
+        // Subtitle appears after all chars
+        if (litCount >= nameChars.length) {
+          const subAlpha = Math.min((p3 - 40 - nameChars.length * 6) / 30, 1);
+          if (subAlpha > 0) {
+            ctx.globalAlpha = subAlpha;
+            ctx.font = '13px JetBrains Mono';
+            ctx.fillStyle = '#4ecdc4';
+            ctx.textAlign = 'center';
+            ctx.fillText('Electrical Engineer', W / 2, segY + 40);
+
+            // Scrolling subtitle
+            ctx.font = MONO_XS;
+            ctx.fillStyle = '#5c6370';
+            ctx.fillText('FPGA • AI Hardware • Embedded Systems', W / 2, segY + 60);
+            ctx.textAlign = 'left';
+            ctx.globalAlpha = 1;
+
+            if (subAlpha >= 1) {
+              statusEl.innerHTML = '✓ Boot complete — all subsystems nominal';
+              statusEl.classList.add('visible');
+            }
+          }
+        }
+      }
+
+      ctx.font = MONO_XS;
+      ctx.fillStyle = '#333';
+      ctx.textAlign = 'right';
+      ctx.fillText('Phase 3/3: Output Display', W - 20, H - 12);
+      ctx.textAlign = 'left';
+    }
+
+    frame++;
+    if (frame < PHASE3_END + 10) requestAnimationFrame(draw);
+  }
+
+  frame = 0;
+  draw();
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   COMBO B: DESIGN-TO-VERIFICATION
+   Verilog Module Typing → Logic Analyzer Waveform Decode
+   ═══════════════════════════════════════════════════════════════ */
+function playComboB() {
+  const canvas = document.getElementById('combo-b-canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = canvas.clientWidth * 2;
+  canvas.height = canvas.clientHeight * 2;
+  ctx.scale(2, 2);
+  const W = canvas.clientWidth;
+  const H = canvas.clientHeight;
+  const statusEl = document.getElementById('combo-b-status');
+  statusEl.classList.remove('visible');
+  statusEl.innerHTML = '';
+
+  const MONO = '11px JetBrains Mono';
+  const MONO_SM = '10px JetBrains Mono';
+  const MONO_XS = '9px JetBrains Mono';
+
+  // Phase 1: Verilog typing
+  const codeLines = [
+    { text: 'module', style: '#c678dd', plain: ' Prince_Baah_Mensah (', plainStyle: '#61afef' },
+    { text: '  input', style: '#e06c75', plain: '  wire       clk,', plainStyle: '#e8e8ed' },
+    { text: '  input', style: '#e06c75', plain: '  wire       rst_n,', plainStyle: '#e8e8ed' },
+    { text: '  output', style: '#e06c75', plain: ' reg [63:0] data_out', plainStyle: '#e8e8ed' },
+    { text: ');', style: '#e8e8ed', plain: '', plainStyle: '' },
+    { text: '// Simulating...', style: '#5c6370', plain: '', plainStyle: '' },
+  ];
+
+  let frame = 0;
+  const PHASE1_END = 200;  // Typing
+  const PHASE2_END = 520;  // Logic analyzer
+
+  function draw() {
+    ctx.fillStyle = '#0d0d14';
+    ctx.fillRect(0, 0, W, H);
+
+    // ── Split view ──
+    const splitX = Math.floor(W * 0.38);
+
+    // Left panel: Code editor
+    ctx.fillStyle = '#0a0a12';
+    ctx.fillRect(0, 0, splitX, H);
+    // Divider line
+    ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(splitX, 0); ctx.lineTo(splitX, H); ctx.stroke();
+
+    // Code panel header
+    ctx.fillStyle = '#111118';
+    ctx.fillRect(0, 0, splitX, 28);
+    ctx.font = MONO_XS;
+    ctx.fillStyle = '#5c6370';
+    ctx.fillText('  design.v', 6, 18);
+    ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+    ctx.beginPath(); ctx.moveTo(0, 28); ctx.lineTo(splitX, 28); ctx.stroke();
+
+    // Type code lines
+    const charsPerFrame = 1.2;
+    let totalCharsTyped = Math.floor(frame * charsPerFrame);
+    let charCount = 0;
+    const lineH = 18;
+    const codeY = 48;
+
+    codeLines.forEach((line, i) => {
+      const fullText = line.text + line.plain;
+      const lineStart = charCount;
+      charCount += fullText.length;
+
+      if (totalCharsTyped > lineStart) {
+        const visibleChars = Math.min(totalCharsTyped - lineStart, fullText.length);
+        const visText = fullText.substring(0, visibleChars);
+
+        // Line number
+        ctx.font = MONO_SM;
+        ctx.fillStyle = '#333';
+        ctx.fillText(String(i + 1).padStart(2), 8, codeY + i * lineH);
+
+        // Keyword part
+        ctx.font = MONO;
+        const kwLen = Math.min(visibleChars, line.text.length);
+        if (kwLen > 0) {
+          ctx.fillStyle = line.style;
+          ctx.fillText(line.text.substring(0, kwLen), 30, codeY + i * lineH);
+        }
+
+        // Plain part
+        if (visibleChars > line.text.length) {
+          const plainChars = visibleChars - line.text.length;
+          ctx.fillStyle = line.plainStyle || '#e8e8ed';
+          const kwWidth = ctx.measureText(line.text).width;
+          ctx.fillText(line.plain.substring(0, plainChars), 30 + kwWidth, codeY + i * lineH);
+        }
+
+        // Cursor
+        if (totalCharsTyped >= lineStart && totalCharsTyped <= lineStart + fullText.length) {
+          const cursorText = fullText.substring(0, visibleChars);
+          const cursorX = 30 + ctx.measureText(cursorText).width;
+          if (Math.floor(frame / 15) % 2 === 0) {
+            ctx.fillStyle = '#4ecdc4';
+            ctx.fillRect(cursorX, codeY + i * lineH - 10, 7, 13);
+          }
+        }
+      }
+    });
+
+    // Right panel: Logic Analyzer (appears after phase 1)
+    const rightX = splitX + 15;
+    const rightW = W - splitX - 30;
+
+    // Waveform panel header
+    ctx.fillStyle = '#111118';
+    ctx.fillRect(splitX, 0, W - splitX, 28);
+    ctx.font = MONO_XS;
+    ctx.fillStyle = '#5c6370';
+    ctx.fillText('  Vivado Simulator — Waveform Viewer', splitX + 10, 18);
+
+    if (frame > 100) {
+      const waveFrame = frame - 100;
+      const sweepX = rightX + Math.min(waveFrame * 1.8, rightW);
+
+      // Grid
+      ctx.strokeStyle = 'rgba(255,255,255,0.03)';
+      ctx.lineWidth = 0.5;
+      for (let x = rightX; x < rightX + rightW; x += 25) {
+        ctx.beginPath(); ctx.moveTo(x, 35); ctx.lineTo(x, H - 30); ctx.stroke();
+      }
+
+      // Signal labels
+      ctx.font = MONO_SM;
+      ctx.fillStyle = '#5c6370';
+      ctx.fillText('CLK', rightX, 62);
+      ctx.fillText('RST', rightX, 112);
+      ctx.fillText('D[7:0]', rightX, 180);
+
+      const sigStart = rightX + 48;
+      const sigEnd = Math.min(sweepX, rightX + rightW);
+      const segW = 12;
+
+      // CLK: square wave
+      ctx.strokeStyle = '#4ecdc4';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(sigStart, 55);
+      for (let x = sigStart; x < sigEnd; x += segW) {
+        const idx = Math.floor((x - sigStart) / segW);
+        const hi = 45, lo = 65;
+        if (idx % 2 === 0) { ctx.lineTo(x, hi); ctx.lineTo(x + segW, hi); }
+        else { ctx.lineTo(x, lo); ctx.lineTo(x + segW, lo); }
+      }
+      ctx.stroke();
+
+      // RST_N: goes high after a few cycles
+      ctx.strokeStyle = '#e06c75';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(sigStart, 118);
+      for (let x = sigStart; x < sigEnd; x += segW) {
+        const idx = Math.floor((x - sigStart) / segW);
+        if (idx < 3) ctx.lineTo(x + segW, 118);
+        else if (idx === 3) { ctx.lineTo(x, 118); ctx.lineTo(x, 100); ctx.lineTo(x + segW, 100); }
+        else ctx.lineTo(x + segW, 100);
+      }
+      ctx.stroke();
+
+      // DATA bus with transitions
+      ctx.strokeStyle = '#61afef';
+      ctx.lineWidth = 1.5;
+      const dataTop = 165, dataBot = 192;
+      ctx.beginPath();
+      for (let x = sigStart; x < sigEnd; x += segW) {
+        const idx = Math.floor((x - sigStart) / segW);
+        if (idx < 4) {
+          ctx.moveTo(x, dataTop); ctx.lineTo(x + segW, dataTop);
+          ctx.moveTo(x, dataBot); ctx.lineTo(x + segW, dataBot);
+        } else {
+          const charIdx = Math.floor((idx - 4) / 2);
+          if ((idx - 4) % 2 === 0 && charIdx < NAME.length) {
+            // Transition X
+            ctx.moveTo(x, dataTop); ctx.lineTo(x + 3, (dataTop+dataBot)/2); ctx.lineTo(x, dataBot);
+          }
+          ctx.moveTo(x, dataTop); ctx.lineTo(x + segW, dataTop);
+          ctx.moveTo(x, dataBot); ctx.lineTo(x + segW, dataBot);
+        }
+      }
+      ctx.stroke();
+
+      // Decoded text
+      const decodeStart = sigStart + 4 * segW;
+      let decoded = '';
+      for (let i = 0; i < NAME.length; i++) {
+        if (decodeStart + i * 2 * segW < sigEnd) decoded += NAME[i];
+      }
+      if (decoded) {
+        ctx.font = '13px JetBrains Mono';
+        ctx.fillStyle = '#98c379';
+        ctx.fillText('Decoded: "' + decoded + '"', sigStart, 225);
+
+        // Hex values
+        ctx.font = MONO_XS;
+        ctx.fillStyle = '#5c6370';
+        let hexStr = '';
+        for (let i = 0; i < decoded.length; i++) {
+          hexStr += decoded.charCodeAt(i).toString(16).toUpperCase() + ' ';
+        }
+        ctx.fillText('Hex: ' + hexStr, sigStart, 242);
+      }
+
+      // Sweep cursor
+      if (sweepX < rightX + rightW) {
+        ctx.strokeStyle = 'rgba(78,205,196,0.4)';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([3, 3]);
+        ctx.beginPath(); ctx.moveTo(sweepX, 35); ctx.lineTo(sweepX, H - 30); ctx.stroke();
+        ctx.setLineDash([]);
+      }
+
+      // Completion
+      if (decoded.length >= NAME.length) {
+        statusEl.innerHTML = '✓ Simulation passed — all assertions met | 0 errors, 0 warnings';
+        statusEl.classList.add('visible');
+      }
+    } else {
+      // Waiting text
+      ctx.font = MONO_SM;
+      ctx.fillStyle = '#333';
+      ctx.textAlign = 'center';
+      ctx.fillText('Compiling RTL...', splitX + (W - splitX) / 2, H / 2);
+      ctx.textAlign = 'left';
+    }
+
+    frame++;
+    if (frame < PHASE2_END) requestAnimationFrame(draw);
+  }
+
+  frame = 0;
+  draw();
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   COMBO B+: DESIGN → VERIFY → LED REVEAL
+   Verilog Typing → Logic Analyzer → FPGA Board LEDs
+   ═══════════════════════════════════════════════════════════════ */
+function playComboB2() {
+  const canvas = document.getElementById('combo-b2-canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = canvas.clientWidth * 2;
+  canvas.height = canvas.clientHeight * 2;
+  ctx.scale(2, 2);
+  const W = canvas.clientWidth;
+  const H = canvas.clientHeight;
+  const statusEl = document.getElementById('combo-b2-status');
+  statusEl.classList.remove('visible');
+  statusEl.innerHTML = '';
+
+  const MONO = '11px JetBrains Mono';
+  const MONO_SM = '10px JetBrains Mono';
+  const MONO_XS = '9px JetBrains Mono';
+
+  // Phase timings
+  const PHASE1_END = 280;   // Verilog typing (more code)
+  const PHASE2_END = 560;   // Logic analyzer sweep + decode
+  const PHASE3_END = 780;   // LED reveal on FPGA board
+
+  // Extended Verilog code
+  const codeLines = [
+    { kw: 'module', kwColor: '#c678dd', rest: ' Prince_Baah_Mensah (', restColor: '#61afef' },
+    { kw: '  input', kwColor: '#e06c75', rest: '  wire        clk,', restColor: '#e8e8ed' },
+    { kw: '  input', kwColor: '#e06c75', rest: '  wire        rst_n,', restColor: '#e8e8ed' },
+    { kw: '  output', kwColor: '#e06c75', rest: ' reg  [7:0]  led_out,', restColor: '#e8e8ed' },
+    { kw: '  output', kwColor: '#e06c75', rest: ' wire        led_valid', restColor: '#e8e8ed' },
+    { kw: ');', kwColor: '#e8e8ed', rest: '', restColor: '' },
+    { kw: '', kwColor: '', rest: '', restColor: '' },
+    { kw: 'reg', kwColor: '#c678dd', rest: ' [3:0] idx;', restColor: '#e8e8ed' },
+    { kw: 'reg', kwColor: '#c678dd', rest: ' [7:0] name_rom [0:17];', restColor: '#e8e8ed' },
+    { kw: '', kwColor: '', rest: '', restColor: '' },
+    { kw: 'initial', kwColor: '#c678dd', rest: ' begin', restColor: '#e8e8ed' },
+    { kw: '  ', kwColor: '', rest: 'name_rom[0]  = "P";', restColor: '#98c379' },
+    { kw: '  ', kwColor: '', rest: 'name_rom[1]  = "r";', restColor: '#98c379' },
+    { kw: '  ', kwColor: '', rest: 'name_rom[2]  = "i";', restColor: '#98c379' },
+    { kw: '  // ... 18 chars loaded', kwColor: '#5c6370', rest: '', restColor: '' },
+    { kw: 'end', kwColor: '#c678dd', rest: '', restColor: '' },
+    { kw: '', kwColor: '', rest: '', restColor: '' },
+    { kw: 'always', kwColor: '#c678dd', rest: ' @(posedge clk) begin', restColor: '#e8e8ed' },
+    { kw: '  if', kwColor: '#c678dd', rest: ' (!rst_n) idx <= 0;', restColor: '#e8e8ed' },
+    { kw: '  else', kwColor: '#c678dd', rest: ' begin', restColor: '#e8e8ed' },
+    { kw: '    ', kwColor: '', rest: 'led_out <= name_rom[idx];', restColor: '#61afef' },
+    { kw: '    ', kwColor: '', rest: 'idx <= idx + 1;', restColor: '#61afef' },
+    { kw: '  end', kwColor: '#c678dd', rest: '', restColor: '' },
+    { kw: 'end', kwColor: '#c678dd', rest: '', restColor: '' },
+    { kw: 'endmodule', kwColor: '#c678dd', rest: '', restColor: '' },
+  ];
+
+  const nameChars = NAME.toUpperCase().split('');
+  let frame = 0;
+
+  function draw() {
+    ctx.fillStyle = '#0d0d14';
+    ctx.fillRect(0, 0, W, H);
+
+    // ── SPLIT VIEW (Phases 1 & 2) ──
+    const splitX = Math.floor(W * 0.40);
+
+    // === LEFT PANEL: CODE EDITOR ===
+    ctx.fillStyle = '#0a0a12';
+    ctx.fillRect(0, 0, splitX, H);
+    ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(splitX, 0); ctx.lineTo(splitX, H); ctx.stroke();
+
+    // Code panel header
+    ctx.fillStyle = '#111118';
+    ctx.fillRect(0, 0, splitX, 26);
+    ctx.font = MONO_XS;
+    ctx.fillStyle = '#5c6370';
+    ctx.fillText('  prince_display.v', 6, 17);
+    ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+    ctx.beginPath(); ctx.moveTo(0, 26); ctx.lineTo(splitX, 26); ctx.stroke();
+
+    // Type code — calculate total chars for pacing
+    const charsPerFrame = 1.6;
+    let totalCharsTyped = Math.floor(Math.min(frame, PHASE1_END) * charsPerFrame);
+    let charCount = 0;
+    const lineH = 14;
+    const codeY = 40;
+
+    codeLines.forEach((line, i) => {
+      const fullText = line.kw + line.rest;
+      const lineStart = charCount;
+      charCount += fullText.length + 1; // +1 for newline
+
+      if (totalCharsTyped > lineStart && codeY + i * lineH < H - 10) {
+        const visibleChars = Math.min(totalCharsTyped - lineStart, fullText.length);
+
+        // Line number
+        ctx.font = '9px JetBrains Mono';
+        ctx.fillStyle = '#2a2a35';
+        ctx.fillText(String(i + 1).padStart(2), 6, codeY + i * lineH);
+
+        // Keyword part
+        ctx.font = MONO_SM;
+        const kwLen = Math.min(visibleChars, line.kw.length);
+        if (kwLen > 0 && line.kwColor) {
+          ctx.fillStyle = line.kwColor;
+          ctx.fillText(line.kw.substring(0, kwLen), 26, codeY + i * lineH);
+        }
+
+        // Rest part
+        if (visibleChars > line.kw.length && line.rest) {
+          const restChars = visibleChars - line.kw.length;
+          ctx.fillStyle = line.restColor || '#e8e8ed';
+          const kwWidth = ctx.measureText(line.kw).width;
+          ctx.fillText(line.rest.substring(0, restChars), 26 + kwWidth, codeY + i * lineH);
+        }
+
+        // Blinking cursor on current line
+        if (totalCharsTyped >= lineStart && totalCharsTyped <= lineStart + fullText.length) {
+          const cursorText = fullText.substring(0, visibleChars);
+          const cursorX = 26 + ctx.measureText(cursorText).width;
+          if (Math.floor(frame / 15) % 2 === 0) {
+            ctx.fillStyle = '#4ecdc4';
+            ctx.fillRect(cursorX, codeY + i * lineH - 9, 6, 12);
+          }
+        }
+      }
+    });
+
+    // "Compiled" notice after typing
+    if (frame > PHASE1_END - 20) {
+      const alpha = Math.min((frame - (PHASE1_END - 20)) / 20, 1);
+      ctx.globalAlpha = alpha;
+      ctx.font = MONO_XS;
+      ctx.fillStyle = '#98c379';
+      ctx.fillText('✓ Compiled — 0 errors', 10, H - 12);
+      ctx.globalAlpha = 1;
+    }
+
+    // === RIGHT PANEL: WAVEFORM VIEWER ===
+    const rightX = splitX + 12;
+    const rightW = W - splitX - 24;
+
+    // Waveform panel header
+    ctx.fillStyle = '#111118';
+    ctx.fillRect(splitX, 0, W - splitX, 26);
+    ctx.font = MONO_XS;
+    ctx.fillStyle = '#5c6370';
+    ctx.fillText('  Vivado Simulator — Waveform Viewer', splitX + 8, 17);
+
+    if (frame > PHASE1_END * 0.5) {
+      const waveFrame = frame - PHASE1_END * 0.5;
+      const sweepMax = rightW - 10;
+      const sweepX = rightX + Math.min(waveFrame * 1.6, sweepMax);
+
+      // Grid
+      ctx.strokeStyle = 'rgba(255,255,255,0.025)';
+      ctx.lineWidth = 0.5;
+      for (let x = rightX; x < rightX + rightW; x += 20) {
+        ctx.beginPath(); ctx.moveTo(x, 32); ctx.lineTo(x, H * 0.65); ctx.stroke();
+      }
+
+      // Time ruler
+      ctx.font = '8px JetBrains Mono';
+      ctx.fillStyle = '#222';
+      for (let x = rightX + 48; x < rightX + rightW; x += 60) {
+        ctx.fillText(Math.floor((x - rightX - 48) / 6) + 'ns', x, 38);
+      }
+
+      // Signal labels
+      ctx.font = MONO_SM;
+      ctx.fillStyle = '#5c6370';
+      ctx.fillText('CLK', rightX, 62);
+      ctx.fillText('RST_N', rightX, 105);
+      ctx.fillText('LED[7:0]', rightX, 160);
+      ctx.fillText('VALID', rightX, 210);
+
+      const sigStart = rightX + 58;
+      const sigEnd = Math.min(sweepX, rightX + rightW - 5);
+      const segW = 10;
+
+      // CLK: square wave
+      ctx.strokeStyle = '#4ecdc4';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(sigStart, 58);
+      for (let x = sigStart; x < sigEnd; x += segW) {
+        const idx = Math.floor((x - sigStart) / segW);
+        const hi = 48, lo = 65;
+        if (idx % 2 === 0) { ctx.lineTo(x, hi); ctx.lineTo(x + segW, hi); }
+        else { ctx.lineTo(x, lo); ctx.lineTo(x + segW, lo); }
+      }
+      ctx.stroke();
+
+      // RST_N: goes high after a few cycles
+      ctx.strokeStyle = '#e06c75';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(sigStart, 110);
+      for (let x = sigStart; x < sigEnd; x += segW) {
+        const idx = Math.floor((x - sigStart) / segW);
+        if (idx < 3) ctx.lineTo(x + segW, 110);
+        else if (idx === 3) { ctx.lineTo(x, 110); ctx.lineTo(x, 95); ctx.lineTo(x + segW, 95); }
+        else ctx.lineTo(x + segW, 95);
+      }
+      ctx.stroke();
+
+      // LED[7:0] data bus with transitions
+      ctx.strokeStyle = '#61afef';
+      ctx.lineWidth = 1.5;
+      const dataTop = 148, dataBot = 170;
+      ctx.beginPath();
+      for (let x = sigStart; x < sigEnd; x += segW) {
+        const idx = Math.floor((x - sigStart) / segW);
+        if (idx < 5) {
+          ctx.moveTo(x, dataTop); ctx.lineTo(x + segW, dataTop);
+          ctx.moveTo(x, dataBot); ctx.lineTo(x + segW, dataBot);
+        } else {
+          const charIdx = Math.floor((idx - 5) / 2);
+          if ((idx - 5) % 2 === 0 && charIdx < NAME.length) {
+            ctx.moveTo(x, dataTop); ctx.lineTo(x + 3, (dataTop + dataBot) / 2); ctx.lineTo(x, dataBot);
+          }
+          ctx.moveTo(x, dataTop); ctx.lineTo(x + segW, dataTop);
+          ctx.moveTo(x, dataBot); ctx.lineTo(x + segW, dataBot);
+        }
+      }
+      ctx.stroke();
+
+      // LED_VALID signal
+      ctx.strokeStyle = '#98c379';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(sigStart, 215);
+      for (let x = sigStart; x < sigEnd; x += segW) {
+        const idx = Math.floor((x - sigStart) / segW);
+        if (idx < 5) ctx.lineTo(x + segW, 215);
+        else if (idx === 5) { ctx.lineTo(x, 215); ctx.lineTo(x, 200); ctx.lineTo(x + segW, 200); }
+        else ctx.lineTo(x + segW, 200);
+      }
+      ctx.stroke();
+
+      // Decoded text from data bus
+      const decodeStart = sigStart + 5 * segW;
+      let decoded = '';
+      for (let i = 0; i < NAME.length; i++) {
+        if (decodeStart + i * 2 * segW < sigEnd) decoded += NAME[i];
+      }
+      if (decoded) {
+        ctx.font = '12px JetBrains Mono';
+        ctx.fillStyle = '#98c379';
+        ctx.fillText('Decoded: "' + decoded + '"', sigStart, 240);
+
+        // Hex readout
+        ctx.font = MONO_XS;
+        ctx.fillStyle = '#444';
+        let hexStr = '';
+        for (let i = 0; i < Math.min(decoded.length, 10); i++) {
+          hexStr += '0x' + decoded.charCodeAt(i).toString(16).toUpperCase() + ' ';
+        }
+        if (decoded.length > 10) hexStr += '...';
+        ctx.fillText(hexStr, sigStart, 255);
+      }
+
+      // Sweep cursor
+      if (sweepX < rightX + rightW - 5) {
+        ctx.strokeStyle = 'rgba(78,205,196,0.35)';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([3, 3]);
+        ctx.beginPath(); ctx.moveTo(sweepX, 32); ctx.lineTo(sweepX, H * 0.65); ctx.stroke();
+        ctx.setLineDash([]);
+      }
+    } else {
+      // Waiting
+      ctx.font = MONO_SM;
+      ctx.fillStyle = '#222';
+      ctx.textAlign = 'center';
+      ctx.fillText('Compiling RTL...', splitX + (W - splitX) / 2, H / 3);
+      ctx.textAlign = 'left';
+    }
+
+    // Phase indicator (phases 1-2)
+    if (frame < PHASE2_END) {
+      ctx.font = MONO_XS;
+      ctx.fillStyle = '#222';
+      ctx.textAlign = 'right';
+      const phaseLabel = frame < PHASE1_END ? 'Phase 1/3: RTL Design' : 'Phase 2/3: Simulation';
+      ctx.fillText(phaseLabel, W - 12, H - 8);
+      ctx.textAlign = 'left';
+    }
+
+    // === PHASE 3: FPGA BOARD LED REVEAL ===
+    if (frame >= PHASE2_END) {
+      const p3 = frame - PHASE2_END;
+
+      // Fade overlay on top of code/waveform
+      const fadeAlpha = Math.min(p3 / 40, 0.92);
+      ctx.fillStyle = `rgba(10, 10, 15, ${fadeAlpha})`;
+      ctx.fillRect(0, 0, W, H);
+
+      if (p3 > 20) {
+        const boardAlpha = Math.min((p3 - 20) / 30, 1);
+        ctx.globalAlpha = boardAlpha;
+
+        // Phase label
+        ctx.font = MONO_XS;
+        ctx.fillStyle = '#4ecdc4';
+        ctx.fillText('✓ RTL compiled', 20, 22);
+        ctx.fillText('✓ Simulation passed — 0 errors', 20, 36);
+        ctx.fillStyle = '#e5c07b';
+        ctx.fillText('▶ Programming FPGA board...', 20, 50);
+
+        // Draw simplified FPGA board
+        const boardX = W * 0.08;
+        const boardY = 70;
+        const boardW = W * 0.84;
+        const boardH = H - 100;
+        const boardR = 8;
+
+        // PCB substrate
+        ctx.fillStyle = '#0e3a0e';
+        ctx.beginPath(); ctx.roundRect(boardX, boardY, boardW, boardH, boardR); ctx.fill();
+        ctx.strokeStyle = '#1a5a1a';
+        ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.roundRect(boardX, boardY, boardW, boardH, boardR); ctx.stroke();
+
+        // Board label (silkscreen)
+        ctx.font = '8px JetBrains Mono';
+        ctx.fillStyle = 'rgba(255,255,255,0.15)';
+        ctx.fillText('XC7A35T — Artix-7 FPGA Development Board', boardX + 12, boardY + 16);
+
+        // Trace lines (decorative)
+        ctx.strokeStyle = 'rgba(180,160,80,0.12)';
+        ctx.lineWidth = 0.5;
+        for (let i = 0; i < 8; i++) {
+          const ty = boardY + 25 + i * 12;
+          ctx.beginPath();
+          ctx.moveTo(boardX + 10, ty);
+          ctx.lineTo(boardX + 60, ty);
+          ctx.lineTo(boardX + 65, ty + (i % 2 === 0 ? 4 : -4));
+          ctx.lineTo(boardX + boardW - 60, ty + (i % 2 === 0 ? 4 : -4));
+          ctx.stroke();
+        }
+
+        // FPGA chip (center of board)
+        const chipSize = 50;
+        const chipX = boardX + boardW / 2 - chipSize / 2;
+        const chipY = boardY + 28;
+        ctx.fillStyle = '#111';
+        ctx.fillRect(chipX, chipY, chipSize, chipSize);
+        ctx.strokeStyle = '#333';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(chipX, chipY, chipSize, chipSize);
+        // Chip pins
+        ctx.fillStyle = '#888';
+        for (let i = 0; i < 6; i++) {
+          ctx.fillRect(chipX + 6 + i * 7, chipY - 3, 3, 4);
+          ctx.fillRect(chipX + 6 + i * 7, chipY + chipSize - 1, 3, 4);
+          ctx.fillRect(chipX - 3, chipY + 6 + i * 7, 4, 3);
+          ctx.fillRect(chipX + chipSize - 1, chipY + 6 + i * 7, 4, 3);
+        }
+        // Chip label
+        ctx.font = '6px JetBrains Mono';
+        ctx.fillStyle = '#555';
+        ctx.textAlign = 'center';
+        ctx.fillText('ARTIX-7', chipX + chipSize / 2, chipY + chipSize / 2 + 2);
+        ctx.textAlign = 'left';
+
+        // === LED ROW ===
+        const ledCount = nameChars.length;
+        const ledSize = 14;
+        const ledGap = 5;
+        const totalLedW = ledCount * (ledSize + ledGap) - ledGap;
+        const ledStartX = boardX + (boardW - totalLedW) / 2;
+        const ledY = boardY + boardH * 0.45;
+
+        // "LD" label
+        ctx.font = '7px JetBrains Mono';
+        ctx.fillStyle = 'rgba(255,255,255,0.12)';
+        ctx.fillText('LD0-17', ledStartX, ledY - 8);
+
+        // Determine how many LEDs are lit
+        const litDelay = 50; // frames after phase 3 start
+        const litCount = p3 > litDelay
+          ? Math.min(Math.floor((p3 - litDelay) / 5), ledCount)
+          : 0;
+
+        nameChars.forEach((ch, i) => {
+          const lx = ledStartX + i * (ledSize + ledGap);
+
+          if (i < litCount) {
+            // LED ON: bright green glow
+            const glowIntensity = 0.7 + Math.sin(frame * 0.05 + i * 0.3) * 0.15;
+
+            // Outer glow
+            ctx.beginPath(); ctx.arc(lx + ledSize / 2, ledY + ledSize / 2, ledSize, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(78, 205, 196, ${0.08 * glowIntensity})`;
+            ctx.fill();
+
+            // LED body
+            ctx.beginPath(); ctx.arc(lx + ledSize / 2, ledY + ledSize / 2, ledSize / 2, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(78, 220, 200, ${glowIntensity})`;
+            ctx.fill();
+
+            // Inner bright spot
+            ctx.beginPath(); ctx.arc(lx + ledSize / 2, ledY + ledSize / 2, ledSize / 4, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(200, 255, 245, ${0.6 * glowIntensity})`;
+            ctx.fill();
+
+            // Character label below LED
+            ctx.font = 'bold 13px JetBrains Mono';
+            ctx.fillStyle = '#4ecdc4';
+            ctx.textAlign = 'center';
+            ctx.shadowColor = 'rgba(78,205,196,0.5)';
+            ctx.shadowBlur = 6;
+            ctx.fillText(ch === ' ' ? '' : ch, lx + ledSize / 2, ledY + ledSize + 16);
+            ctx.shadowBlur = 0;
+            ctx.textAlign = 'left';
+          } else {
+            // LED OFF: dark
+            ctx.beginPath(); ctx.arc(lx + ledSize / 2, ledY + ledSize / 2, ledSize / 2, 0, Math.PI * 2);
+            ctx.fillStyle = '#0a1a18';
+            ctx.fill();
+            ctx.strokeStyle = '#1a3a35';
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+          }
+        });
+
+        // Subtitle after all LEDs lit
+        if (litCount >= ledCount) {
+          const subAlpha = Math.min((p3 - litDelay - ledCount * 5) / 30, 1);
+          if (subAlpha > 0) {
+            ctx.globalAlpha = subAlpha;
+
+            // "Electrical Engineer" subtitle
+            ctx.font = '12px JetBrains Mono';
+            ctx.fillStyle = '#4ecdc4';
+            ctx.textAlign = 'center';
+            ctx.fillText('Electrical Engineer', boardX + boardW / 2, ledY + ledSize + 42);
+
+            // Domain tags
+            ctx.font = MONO_XS;
+            ctx.fillStyle = '#5c6370';
+            ctx.fillText('FPGA  •  AI Hardware  •  Embedded Systems', boardX + boardW / 2, ledY + ledSize + 58);
+            ctx.textAlign = 'left';
+
+            ctx.globalAlpha = 1;
+
+            if (subAlpha >= 1) {
+              statusEl.innerHTML = '✓ Design compiled → Simulation passed → Board programmed — all LEDs nominal';
+              statusEl.classList.add('visible');
+            }
+          }
+        }
+
+        // Power LED (always on, red, top-right corner of board)
+        ctx.beginPath(); ctx.arc(boardX + boardW - 18, boardY + 14, 3, 0, Math.PI * 2);
+        ctx.fillStyle = '#ff3333';
+        ctx.fill();
+        ctx.font = '6px JetBrains Mono';
+        ctx.fillStyle = 'rgba(255,255,255,0.1)';
+        ctx.fillText('PWR', boardX + boardW - 28, boardY + 24);
+
+        // Done LED (blinks during programming, solid after)
+        const doneLedOn = p3 < litDelay ? Math.floor(p3 / 8) % 2 === 0 : true;
+        ctx.beginPath(); ctx.arc(boardX + boardW - 35, boardY + 14, 3, 0, Math.PI * 2);
+        ctx.fillStyle = doneLedOn ? '#98c379' : '#1a2a1a';
+        ctx.fill();
+        ctx.font = '6px JetBrains Mono';
+        ctx.fillStyle = 'rgba(255,255,255,0.1)';
+        ctx.fillText('DONE', boardX + boardW - 50, boardY + 24);
+
+        // USB connector (left side)
+        ctx.fillStyle = '#222';
+        ctx.fillRect(boardX - 4, boardY + boardH / 2 - 10, 8, 20);
+        ctx.strokeStyle = '#444';
+        ctx.lineWidth = 0.5;
+        ctx.strokeRect(boardX - 4, boardY + boardH / 2 - 10, 8, 20);
+        ctx.font = '5px JetBrains Mono';
+        ctx.fillStyle = 'rgba(255,255,255,0.08)';
+        ctx.save();
+        ctx.translate(boardX - 8, boardY + boardH / 2 + 12);
+        ctx.rotate(-Math.PI / 2);
+        ctx.fillText('USB-JTAG', 0, 0);
+        ctx.restore();
+
+        // Phase label
+        ctx.font = MONO_XS;
+        ctx.fillStyle = '#333';
+        ctx.textAlign = 'right';
+        ctx.fillText('Phase 3/3: Hardware Deployment', W - 12, H - 8);
+        ctx.textAlign = 'left';
+
+        ctx.globalAlpha = 1;
+      }
+    }
+
+    frame++;
+    if (frame < PHASE3_END + 20) requestAnimationFrame(draw);
+  }
+
+  frame = 0;
+  draw();
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   COMBO D: CODE → BITSTREAM → WAVEFORM
+   Full Verilog → Synthesis Terminal → Waveform Verification
+   ═══════════════════════════════════════════════════════════════ */
+function playComboD() {
+  const canvas = document.getElementById('combo-d-canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = canvas.clientWidth * 2;
+  canvas.height = canvas.clientHeight * 2;
+  ctx.scale(2, 2);
+  const W = canvas.clientWidth;
+  const H = canvas.clientHeight;
+  const statusEl = document.getElementById('combo-d-status');
+  statusEl.classList.remove('visible');
+  statusEl.innerHTML = '';
+
+  const MONO = '11px JetBrains Mono';
+  const MONO_SM = '10px JetBrains Mono';
+  const MONO_XS = '9px JetBrains Mono';
+
+  // Phase timings
+  const P1_END = 300;   // Code typing
+  const P2_START = 310; // Bitstream generation
+  const P2_END = 500;   // Bitstream done
+  const P3_START = 520; // Waveform viewer
+  const P3_END = 820;   // Waveform complete
+
+  // Verilog code (25 lines)
+  const codeLines = [
+    { kw: 'module', kwC: '#c678dd', rest: ' Prince_Baah_Mensah (', restC: '#61afef' },
+    { kw: '  input', kwC: '#e06c75', rest: '  wire        clk,', restC: '#e8e8ed' },
+    { kw: '  input', kwC: '#e06c75', rest: '  wire        rst_n,', restC: '#e8e8ed' },
+    { kw: '  output', kwC: '#e06c75', rest: ' reg  [7:0]  data_out,', restC: '#e8e8ed' },
+    { kw: '  output', kwC: '#e06c75', rest: ' wire        valid', restC: '#e8e8ed' },
+    { kw: ');', kwC: '#e8e8ed', rest: '', restC: '' },
+    { kw: '', kwC: '', rest: '', restC: '' },
+    { kw: 'reg', kwC: '#c678dd', rest: ' [4:0] idx;', restC: '#e8e8ed' },
+    { kw: 'reg', kwC: '#c678dd', rest: ' [7:0] name_rom [0:17];', restC: '#e8e8ed' },
+    { kw: '', kwC: '', rest: '', restC: '' },
+    { kw: 'initial', kwC: '#c678dd', rest: ' begin', restC: '#e8e8ed' },
+    { kw: '  ', kwC: '', rest: 'name_rom[0]  = "P";', restC: '#98c379' },
+    { kw: '  ', kwC: '', rest: 'name_rom[1]  = "r";', restC: '#98c379' },
+    { kw: '  ', kwC: '', rest: 'name_rom[2]  = "i";', restC: '#98c379' },
+    { kw: '  // ... 18 chars loaded', kwC: '#5c6370', rest: '', restC: '' },
+    { kw: 'end', kwC: '#c678dd', rest: '', restC: '' },
+    { kw: '', kwC: '', rest: '', restC: '' },
+    { kw: 'assign', kwC: '#c678dd', rest: ' valid = (idx < 18);', restC: '#e8e8ed' },
+    { kw: '', kwC: '', rest: '', restC: '' },
+    { kw: 'always', kwC: '#c678dd', rest: ' @(posedge clk) begin', restC: '#e8e8ed' },
+    { kw: '  if', kwC: '#c678dd', rest: ' (!rst_n)', restC: '#e8e8ed' },
+    { kw: '    ', kwC: '', rest: 'idx <= 0;', restC: '#61afef' },
+    { kw: '  else if', kwC: '#c678dd', rest: ' (valid) begin', restC: '#e8e8ed' },
+    { kw: '    ', kwC: '', rest: 'data_out <= name_rom[idx];', restC: '#61afef' },
+    { kw: '    ', kwC: '', rest: 'idx      <= idx + 1;', restC: '#61afef' },
+    { kw: '  end', kwC: '#c678dd', rest: '', restC: '' },
+    { kw: 'end', kwC: '#c678dd', rest: '', restC: '' },
+    { kw: 'endmodule', kwC: '#c678dd', rest: '', restC: '' },
+  ];
+
+  // Bitstream terminal lines
+  const termLines = [
+    { text: 'vivado> synth_design -top Prince_Baah_Mensah', color: '#e8e8ed', delay: 0 },
+    { text: 'INFO: Synthesis complete. 0 errors, 0 critical warnings.', color: '#98c379', delay: 25 },
+    { text: 'vivado> place_design', color: '#e8e8ed', delay: 50 },
+    { text: 'INFO: Placement complete. WNS = 2.14 ns', color: '#98c379', delay: 70 },
+    { text: 'vivado> route_design', color: '#e8e8ed', delay: 90 },
+    { text: 'INFO: Routing complete. All 47 nets routed.', color: '#98c379', delay: 110 },
+    { text: 'vivado> write_bitstream prince_baah_mensah.bit', color: '#e8e8ed', delay: 125 },
+  ];
+
+  let frame = 0;
+
+  // Pre-calculate total chars in code for typing speed
+  let totalCodeChars = 0;
+  codeLines.forEach(l => totalCodeChars += l.kw.length + l.rest.length + 1);
+  const charsPerFrame = totalCodeChars / (P1_END - 20); // finish typing 20 frames before phase end
+
+  function draw() {
+    ctx.fillStyle = '#0d0d14';
+    ctx.fillRect(0, 0, W, H);
+
+    // ============================================
+    // PHASE 1: CODE EDITOR (full-width)
+    // ============================================
+    if (frame < P2_START) {
+      // Phase 1 alpha (fade out at end)
+      const fadeOut = frame > P1_END ? Math.max(0, 1 - (frame - P1_END) / 10) : 1;
+      ctx.globalAlpha = fadeOut;
+
+      // Editor chrome
+      ctx.fillStyle = '#111118';
+      ctx.fillRect(0, 0, W, 28);
+      ctx.font = MONO_XS;
+      ctx.fillStyle = '#5c6370';
+      ctx.fillText('  prince_display.v', 8, 17);
+      // Tab dots
+      ctx.fillStyle = '#e06c75'; ctx.beginPath(); ctx.arc(W - 40, 14, 4, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#e5c07b'; ctx.beginPath(); ctx.arc(W - 28, 14, 4, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#98c379'; ctx.beginPath(); ctx.arc(W - 16, 14, 4, 0, Math.PI * 2); ctx.fill();
+      ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(0, 28); ctx.lineTo(W, 28); ctx.stroke();
+
+      // Code content
+      let totalCharsTyped = Math.floor(Math.min(frame, P1_END) * charsPerFrame);
+      let charCount = 0;
+      const lineH = 13;
+      const codeY = 42;
+      const codeX = 50;
+
+      codeLines.forEach((line, i) => {
+        const fullText = line.kw + line.rest;
+        const lineStart = charCount;
+        charCount += fullText.length + 1;
+
+        if (totalCharsTyped > lineStart && codeY + i * lineH < H - 5) {
+          const vis = Math.min(totalCharsTyped - lineStart, fullText.length);
+
+          // Line number
+          ctx.font = '9px JetBrains Mono';
+          ctx.fillStyle = '#2a2a35';
+          ctx.textAlign = 'right';
+          ctx.fillText(String(i + 1), 36, codeY + i * lineH);
+          ctx.textAlign = 'left';
+
+          // Gutter line
+          ctx.strokeStyle = 'rgba(255,255,255,0.03)';
+          ctx.beginPath(); ctx.moveTo(42, 30); ctx.lineTo(42, H); ctx.stroke();
+
+          // Keyword
+          ctx.font = MONO_SM;
+          const kwLen = Math.min(vis, line.kw.length);
+          if (kwLen > 0 && line.kwC) {
+            ctx.fillStyle = line.kwC;
+            ctx.fillText(line.kw.substring(0, kwLen), codeX, codeY + i * lineH);
+          }
+
+          // Rest
+          if (vis > line.kw.length && line.rest) {
+            const restLen = vis - line.kw.length;
+            ctx.fillStyle = line.restC || '#e8e8ed';
+            const kwW = ctx.measureText(line.kw).width;
+            ctx.fillText(line.rest.substring(0, restLen), codeX + kwW, codeY + i * lineH);
+          }
+
+          // Cursor on active line
+          if (totalCharsTyped >= lineStart && totalCharsTyped <= lineStart + fullText.length) {
+            const cursorText = fullText.substring(0, vis);
+            const cx = codeX + ctx.measureText(cursorText).width;
+            if (Math.floor(frame / 15) % 2 === 0) {
+              ctx.fillStyle = '#4ecdc4';
+              ctx.fillRect(cx, codeY + i * lineH - 9, 6, 12);
+            }
+          }
+        }
+      });
+
+      // "Compiled" badge
+      if (frame > P1_END - 15) {
+        const a = Math.min((frame - (P1_END - 15)) / 15, 1);
+        ctx.globalAlpha = a * fadeOut;
+        ctx.font = MONO_XS;
+        ctx.fillStyle = '#98c379';
+        ctx.fillText('✓ Syntax OK — ready for synthesis', 50, H - 10);
+        ctx.globalAlpha = fadeOut;
+      }
+
+      // Phase label
+      ctx.font = MONO_XS;
+      ctx.fillStyle = '#222';
+      ctx.textAlign = 'right';
+      ctx.fillText('Phase 1/3 — RTL Design', W - 15, H - 10);
+      ctx.textAlign = 'left';
+      ctx.globalAlpha = 1;
+    }
+
+    // ============================================
+    // PHASE 2: BITSTREAM GENERATION TERMINAL
+    // ============================================
+    if (frame >= P2_START && frame < P3_START) {
+      // Fade in
+      const fadeIn = Math.min((frame - P2_START) / 15, 1);
+      const fadeOut2 = frame > P2_END ? Math.max(0, 1 - (frame - P2_END) / 15) : 1;
+      ctx.globalAlpha = fadeIn * fadeOut2;
+
+      // Terminal chrome
+      ctx.fillStyle = '#111118';
+      ctx.fillRect(0, 0, W, 28);
+      ctx.font = MONO_XS;
+      ctx.fillStyle = '#5c6370';
+      ctx.fillText('  Vivado TCL Console', 8, 17);
+      ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(0, 28); ctx.lineTo(W, 28); ctx.stroke();
+
+      const termY = 48;
+      const lineH = 20;
+      const p2Frame = frame - P2_START;
+
+      termLines.forEach((tl, i) => {
+        if (p2Frame > tl.delay) {
+          const lineAlpha = Math.min((p2Frame - tl.delay) / 8, 1);
+          ctx.globalAlpha = lineAlpha * fadeIn * fadeOut2;
+          ctx.font = MONO;
+          ctx.fillStyle = tl.color;
+          ctx.fillText(tl.text, 20, termY + i * lineH);
+        }
+      });
+
+      // Progress bar for bitstream write
+      if (p2Frame > 130) {
+        const barX = 20, barY = termY + termLines.length * lineH + 10;
+        const barW = W - 40, barH = 8;
+        const pct = Math.min((p2Frame - 130) / 50, 1);
+
+        ctx.globalAlpha = fadeIn * fadeOut2;
+        ctx.fillStyle = '#1a1a24';
+        ctx.beginPath(); ctx.roundRect(barX, barY, barW, barH, 4); ctx.fill();
+
+        const grad = ctx.createLinearGradient(barX, 0, barX + barW, 0);
+        grad.addColorStop(0, '#4ecdc4');
+        grad.addColorStop(1, '#7b68ee');
+        ctx.fillStyle = grad;
+        ctx.beginPath(); ctx.roundRect(barX, barY, barW * pct, barH, 4); ctx.fill();
+
+        // Percentage
+        ctx.font = MONO_SM;
+        ctx.fillStyle = '#888';
+        ctx.textAlign = 'right';
+        ctx.fillText(Math.floor(pct * 100) + '%', barX + barW, barY + 22);
+        ctx.textAlign = 'left';
+
+        // Done message
+        if (pct >= 1) {
+          ctx.font = MONO;
+          ctx.fillStyle = '#98c379';
+          ctx.fillText('✓ Bitstream generated: prince_baah_mensah.bit (247,518 bytes)', 20, barY + 40);
+          ctx.fillStyle = '#4ecdc4';
+          ctx.fillText('JTAG> Programming device... Done.', 20, barY + 60);
+        }
+      }
+
+      // Phase label
+      ctx.globalAlpha = fadeIn * fadeOut2;
+      ctx.font = MONO_XS;
+      ctx.fillStyle = '#222';
+      ctx.textAlign = 'right';
+      ctx.fillText('Phase 2/3 — Synthesis & Programming', W - 15, H - 10);
+      ctx.textAlign = 'left';
+      ctx.globalAlpha = 1;
+    }
+
+    // ============================================
+    // PHASE 3: FULL-WIDTH WAVEFORM VIEWER
+    // ============================================
+    if (frame >= P3_START) {
+      const fadeIn3 = Math.min((frame - P3_START) / 20, 1);
+      ctx.globalAlpha = fadeIn3;
+
+      // Waveform chrome
+      ctx.fillStyle = '#111118';
+      ctx.fillRect(0, 0, W, 30);
+      ctx.font = MONO_XS;
+      ctx.fillStyle = '#5c6370';
+      ctx.fillText('  Vivado ILA — Integrated Logic Analyzer', 8, 19);
+
+      // Status badges
+      ctx.font = '8px JetBrains Mono';
+      ctx.fillStyle = '#98c379';
+      ctx.textAlign = 'right';
+      ctx.fillText('● ARMED', W - 80, 13);
+      ctx.fillStyle = '#4ecdc4';
+      ctx.fillText('● TRIGGERED', W - 80, 24);
+      ctx.textAlign = 'left';
+
+      ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(0, 30); ctx.lineTo(W, 30); ctx.stroke();
+
+      const waveFrame = frame - P3_START;
+      const labelW = 72;
+      const sigStart = labelW + 8;
+      const sigEnd_max = W - 15;
+      const sweepX = sigStart + Math.min(waveFrame * 2.2, sigEnd_max - sigStart);
+      const segW = 11;
+
+      // Grid
+      ctx.strokeStyle = 'rgba(255,255,255,0.025)';
+      ctx.lineWidth = 0.5;
+      for (let x = sigStart; x < sigEnd_max; x += 22) {
+        ctx.beginPath(); ctx.moveTo(x, 34); ctx.lineTo(x, H - 55); ctx.stroke();
+      }
+      for (let y = 40; y < H - 55; y += 35) {
+        ctx.beginPath(); ctx.moveTo(sigStart, y); ctx.lineTo(sigEnd_max, y); ctx.stroke();
+      }
+
+      // Time ruler
+      ctx.font = '7px JetBrains Mono';
+      ctx.fillStyle = '#1a1a24';
+      for (let x = sigStart; x < sigEnd_max; x += 55) {
+        const ns = Math.floor((x - sigStart) / 5.5);
+        ctx.fillText(ns + 'ns', x, 40);
+      }
+
+      // Signal definitions
+      const signals = [
+        { label: 'clk',       y: 68,  h: 20, type: 'clk' },
+        { label: 'rst_n',     y: 112, h: 20, type: 'rst' },
+        { label: 'data_out[7:0]', y: 165, h: 24, type: 'bus' },
+        { label: 'valid',     y: 220, h: 20, type: 'valid' },
+      ];
+
+      // Draw signal labels
+      ctx.fillStyle = '#0a0a12';
+      ctx.fillRect(0, 30, labelW, H - 30);
+      ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+      ctx.beginPath(); ctx.moveTo(labelW, 30); ctx.lineTo(labelW, H); ctx.stroke();
+
+      signals.forEach(sig => {
+        ctx.font = MONO_SM;
+        ctx.fillStyle = '#5c6370';
+        ctx.fillText(sig.label, 6, sig.y + 3);
+      });
+
+      const sigEnd = Math.min(sweepX, sigEnd_max);
+
+      // CLK
+      ctx.strokeStyle = '#4ecdc4';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(sigStart, signals[0].y + signals[0].h);
+      for (let x = sigStart; x < sigEnd; x += segW) {
+        const idx = Math.floor((x - sigStart) / segW);
+        const hi = signals[0].y;
+        const lo = signals[0].y + signals[0].h;
+        if (idx % 2 === 0) { ctx.lineTo(x, hi); ctx.lineTo(x + segW, hi); }
+        else { ctx.lineTo(x, lo); ctx.lineTo(x + segW, lo); }
+      }
+      ctx.stroke();
+
+      // RST_N
+      ctx.strokeStyle = '#e06c75';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      const rstHi = signals[1].y;
+      const rstLo = signals[1].y + signals[1].h;
+      ctx.moveTo(sigStart, rstLo);
+      for (let x = sigStart; x < sigEnd; x += segW) {
+        const idx = Math.floor((x - sigStart) / segW);
+        if (idx < 4) ctx.lineTo(x + segW, rstLo);
+        else if (idx === 4) { ctx.lineTo(x, rstLo); ctx.lineTo(x, rstHi); ctx.lineTo(x + segW, rstHi); }
+        else ctx.lineTo(x + segW, rstHi);
+      }
+      ctx.stroke();
+
+      // DATA_OUT bus
+      ctx.strokeStyle = '#61afef';
+      ctx.lineWidth = 1.5;
+      const busTop = signals[2].y;
+      const busMid = signals[2].y + signals[2].h / 2;
+      const busBot = signals[2].y + signals[2].h;
+      ctx.beginPath();
+      for (let x = sigStart; x < sigEnd; x += segW) {
+        const idx = Math.floor((x - sigStart) / segW);
+        if (idx < 6) {
+          // Pre-data: flat bus
+          ctx.moveTo(x, busTop); ctx.lineTo(x + segW, busTop);
+          ctx.moveTo(x, busBot); ctx.lineTo(x + segW, busBot);
+        } else {
+          // Data transitions
+          const charIdx = Math.floor((idx - 6) / 2);
+          if ((idx - 6) % 2 === 0 && charIdx < NAME.length) {
+            // Transition X crossover
+            ctx.moveTo(x, busTop); ctx.lineTo(x + 4, busMid); ctx.lineTo(x, busBot);
+            ctx.moveTo(x, busBot); ctx.lineTo(x + 4, busMid);
+          }
+          ctx.moveTo(x, busTop); ctx.lineTo(x + segW, busTop);
+          ctx.moveTo(x, busBot); ctx.lineTo(x + segW, busBot);
+
+          // Char value inside bus
+          if (charIdx < NAME.length && (idx - 6) % 2 === 1) {
+            ctx.save();
+            ctx.font = '8px JetBrains Mono';
+            ctx.fillStyle = 'rgba(97,175,239,0.5)';
+            ctx.fillText('0x' + NAME.charCodeAt(charIdx).toString(16).toUpperCase(), x - segW + 2, busMid + 3);
+            ctx.restore();
+          }
+        }
+      }
+      ctx.stroke();
+
+      // VALID signal
+      ctx.strokeStyle = '#98c379';
+      ctx.lineWidth = 1.5;
+      const vHi = signals[3].y;
+      const vLo = signals[3].y + signals[3].h;
+      ctx.beginPath();
+      ctx.moveTo(sigStart, vLo);
+      for (let x = sigStart; x < sigEnd; x += segW) {
+        const idx = Math.floor((x - sigStart) / segW);
+        if (idx < 6) ctx.lineTo(x + segW, vLo);
+        else if (idx === 6) { ctx.lineTo(x, vLo); ctx.lineTo(x, vHi); ctx.lineTo(x + segW, vHi); }
+        else ctx.lineTo(x + segW, vHi);
+      }
+      ctx.stroke();
+
+      // Sweep cursor
+      if (sweepX < sigEnd_max) {
+        ctx.strokeStyle = 'rgba(78,205,196,0.3)';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([3, 3]);
+        ctx.beginPath(); ctx.moveTo(sweepX, 34); ctx.lineTo(sweepX, H - 55); ctx.stroke();
+        ctx.setLineDash([]);
+      }
+
+      // Decoded name (bottom panel)
+      const decodeY = H - 45;
+      ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(0, decodeY - 8); ctx.lineTo(W, decodeY - 8); ctx.stroke();
+
+      const decodeStart = sigStart + 6 * segW;
+      let decoded = '';
+      for (let i = 0; i < NAME.length; i++) {
+        if (decodeStart + i * 2 * segW < sigEnd) decoded += NAME[i];
+      }
+
+      // Left side: live decode label
+      ctx.font = MONO_SM;
+      ctx.fillStyle = '#5c6370';
+      ctx.fillText('Decode:', 8, decodeY + 5);
+
+      if (decoded) {
+        // Decoded string
+        ctx.font = 'bold 16px JetBrains Mono';
+        ctx.fillStyle = '#4ecdc4';
+        ctx.shadowColor = 'rgba(78,205,196,0.3)';
+        ctx.shadowBlur = 8;
+        ctx.fillText(decoded, 70, decodeY + 7);
+        ctx.shadowBlur = 0;
+
+        // Blinking cursor after text
+        if (decoded.length < NAME.length && Math.floor(frame / 12) % 2 === 0) {
+          const tw = ctx.measureText(decoded).width;
+          ctx.fillStyle = '#4ecdc4';
+          ctx.fillRect(70 + tw + 2, decodeY - 6, 9, 16);
+        }
+
+        // Hex on right
+        ctx.font = MONO_XS;
+        ctx.fillStyle = '#444';
+        ctx.textAlign = 'right';
+        let hexStr = '';
+        for (let i = 0; i < Math.min(decoded.length, 12); i++) {
+          hexStr += decoded.charCodeAt(i).toString(16).toUpperCase() + ' ';
+        }
+        if (decoded.length > 12) hexStr += '…';
+        ctx.fillText(hexStr, W - 10, decodeY + 5);
+        ctx.textAlign = 'left';
+      }
+
+      // Bottom info bar
+      if (decoded.length >= NAME.length) {
+        const a = Math.min((sweepX - (decodeStart + NAME.length * 2 * segW)) / 40, 1);
+        if (a > 0) {
+          ctx.globalAlpha = a;
+          ctx.font = MONO_XS;
+          ctx.fillStyle = '#98c379';
+          ctx.fillText('✓ Capture complete — 18 chars decoded, all assertions passed', 8, H - 8);
+
+          ctx.fillStyle = '#5c6370';
+          ctx.textAlign = 'right';
+          ctx.fillText('0 errors  ·  0 warnings  ·  WNS = 2.14ns', W - 10, H - 8);
+          ctx.textAlign = 'left';
+          ctx.globalAlpha = 1;
+
+          statusEl.innerHTML = '✓ RTL Design → Synthesis → Verification complete — <span style="color:#4ecdc4">Prince Baah-Mensah</span>';
+          statusEl.classList.add('visible');
+        }
+      }
+
+      // Phase label
+      ctx.font = MONO_XS;
+      ctx.fillStyle = '#222';
+      ctx.textAlign = 'right';
+      ctx.fillText('Phase 3/3 — Logic Analyzer Capture', W - 15, H - 22);
+      ctx.textAlign = 'left';
+
+      ctx.globalAlpha = 1;
+    }
+
+    frame++;
+    if (frame < P3_END + 20) requestAnimationFrame(draw);
+  }
+
+  frame = 0;
+  draw();
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   COMBO C: SPARSE INFERENCE
+   Neural Network Forward Pass → Hex Dump Output Buffer
+   ═══════════════════════════════════════════════════════════════ */
+function playComboC() {
+  const canvas = document.getElementById('combo-c-canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = canvas.clientWidth * 2;
+  canvas.height = canvas.clientHeight * 2;
+  ctx.scale(2, 2);
+  const W = canvas.clientWidth;
+  const H = canvas.clientHeight;
+  const statusEl = document.getElementById('combo-c-status');
+  statusEl.classList.remove('visible');
+  statusEl.innerHTML = '';
+
+  const MONO = '11px JetBrains Mono';
+  const MONO_SM = '10px JetBrains Mono';
+  const MONO_XS = '9px JetBrains Mono';
+
+  // Layout: Neural net on top, hex dump on bottom
+  const nnH = Math.floor(H * 0.55);
+  const hexY = nnH + 10;
+
+  // Neural network layers
+  const layers = [
+    { count: 5, x: 80 },
+    { count: 8, x: 190 },
+    { count: 8, x: 310 },
+    { count: 6, x: 430 },
+  ];
+  layers.forEach(layer => {
+    layer.nodes = [];
+    const totalNodeH = (layer.count - 1) * 22;
+    const startY = nnH / 2 - totalNodeH / 2;
+    for (let i = 0; i < layer.count; i++) {
+      layer.nodes.push({ x: layer.x, y: startY + i * 22, alive: Math.random() > 0.3 });
+    }
+  });
+  // Input layer always alive
+  layers[0].nodes.forEach(n => n.alive = true);
+
+  // Build connections
+  const connections = [];
+  for (let l = 0; l < layers.length - 1; l++) {
+    for (let i = 0; i < layers[l].count; i++) {
+      for (let j = 0; j < layers[l + 1].count; j++) {
+        const alive = layers[l].nodes[i].alive && layers[l + 1].nodes[j].alive && Math.random() > 0.4;
+        connections.push({ from: layers[l].nodes[i], to: layers[l + 1].nodes[j], layer: l, alive });
+      }
+    }
+  }
+
+  // Hex dump data
+  const nameBytes = [];
+  for (let i = 0; i < NAME.length; i++) nameBytes.push(NAME.charCodeAt(i));
+  while (nameBytes.length % 8 !== 0) nameBytes.push(0);
+  const hexLines = [];
+  for (let i = 0; i < nameBytes.length; i += 8) {
+    const addr = '0x' + (i).toString(16).padStart(4, '0');
+    const hex = nameBytes.slice(i, i + 8).map(b => b.toString(16).padStart(2, '0').toUpperCase()).join(' ');
+    const ascii = nameBytes.slice(i, i + 8).map(b => b >= 32 && b < 127 ? String.fromCharCode(b) : '.').join('');
+    hexLines.push({ addr, hex, ascii });
+  }
+
+  let frame = 0;
+  const PHASE1_END = 250;   // Neural net inference
+  const PHASE2_END = 420;   // Hex dump reveal
+  let totalAlive = connections.filter(c => c.alive).length;
+  let totalConns = connections.length;
+  let sparsity = Math.round((1 - totalAlive / totalConns) * 100);
+
+  function draw() {
+    ctx.fillStyle = '#0d0d14';
+    ctx.fillRect(0, 0, W, H);
+
+    // ── Neural Network ──
+    const pulseLayer = Math.min(Math.floor((frame / PHASE1_END) * (layers.length + 1)), layers.length);
+
+    // Panel header
+    ctx.font = MONO_XS;
+    ctx.fillStyle = '#5c6370';
+    ctx.fillText('Sparse Accelerator — Forward Pass', 15, 15);
+
+    // Draw connections
+    connections.forEach(conn => {
+      const isActivating = conn.layer < pulseLayer;
+      ctx.strokeStyle = conn.alive
+        ? (isActivating ? 'rgba(78, 205, 196, 0.2)' : 'rgba(255,255,255,0.03)')
+        : 'rgba(224, 108, 117, 0.03)';
+      ctx.lineWidth = 0.5;
+      ctx.beginPath();
+      ctx.moveTo(conn.from.x, conn.from.y);
+      ctx.lineTo(conn.to.x, conn.to.y);
+      ctx.stroke();
+
+      // Pulse dots
+      if (conn.alive && conn.layer === pulseLayer - 1 && frame < PHASE1_END) {
+        const sub = (frame % (PHASE1_END / (layers.length + 1))) / (PHASE1_END / (layers.length + 1));
+        const px = conn.from.x + (conn.to.x - conn.from.x) * sub;
+        const py = conn.from.y + (conn.to.y - conn.from.y) * sub;
+        ctx.beginPath(); ctx.arc(px, py, 1.5, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(78,205,196,0.5)'; ctx.fill();
+      }
+    });
+
+    // Draw nodes
+    layers.forEach((layer, l) => {
+      const isActive = l < pulseLayer;
+      layer.nodes.forEach((node) => {
+        ctx.beginPath(); ctx.arc(node.x, node.y, 6, 0, Math.PI * 2);
+        if (isActive) {
+          ctx.fillStyle = node.alive ? 'rgba(78,205,196,0.25)' : 'rgba(224,108,117,0.1)';
+          ctx.strokeStyle = node.alive ? '#4ecdc4' : 'rgba(224,108,117,0.3)';
+        } else {
+          ctx.fillStyle = 'rgba(255,255,255,0.02)';
+          ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+        }
+        ctx.fill(); ctx.lineWidth = 1; ctx.stroke();
+
+        // Dead node X mark
+        if (isActive && !node.alive) {
+          ctx.strokeStyle = 'rgba(224,108,117,0.4)';
+          ctx.lineWidth = 1;
+          ctx.beginPath(); ctx.moveTo(node.x - 3, node.y - 3); ctx.lineTo(node.x + 3, node.y + 3); ctx.stroke();
+          ctx.beginPath(); ctx.moveTo(node.x + 3, node.y - 3); ctx.lineTo(node.x - 3, node.y + 3); ctx.stroke();
+        }
+      });
+
+      // Layer labels
+      ctx.font = '8px JetBrains Mono';
+      ctx.fillStyle = '#333'; ctx.textAlign = 'center';
+      const labels = ['Input', 'Hidden 1', 'Hidden 2', 'Output'];
+      ctx.fillText(labels[l], layer.x, nnH - 8);
+      ctx.textAlign = 'left';
+    });
+
+    // Sparsity stats (top right)
+    if (pulseLayer > 0) {
+      ctx.font = MONO_XS;
+      ctx.textAlign = 'right';
+      ctx.fillStyle = '#e06c75';
+      ctx.fillText('Zeroes skipped: ' + sparsity + '%', W - 15, 15);
+      ctx.fillStyle = '#98c379';
+      ctx.fillText('Cycles saved: ' + Math.round(sparsity * 8.47), W - 15, 28);
+      ctx.textAlign = 'left';
+    }
+
+    // ── Divider ──
+    ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(15, hexY - 5); ctx.lineTo(W - 15, hexY - 5); ctx.stroke();
+
+    // ── Hex Dump Output Buffer ──
+    if (frame > PHASE1_END) {
+      const hexFrame = frame - PHASE1_END;
+
+      ctx.font = MONO_XS;
+      ctx.fillStyle = '#5c6370';
+      ctx.fillText('Output Buffer — Memory Dump', 15, hexY + 8);
+
+      const lineH = 18;
+      const hexStartY = hexY + 25;
+      const linesVisible = Math.min(Math.floor(hexFrame / 20), hexLines.length);
+
+      for (let i = 0; i < linesVisible; i++) {
+        const line = hexLines[i];
+        const y = hexStartY + i * lineH;
+        ctx.font = MONO;
+        // Address
+        ctx.fillStyle = '#5c6370';
+        ctx.fillText(line.addr + ':', 25, y);
+        // Hex bytes
+        ctx.fillStyle = '#61afef';
+        ctx.fillText('  ' + line.hex, 70, y);
+        // ASCII
+        ctx.fillStyle = '#98c379';
+        ctx.fillText('  |' + line.ascii + '|', 260, y);
+      }
+
+      // Blinking cursor
+      if (linesVisible < hexLines.length && Math.floor(frame / 10) % 2 === 0) {
+        ctx.fillStyle = '#4ecdc4';
+        ctx.fillRect(25, hexStartY + linesVisible * lineH - 10, 7, 13);
+      }
+
+      // Completion
+      if (linesVisible >= hexLines.length) {
+        const doneAlpha = Math.min((hexFrame - hexLines.length * 20) / 30, 1);
+        if (doneAlpha > 0) {
+          ctx.globalAlpha = doneAlpha;
+          ctx.font = MONO;
+          ctx.fillStyle = '#98c379';
+          const finalY = hexStartY + hexLines.length * lineH + 10;
+          ctx.fillText('→ "' + NAME + '"', 25, finalY);
+          ctx.globalAlpha = 1;
+
+          statusEl.innerHTML = '✓ Inference complete — Sparsity: ' + sparsity + '% | Zero-skip savings: ' + Math.round(sparsity * 8.47) + ' cycles';
+          statusEl.classList.add('visible');
+        }
+      }
+    } else {
+      // Waiting
+      ctx.font = MONO_SM;
+      ctx.fillStyle = '#222';
+      ctx.textAlign = 'center';
+      ctx.fillText('Waiting for inference output...', W / 2, hexY + 50);
+      ctx.textAlign = 'left';
+    }
+
+    frame++;
+    if (frame < PHASE2_END + 10) requestAnimationFrame(draw);
+  }
+
+  frame = 0;
+  draw();
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,102 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #0a0a0f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  transition: opacity 0.6s ease-out;
+}
+
+.overlay.fadeOut {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ── Cinematic Subtitle ── */
+.subtitle {
+  position: absolute;
+  bottom: 72px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(0.95rem, 2vw, 1.15rem);
+  font-weight: 400;
+  color: rgba(232, 232, 237, 0.7);
+  letter-spacing: 0.04em;
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out;
+  white-space: nowrap;
+  pointer-events: none;
+  text-align: center;
+}
+
+.subtitle.visible {
+  opacity: 1;
+}
+
+/* ── Phase indicator ── */
+.phaseIndicator {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+  font-size: 0.65rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.12);
+  letter-spacing: 0.06em;
+  pointer-events: none;
+}
+
+/* ── Skip button ── */
+.skipButton {
+  position: absolute;
+  bottom: 24px;
+  right: 28px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.3);
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.4rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  z-index: 10;
+}
+
+.skipButton:hover {
+  color: rgba(255, 255, 255, 0.6);
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* ── Accessibility: skip entire animation for reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .overlay {
+    display: none;
+  }
+}
+
+/* ── Mobile adjustments ── */
+@media (max-width: 640px) {
+  .subtitle {
+    font-size: 0.85rem;
+    bottom: 64px;
+  }
+
+  .skipButton {
+    bottom: 18px;
+    right: 18px;
+    font-size: 0.75rem;
+  }
+}
