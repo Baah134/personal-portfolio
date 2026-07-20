@@ -54,7 +54,7 @@ const stats = [
   { value: "IEEE", label: "MYOSA 2025 Finalist" },
   { value: "75+", label: "IEEE Community" },
   { value: "1", label: "IEEE Publication" },
-  { value: "IMS", label: "IEEE Undergrad Scholar" },
+  { value: "IEEE IMS", label: "Undergraduate Scholarship" },
 ];
 
 interface TimelineEvent {
