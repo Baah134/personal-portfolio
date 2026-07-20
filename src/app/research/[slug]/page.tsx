@@ -76,6 +76,9 @@ const researchProjects: Record<
       "Successfully presented and accepted at the IEEE 3SCEA 2026 conference.",
     ],
     techStack: ["Unreal Engine 5", "Blueprints", "OpenAI API", "Python", "REST API", "JSON"],
+    links: [
+      { label: "IEEE Xplore", href: "https://ieeexplore.ieee.org/document/11602834" }
+    ],
   },
   "speech-emotion": {
     title: "Speech Emotion Recognition Research",
@@ -174,6 +177,25 @@ export default async function ResearchDetail({ params }: PageProps) {
                 <span key={tag} className="tag">{tag}</span>
               ))}
             </div>
+            {project.links && (
+              <div className={styles.links} style={{ marginTop: 'var(--space-6)', display: 'flex', gap: 'var(--space-3)' }}>
+                {project.links.map((link) => (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-outline"
+                    id={`research-link-${link.label.toLowerCase().replace(/\s+/g, '-')}`}
+                  >
+                    {link.label}
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ marginLeft: '6px' }}>
+                      <path d="M15 3h6v6" /><path d="M10 14 21 3" /><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                    </svg>
+                  </a>
+                ))}
+              </div>
+            )}
           </div>
           
           {project.image ? (
