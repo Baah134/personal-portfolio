@@ -7,6 +7,39 @@ import styles from "./page.module.css";
 
 const projects = [
   {
+    slug: "fpga-autoresearch",
+    title: "FPGA Autoresearch – Autonomous Vivado RTL Loop",
+    date: "Jul 2026",
+    category: "AI Agent",
+    desc: "An agentic loop that autonomously runs Vivado experiments overnight and iterates toward better hardware designs, powered by free NVIDIA NIM LLMs.",
+    tags: ["Python", "Verilog", "Vivado Tcl", "NVIDIA NIM", "Git"],
+    badge: "Active Dev",
+    image: "/images/project-fpga-autoresearch.jpg",
+    filters: ["IoT & Embedded", "Mini Projects"],
+  },
+  {
+    slug: "sparse-compute-accelerator",
+    title: "Sparse-Compute AI Hardware Accelerator",
+    date: "Jul 2026 – Present",
+    category: "AI Hardware",
+    desc: "An ASIC/FPGA-targeted compute engine designed in Verilog that dynamically skips zero-valued activations to save clock cycles and operational power on edge devices.",
+    tags: ["Verilog", "Vivado Tcl", "FSM Control", "Block RAM", "Simulink"],
+    badge: "Work in Progress",
+    image: "/images/project-sparse-accelerator.jpg",
+    filters: ["IoT & Embedded"],
+  },
+  {
+    slug: "llm-wiki",
+    title: "LLM Wiki — Personal AI Knowledge Base",
+    date: "Jun 2026",
+    category: "AI Agent",
+    desc: "AI agent that synthesises articles and papers into a compounding personal wiki, built with NVIDIA's free API.",
+    tags: ["Python", "LLM Agents", "Flask", "NVIDIA NIM"],
+    badge: "Open Source",
+    image: "/images/project-llm-wiki.jpg",
+    filters: ["Mini Projects"],
+  },
+  {
     slug: "lumina",
     title: "Lumina – AI Ambient Intelligence System",
     date: "Dec 2025",
@@ -60,39 +93,6 @@ const projects = [
     badge: "CTO & Co-founder",
     image: "/images/aquablue.jpeg",
     filters: ["Product Development"],
-  },
-  {
-    slug: "llm-wiki",
-    title: "LLM Wiki — Personal AI Knowledge Base",
-    date: "Jun 2026",
-    category: "AI Agent",
-    desc: "AI agent that synthesises articles and papers into a compounding personal wiki, built with NVIDIA's free API.",
-    tags: ["Python", "LLM Agents", "Flask", "NVIDIA NIM"],
-    badge: "Open Source",
-    image: "/images/project-llm-wiki.jpg",
-    filters: ["Mini Projects"],
-  },
-  {
-    slug: "fpga-autoresearch",
-    title: "FPGA Autoresearch – Autonomous Vivado RTL Loop",
-    date: "Jul 2026",
-    category: "AI Agent",
-    desc: "An agentic loop that autonomously runs Vivado experiments overnight and iterates toward better hardware designs, powered by free NVIDIA NIM LLMs.",
-    tags: ["Python", "Verilog", "Vivado Tcl", "NVIDIA NIM", "Git"],
-    badge: "Active Dev",
-    image: "/images/project-fpga-autoresearch.jpg",
-    filters: ["AI & Machine Learning", "IoT & Embedded", "Mini Projects"],
-  },
-  {
-    slug: "sparse-compute-accelerator",
-    title: "Sparse-Compute AI Hardware Accelerator",
-    date: "Jul 2026 – Present",
-    category: "AI Hardware",
-    desc: "An ASIC/FPGA-targeted compute engine designed in Verilog that dynamically skips zero-valued activations to save clock cycles and operational power on edge devices.",
-    tags: ["Verilog", "Vivado Tcl", "FSM Control", "Block RAM", "Simulink"],
-    badge: "Work in Progress",
-    image: "/images/project-sparse-accelerator.jpg",
-    filters: ["AI & Machine Learning", "IoT & Embedded"],
   },
 ];
 
@@ -302,6 +302,22 @@ function ProjectSkillLogo({ name }: { name: string }) {
       </svg>
     );
   }
+  if (normalized === 'vivado tcl' || normalized === 'vivado') {
+    return (
+      <svg className={styles.projectSkillSvg} viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ color: '#005cb9' }}>
+        <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
+        <path d="M9 9l3 6 3-6" />
+        <line x1="9" y1="1" x2="9" y2="4"></line>
+        <line x1="15" y1="1" x2="15" y2="4"></line>
+        <line x1="9" y1="20" x2="9" y2="23"></line>
+        <line x1="15" y1="20" x2="15" y2="23"></line>
+        <line x1="20" y1="9" x2="23" y2="9"></line>
+        <line x1="20" y1="15" x2="23" y2="15"></line>
+        <line x1="1" y1="9" x2="4" y2="9"></line>
+        <line x1="1" y1="15" x2="4" y2="15"></line>
+      </svg>
+    );
+  }
 
   // Brand logos via Simple Icons CDN
   let iconSlug = '';
@@ -349,7 +365,6 @@ function ProjectSkillLogo({ name }: { name: string }) {
       iconSlug = 'git';
       break;
     case 'tcl':
-    case 'vivado tcl':
       iconSlug = 'tcl';
       break;
     case 'simulink':
