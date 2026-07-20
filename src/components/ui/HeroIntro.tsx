@@ -44,13 +44,24 @@ const CODE_LINES = [
 
 /* ── Vivado terminal lines ── */
 const TERM_LINES = [
-  { text: 'vivado> synth_design -top Prince_Baah_Mensah', color: '#e8e8ed', delay: 0 },
-  { text: 'INFO: Synthesis complete. 0 errors, 0 critical warnings.', color: '#98c379', delay: 35 },
-  { text: 'vivado> place_design', color: '#e8e8ed', delay: 70 },
-  { text: 'INFO: Placement complete. WNS = 2.14 ns', color: '#98c379', delay: 100 },
-  { text: 'vivado> route_design', color: '#e8e8ed', delay: 130 },
-  { text: 'INFO: Routing complete. All 47 nets routed.', color: '#98c379', delay: 160 },
-  { text: 'vivado> write_bitstream prince_baah_mensah.bit', color: '#e8e8ed', delay: 185 },
+  { text: 'vivado> read_verilog ./src/prince_display.v', color: '#e8e8ed', delay: 0 },
+  { text: 'INFO: [filemgmt 56-3] Analyzing Verilog file "./src/prince_display.v" successfully.', color: '#98c379', delay: 20 },
+  { text: 'vivado> synth_design -top Prince_Baah_Mensah -part xc7a35tcsg324-1', color: '#e8e8ed', delay: 45 },
+  { text: 'WARNING: [Synth 8-3331] design Prince_Baah_Mensah has unconnected port led_out[7]', color: '#e5c07b', delay: 65 },
+  { text: 'INFO: [Synth 8-638] synthesizing module \'Prince_Baah_Mensah\'', color: '#e8e8ed', delay: 85 },
+  { text: 'INFO: [Synth 8-256] done synthesizing module \'Prince_Baah_Mensah\' (1#1)', color: '#98c379', delay: 110 },
+  { text: '---------------------------------------------------------------------------------', color: '#5c6370', delay: 125 },
+  { text: 'Part Resources  |  Used  |  Available  |  Utilization %', color: '#abb2bf', delay: 140 },
+  { text: 'Slice LUTs      |    38  |      20800  |          0.18', color: '#abb2bf', delay: 155 },
+  { text: 'Slice Registers |    54  |      41600  |          0.13', color: '#abb2bf', delay: 170 },
+  { text: 'Block RAM       |     1  |         50  |          2.00', color: '#abb2bf', delay: 185 },
+  { text: '---------------------------------------------------------------------------------', color: '#5c6370', delay: 200 },
+  { text: 'vivado> place_design', color: '#e8e8ed', delay: 220 },
+  { text: 'INFO: [Place 30-611] Multithreading enabled for place_design using 8 logical cores.', color: '#98c379', delay: 240 },
+  { text: 'INFO: [Place 30-574] Place completed. WNS = 2.144 ns (Setup Met).', color: '#98c379', delay: 260 },
+  { text: 'vivado> route_design', color: '#e8e8ed', delay: 280 },
+  { text: 'INFO: [Route 35-16] Router completed successfully. WHS = 0.086 ns (Hold Met).', color: '#98c379', delay: 295 },
+  { text: 'vivado> write_bitstream prince_baah_mensah.bit', color: '#e8e8ed', delay: 315 },
 ];
 
 /* ── Subtitle text per phase ── */
@@ -111,12 +122,12 @@ export default function HeroIntro({ onComplete, forcePlay = false }: HeroIntroPr
     const MONO_SM = `${Math.max(9, Math.min(11, W * 0.011))}px JetBrains Mono, SF Mono, Fira Code, monospace`;
     const MONO_XS = `${Math.max(8, Math.min(10, W * 0.009))}px JetBrains Mono, SF Mono, Fira Code, monospace`;
 
-    // Phase timings (frames at 60fps) - slowed down (~1.5x)
+    // Phase timings (frames at 60fps) - adjusted for expanded logs
     const P1_END = 380;
     const P2_START = 390;
-    const P2_END = 620;
-    const P3_START = 640;
-    const P3_END = 1040;
+    const P2_END = 800;
+    const P3_START = 820;
+    const P3_END = 1200;
 
     // Pre-calc total code chars
     let totalCodeChars = 0;
@@ -231,27 +242,31 @@ export default function HeroIntro({ onComplete, forcePlay = false }: HeroIntroPr
         ctx.lineWidth = 1;
         ctx.beginPath(); ctx.moveTo(0, 28); ctx.lineTo(W, 28); ctx.stroke();
 
-        const termY = 50;
-        const lineH = 22;
+        // Terminal lines container with scrolling calculation
+        const termY = 46;
+        const lineH = Math.max(13, Math.min(16, H * 0.032));
+        const maxLines = Math.floor((H - 145) / lineH);
         const p2Frame = frame - P2_START;
 
-        TERM_LINES.forEach((tl, i) => {
-          if (p2Frame > tl.delay) {
-            const lineAlpha = Math.min((p2Frame - tl.delay) / 8, 1);
-            ctx.globalAlpha = lineAlpha * fadeIn * fadeOut2;
-            ctx.font = MONO;
-            ctx.fillStyle = tl.color;
-            ctx.fillText(tl.text, 24, termY + i * lineH);
-          }
+        // Filter lines that are ready to display
+        const visibleLines = TERM_LINES.filter(tl => p2Frame > tl.delay);
+        const startIndex = Math.max(0, visibleLines.length - maxLines);
+        
+        visibleLines.slice(startIndex).forEach((tl, index) => {
+          const lineAlpha = Math.min((p2Frame - tl.delay) / 8, 1);
+          ctx.globalAlpha = lineAlpha * fadeIn * fadeOut2;
+          ctx.font = MONO_SM;
+          ctx.fillStyle = tl.color;
+          ctx.fillText(tl.text, 24, termY + index * lineH);
         });
 
-        // Progress bar
-        if (p2Frame > 195) {
+        // Progress bar (positioned at the bottom to avoid overlaps)
+        if (p2Frame > 330) {
           const barX = 24;
-          const barY = termY + TERM_LINES.length * lineH + 14;
+          const barY = H - 95;
           const barW = Math.min(W - 48, 600);
           const barH = 8;
-          const pct = Math.min((p2Frame - 195) / 80, 1);
+          const pct = Math.min((p2Frame - 330) / 70, 1);
 
           ctx.globalAlpha = fadeIn * fadeOut2;
           ctx.fillStyle = '#1a1a24';
@@ -272,9 +287,9 @@ export default function HeroIntro({ onComplete, forcePlay = false }: HeroIntroPr
           if (pct >= 1) {
             ctx.font = MONO;
             ctx.fillStyle = '#98c379';
-            ctx.fillText('✓ Bitstream generated: prince_baah_mensah.bit', 24, barY + 42);
+            ctx.fillText('✓ Bitstream generated: prince_baah_mensah.bit', 24, barY - 32);
             ctx.fillStyle = '#4ecdc4';
-            ctx.fillText('JTAG> Programming device... Done.', 24, barY + 62);
+            ctx.fillText('JTAG> Programming device... Done.', 24, barY - 14);
           }
         }
 
