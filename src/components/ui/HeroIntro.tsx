@@ -45,29 +45,29 @@ const CODE_LINES = [
 /* ── Vivado terminal lines ── */
 const TERM_LINES = [
   { text: 'vivado> read_verilog ./src/prince_display.v', color: '#e8e8ed', delay: 0 },
-  { text: 'INFO: [filemgmt 56-3] Analyzing Verilog file "./src/prince_display.v" successfully.', color: '#98c379', delay: 15 },
-  { text: 'vivado> synth_design -top Prince_Baah_Mensah -part xc7a35tcsg324-1', color: '#e8e8ed', delay: 30 },
-  { text: 'WARNING: [Synth 8-3331] design Prince_Baah_Mensah has unconnected port led_out[7]', color: '#e5c07b', delay: 45 },
-  { text: 'INFO: [Synth 8-638] synthesizing module \'Prince_Baah_Mensah\'', color: '#e8e8ed', delay: 60 },
-  { text: 'INFO: [Synth 8-256] done synthesizing module \'Prince_Baah_Mensah\' (1#1)', color: '#98c379', delay: 80 },
-  { text: '---------------------------------------------------------------------------------', color: '#5c6370', delay: 95 },
-  { text: 'Part Resources  |  Used  |  Available  |  Utilization %', color: '#abb2bf', delay: 105 },
-  { text: 'Slice LUTs      |    38  |      20800  |          0.18', color: '#abb2bf', delay: 115 },
-  { text: 'Slice Registers |    54  |      41600  |          0.13', color: '#abb2bf', delay: 125 },
-  { text: 'Block RAM       |     1  |         50  |          2.00', color: '#abb2bf', delay: 135 },
-  { text: '---------------------------------------------------------------------------------', color: '#5c6370', delay: 145 },
-  { text: 'vivado> opt_design', color: '#e8e8ed', delay: 160 },
-  { text: 'INFO: [Opt 31-138] Pushed 0 inverter gates into LUTs.', color: '#98c379', delay: 175 },
-  { text: 'INFO: [Opt 31-389] Phase Retarget created 0 cells and removed 0 cells.', color: '#98c379', delay: 190 },
-  { text: 'vivado> place_design', color: '#e8e8ed', delay: 205 },
-  { text: 'INFO: [Place 30-611] Multithreading enabled for place_design using 8 logical cores.', color: '#98c379', delay: 220 },
-  { text: 'INFO: [Place 30-574] Place completed. WNS = 2.144 ns (Setup Met).', color: '#98c379', delay: 235 },
-  { text: 'vivado> route_design', color: '#e8e8ed', delay: 250 },
-  { text: 'INFO: [Route 35-57] Router completed. WNS = 2.144 ns, WHS = 0.086 ns (All Timing Met).', color: '#98c379', delay: 265 },
-  { text: 'vivado> write_bitstream prince_baah_mensah.bit', color: '#e8e8ed', delay: 280 },
-  { text: 'INFO: [DRC 12-121] DRC passed with 0 errors, 0 warnings.', color: '#98c379', delay: 295 },
-  { text: 'INFO: [Designutils 9-102] Writing config packet...', color: '#98c379', delay: 310 },
-  { text: 'INFO: [Physopt 32-117] Physical optimization completed. 0 nets optimized.', color: '#98c379', delay: 325 },
+  { text: 'INFO: [filemgmt 56-3] Analyzing Verilog file "./src/prince_display.v" successfully.', color: '#98c379', delay: 5 },
+  { text: 'vivado> synth_design -top Prince_Baah_Mensah -part xc7a35tcsg324-1', color: '#e8e8ed', delay: 10 },
+  { text: 'WARNING: [Synth 8-3331] design Prince_Baah_Mensah has unconnected port led_out[7]', color: '#e5c07b', delay: 15 },
+  { text: 'INFO: [Synth 8-638] synthesizing module \'Prince_Baah_Mensah\'', color: '#e8e8ed', delay: 20 },
+  { text: 'INFO: [Synth 8-256] done synthesizing module \'Prince_Baah_Mensah\' (1#1)', color: '#98c379', delay: 25 },
+  { text: '---------------------------------------------------------------------------------', color: '#5c6370', delay: 30 },
+  { text: 'Part Resources  |  Used  |  Available  |  Utilization %', color: '#abb2bf', delay: 35 },
+  { text: 'Slice LUTs      |    38  |      20800  |          0.18', color: '#abb2bf', delay: 40 },
+  { text: 'Slice Registers |    54  |      41600  |          0.13', color: '#abb2bf', delay: 45 },
+  { text: 'Block RAM       |     1  |         50  |          2.00', color: '#abb2bf', delay: 50 },
+  { text: '---------------------------------------------------------------------------------', color: '#5c6370', delay: 55 },
+  { text: 'vivado> opt_design', color: '#e8e8ed', delay: 60 },
+  { text: 'INFO: [Opt 31-138] Pushed 0 inverter gates into LUTs.', color: '#98c379', delay: 65 },
+  { text: 'INFO: [Opt 31-389] Phase Retarget created 0 cells and removed 0 cells.', color: '#98c379', delay: 70 },
+  { text: 'vivado> place_design', color: '#e8e8ed', delay: 75 },
+  { text: 'INFO: [Place 30-611] Multithreading enabled for place_design using 8 logical cores.', color: '#98c379', delay: 80 },
+  { text: 'INFO: [Place 30-574] Place completed. WNS = 2.144 ns (Setup Met).', color: '#98c379', delay: 85 },
+  { text: 'vivado> route_design', color: '#e8e8ed', delay: 90 },
+  { text: 'INFO: [Route 35-57] Router completed. WNS = 2.144 ns, WHS = 0.086 ns (All Timing Met).', color: '#98c379', delay: 95 },
+  { text: 'vivado> write_bitstream prince_baah_mensah.bit', color: '#e8e8ed', delay: 100 },
+  { text: 'INFO: [DRC 12-121] DRC passed with 0 errors, 0 warnings.', color: '#98c379', delay: 105 },
+  { text: 'INFO: [Designutils 9-102] Writing config packet...', color: '#98c379', delay: 110 },
+  { text: 'INFO: [Physopt 32-117] Physical optimization completed. 0 nets optimized.', color: '#98c379', delay: 115 },
 ];
 
 /* ── Subtitle text per phase ── */
@@ -128,12 +128,12 @@ export default function HeroIntro({ onComplete, forcePlay = false }: HeroIntroPr
     const MONO_SM = `${Math.max(9, Math.min(11, W * 0.011))}px JetBrains Mono, SF Mono, Fira Code, monospace`;
     const MONO_XS = `${Math.max(8, Math.min(10, W * 0.009))}px JetBrains Mono, SF Mono, Fira Code, monospace`;
 
-    // Phase timings (frames at 60fps) - adjusted for expanded logs
-    const P1_END = 380;
-    const P2_START = 390;
-    const P2_END = 800;
-    const P3_START = 820;
-    const P3_END = 1200;
+    // Phase timings (frames at 60fps) - speed up (~7.3s total)
+    const P1_END = 130;
+    const P2_START = 135;
+    const P2_END = 280;
+    const P3_START = 285;
+    const P3_END = 430;
 
     // Pre-calc total code chars
     let totalCodeChars = 0;
@@ -267,12 +267,12 @@ export default function HeroIntro({ onComplete, forcePlay = false }: HeroIntroPr
         });
 
         // Progress bar (positioned at the bottom to avoid overlaps)
-        if (p2Frame > 330) {
+        if (p2Frame > 100) {
           const barX = 24;
           const barY = H - 95;
           const barW = Math.min(W - 48, 600);
           const barH = 8;
-          const pct = Math.min((p2Frame - 330) / 70, 1);
+          const pct = Math.min((p2Frame - 100) / 30, 1);
 
           ctx.globalAlpha = fadeIn * fadeOut2;
           ctx.fillStyle = '#1a1a24';
@@ -328,7 +328,7 @@ export default function HeroIntro({ onComplete, forcePlay = false }: HeroIntroPr
         const labelW = Math.max(60, Math.min(80, W * 0.08));
         const sigStart = labelW + 8;
         const sigEndMax = W - 15;
-        const sweepX = sigStart + Math.min(waveFrame * 1.35, sigEndMax - sigStart);
+        const sweepX = sigStart + Math.min(waveFrame * 3.6, sigEndMax - sigStart);
         const segW = Math.max(8, Math.min(12, W * 0.012));
 
         // Time ruler & Cycle count
@@ -542,7 +542,7 @@ export default function HeroIntro({ onComplete, forcePlay = false }: HeroIntroPr
       }
 
       // ── Update subtitles & phase label via React state (throttled) ──
-      if (frame % 10 === 0) {
+      if (frame % 5 === 0) {
         if (frame < P2_START) {
           setCurrentSubtitle(0);
           setCurrentPhase('Phase 1/3 — RTL Design');
@@ -558,8 +558,8 @@ export default function HeroIntro({ onComplete, forcePlay = false }: HeroIntroPr
 
       // Brief subtitle hide during phase transitions
       if (
-        (frame > P1_END - 5 && frame < P2_START + 15) ||
-        (frame > P2_END - 5 && frame < P3_START + 15)
+        (frame > P1_END - 4 && frame < P2_START + 5) ||
+        (frame > P2_END - 4 && frame < P3_START + 5)
       ) {
         setSubtitleVisible(false);
       }
@@ -569,7 +569,7 @@ export default function HeroIntro({ onComplete, forcePlay = false }: HeroIntroPr
         animFrameRef.current = requestAnimationFrame(draw);
       } else {
         // Animation complete — trigger finish
-        setTimeout(() => finish(), 400);
+        setTimeout(() => finish(), 200);
       }
     }
 

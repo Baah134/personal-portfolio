@@ -328,10 +328,10 @@
 }
 
 .replayButton {
-  position: absolute;
-  bottom: 84px; /* Centered right above logosRow */
-  left: 50%;
-  transform: translateX(-50%);
+  position: relative;
+  margin: var(--space-4) auto;
+  align-self: center;
+  width: fit-content;
   font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
   font-size: var(--fs-2xs);
   font-weight: var(--fw-medium);
@@ -363,8 +363,100 @@
 
 @media (max-width: 768px) {
   .replayButton {
-    bottom: 120px; /* offset higher for mobile wrapping logosRow */
+    margin: var(--space-3) auto;
   }
+}
+
+/* ===== Research & Publications Section (Homepage) ===== */
+.publications {
+  background: var(--color-surface);
+}
+
+.pubGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-8);
+}
+
+.pubCard {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+  text-decoration: none;
+  color: inherit;
+}
+
+.pubCard:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+}
+
+.pubCard:hover .pubImage {
+  transform: scale(1.05);
+}
+
+.pubImageWrap {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  background: var(--color-surface);
+}
+
+.pubImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-slow);
+}
+
+.pubBadge {
+  position: absolute;
+  top: var(--space-3);
+  left: var(--space-3);
+  padding: var(--space-1) var(--space-3);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  background: var(--color-accent);
+  color: #ffffff;
+  border-radius: var(--radius-sm);
+  letter-spacing: 0.02em;
+}
+
+.pubInfo {
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.pubTitle {
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-bold);
+  color: var(--color-text-primary);
+  line-height: var(--lh-snug);
+  margin: 0;
+}
+
+.pubCard:hover .pubTitle {
+  color: var(--color-accent);
+}
+
+.pubVenue {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  color: var(--color-text-tertiary);
+  margin: 0;
+}
+
+.pubDesc {
+  font-size: var(--fs-sm);
+  color: var(--color-text-secondary);
+  line-height: var(--lh-relaxed);
+  margin: 0;
 }
 
 /* ===== Section Heading ===== */
@@ -792,7 +884,8 @@
     max-width: 260px;
   }
 
-  .projectGrid {
+  .projectGrid,
+  .pubGrid {
     grid-template-columns: 1fr;
   }
 

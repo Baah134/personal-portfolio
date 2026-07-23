@@ -5,7 +5,6 @@ import dynamic from 'next/dynamic';
 import Image from "next/image";
 import TransitionLink from "@/components/ui/TransitionLink";
 import styles from "./page.module.css";
-import NetworkBackground from "@/components/ui/NetworkBackground";
 import TextScramble from "@/components/ui/TextScramble";
 import StatCounter from "@/components/ui/StatCounter";
 
@@ -53,7 +52,7 @@ const skillCategories = [
 const stats = [
   { value: "IEEE", label: "MYOSA 2025 Finalist" },
   { value: "75+", label: "IEEE Community" },
-  { value: "1", label: "IEEE Publication" },
+  { value: "2", label: "IEEE Publications" },
   { value: "IEEE IMS", label: "Undergraduate Scholarship" },
 ];
 
@@ -94,9 +93,9 @@ const timelineEvents: TimelineEvent[] = [
   {
     year: "2026",
     role: "Research Author",
-    org: "IEEE 3SCEA Conference",
+    org: "IEEE IECON 2026 & 3SCEA 2026",
     type: "Publication",
-    desc: "Published and presented research on agricultural solar drone co-design for rural farming systems.",
+    desc: "Author of 2 accepted IEEE conference papers in Bayesian Optimization PID control (IECON 2026) and Metaverse AI learning systems (3SCEA 2026).",
     link: "/research#publications"
   },
   {
@@ -391,7 +390,6 @@ export default function Home() {
 
       {/* ===== HERO ===== */}
       <section id="hero" className={styles.hero} onMouseMove={handleHeroMouseMove}>
-        <NetworkBackground />
         <div className={styles.heroGlow} style={glowStyle} />
         
         <div className={styles.heroLayout}>
@@ -400,9 +398,6 @@ export default function Home() {
             <h1 className={styles.heroTitle}>
               Hi I&apos;m <TextScramble text="Prince" />
             </h1>
-            <div className={styles.heroSubtitle}>
-              Electrical Engineer
-            </div>
           </div>
 
           {/* Center Portrait Image (greyscale & bottom-faded) */}
@@ -585,6 +580,67 @@ export default function Home() {
           <div className={styles.viewAll}>
             <TransitionLink href="/projects" className={styles.viewAllLink}>
               View All Projects
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
+              </svg>
+            </TransitionLink>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== RESEARCH & PUBLICATIONS ===== */}
+      <section id="publications" className={`${styles.publications} section`}>
+        <div className="container">
+          <h2 className={`section-title ${styles.sectionHeading}`}>
+            <TextScramble text="Research & Publications" />
+          </h2>
+          <p className="section-subtitle">
+            Accepted peer-reviewed research papers at flagship IEEE conferences.
+          </p>
+          <div className={styles.pubGrid}>
+            <TransitionLink href="/research/bayesian-pid" className={`${styles.pubCard} scroll-reveal`}>
+              <div className={styles.pubImageWrap}>
+                <Image
+                  src="/images/pid.png"
+                  alt="Constraint-Aware Bayesian Optimization for PID Tuning"
+                  width={400}
+                  height={300}
+                  className={styles.pubImage}
+                />
+                <span className={styles.pubBadge}>Accepted · IEEE IECON 2026</span>
+              </div>
+              <div className={styles.pubInfo}>
+                <h3 className={styles.pubTitle}>Constraint-Aware Bayesian Optimization for PID Tuning</h3>
+                <p className={styles.pubVenue}>52nd Annual Conference of the IEEE Industrial Electronics Society (IECON 2026)</p>
+                <p className={styles.pubDesc}>
+                  Formulates PID tuning as a constrained black-box optimization problem, achieving up to 34× reduction in settling time while satisfying physical constraints.
+                </p>
+              </div>
+            </TransitionLink>
+
+            <TransitionLink href="/research/metaverse-education" className={`${styles.pubCard} scroll-reveal`}>
+              <div className={styles.pubImageWrap}>
+                <Image
+                  src="/images/metaverse.png"
+                  alt="AI-Powered Adaptive Learning System for Education in the Metaverse Classroom"
+                  width={400}
+                  height={300}
+                  className={styles.pubImage}
+                />
+                <span className={styles.pubBadge}>Accepted · IEEE 3SCEA 2026</span>
+              </div>
+              <div className={styles.pubInfo}>
+                <h3 className={styles.pubTitle}>AI-Powered Adaptive Learning System for Education in the Metaverse Classroom</h3>
+                <p className={styles.pubVenue}>IEEE International Conference on Smart Sustainable Systems for Computer and Engineering Applications</p>
+                <p className={styles.pubDesc}>
+                  An AI-driven virtual learning environment in Unreal Engine 5 with GPT-backed conversational tutors for real-time adaptive student assessment.
+                </p>
+              </div>
+            </TransitionLink>
+          </div>
+          <div className={styles.viewAll}>
+            <TransitionLink href="/research" className={styles.viewAllLink}>
+              Read More Research &amp; Publications
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
               </svg>
