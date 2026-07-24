@@ -26,29 +26,31 @@ const researchProjects: Record<
   }
 > = {
   "bayesian-pid": {
-    title: "Constraint-Aware Bayesian Optimization for PID Tuning",
+    title: "Constraint-Aware Bayesian Optimization for PID Tuning: Discovering Plant-Specific Control Strategies",
     date: "October 2026",
     category: "Control Systems & Machine Learning",
-    status: "Accepted",
+    status: "Accepted (IEEE IECON 2026)",
     statusType: "accepted",
-    venue: "52nd Annual Conference of the IEEE Industrial Electronics Society (IECON 2026)",
+    venue: "52nd Annual Conference of the IEEE Industrial Electronics Society (IECON 2026) — Flagship Conference of the IEEE Industrial Electronics Society",
     image: "/images/pid.png",
-    tags: ["PID Control", "Bayesian Optimization", "Optuna", "Python", "Control Theory"],
+    tags: ["PID Control", "Bayesian Optimization", "Optuna", "Python", "Control Theory", "Genetic Algorithms", "CMA-ES"],
     overview:
-      "Formulates PID tuning as a constrained black-box optimization problem with explicit engineering specifications and solves it using constraint-aware Bayesian Optimization, demonstrating up to 34× reduction in settling time.",
+      "This research project bridges the gap between machine learning and control engineering by reformulating the classic PID controller tuning problem. Traditionally, engineers rely on bandwidth-maximization heuristics (like MATLAB's pidtune) that treat engineering specifications such as overshoot, steady-state error, and actuator force limits as implicit byproducts. This project instead frames PID tuning as a strictly constrained black-box optimization problem, solved using constraint-aware Bayesian Optimization (BO).",
     problem:
-      "Classical PID tuning methods (such as MATLAB's pidtune) often struggle to optimize control parameters under non-linear physical constraints (e.g. preventing actuator saturation or limiting overshoot). This leads to sub-optimal settling times or unstable control strategies under real-world scenarios where baseline conditions are violated.",
+      "Classical PID tuning methods (such as MATLAB's pidtune) rely on bandwidth-maximization heuristics that treat explicit engineering specifications—such as overshoot, steady-state error, and peak actuator force limits—as implicit byproducts. Consequently, when baseline conditions are violated or under severe parametric uncertainty, classical methods exhibit severe specification compliance failures (dropping to 1–38% compliance), risking instability or actuator saturation.",
     approach: [
-      "Formulated PID tuning as a constrained black-box optimization problem using Optuna and python-control.",
-      "Implemented strict penalties for violating explicit engineering specifications such as overshoot, steady-state error, and peak actuator force.",
-      "Conducted a rigorous four-plant comparative study benchmarking the proposed framework against standard MATLAB tools.",
+      "Formulated PID tuning as a strictly constrained black-box optimization problem, solved using constraint-aware Bayesian Optimization (BO) in Optuna and python-control.",
+      "Conducted a comprehensive study across four distinct linear SISO plants: a mass-spring-damper, 3rd-order system, non-minimum phase system, and a resonant plant.",
+      "Implemented strict penalty formulations for violating engineering constraints including maximum overshoot, steady-state error tolerance, and peak actuator force limits.",
+      "Benchmarked Bayesian Optimization against classical MATLAB pidtune heuristics as well as population-based evolutionary algorithms (Genetic Algorithms and CMA-ES) to evaluate sample efficiency and optimization performance.",
     ],
     results: [
-      "Discovered qualitatively distinct control parameters for different plant systems.",
-      "Achieved up to 34× reduction in settling time while satisfying all physical system constraints.",
-      "Validated controller robustness under nominal and perturbed plant conditions.",
+      "Proved that the constraint formulation—not just the choice of optimizer—is the primary driver of robust, plant-specific control strategies across diverse dynamic systems.",
+      "Maintained 75–100% specification compliance under severe parametric uncertainty, compared to just 1–38% for the classical pidtune baseline.",
+      "Validated the framework against Genetic Algorithms and CMA-ES, proving that BO achieves optimal performance with 4–20× greater sample efficiency.",
+      "Established critical sample efficiency required for future deployments on physical Hardware-in-the-Loop (HIL) testbeds where physical evaluations are costly and time-consuming.",
     ],
-    techStack: ["Python", "Optuna", "python-control", "NumPy", "SciPy", "MATLAB"],
+    techStack: ["Python", "Optuna", "python-control", "NumPy", "SciPy", "MATLAB", "Genetic Algorithms", "CMA-ES"],
   },
   "metaverse-education": {
     title: "AI-Powered Adaptive Learning System for Education in the Metaverse Classroom",

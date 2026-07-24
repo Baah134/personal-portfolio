@@ -7,13 +7,13 @@ import styles from "./page.module.css";
 const publications = [
   {
     slug: "bayesian-pid",
-    title: "Constraint-Aware Bayesian Optimization for PID Tuning",
+    title: "Constraint-Aware Bayesian Optimization for PID Tuning: Discovering Plant-Specific Control Strategies",
     date: "Dec 2025",
     venue: "52nd Annual Conference of the IEEE Industrial Electronics Society (IECON 2026)",
     image: "/images/pid.png",
     status: "Accepted",
     statusType: "accepted",
-    desc: "Formulates PID tuning as a constrained black-box optimization problem with explicit engineering specifications and solves it using constraint-aware Bayesian Optimization, demonstrating up to 34× reduction in settling time.",
+    desc: "Bridges machine learning and control engineering by framing PID tuning as a strictly constrained black-box optimization problem. Proves across four linear SISO plants that BO maintains 75–100% specification compliance under parametric uncertainty (vs. 1–38% for pidtune) with 4–20× sample efficiency over GA and CMA-ES.",
     tags: ["PID Control", "Bayesian Optimization", "Optuna", "MATLAB", "Python"],
   },
   {

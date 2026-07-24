@@ -602,7 +602,7 @@ export default function Home() {
               <div className={styles.pubImageWrap}>
                 <Image
                   src="/images/pid.png"
-                  alt="Constraint-Aware Bayesian Optimization for PID Tuning"
+                  alt="Constraint-Aware Bayesian Optimization for PID Tuning: Discovering Plant-Specific Control Strategies"
                   width={400}
                   height={300}
                   className={styles.pubImage}
@@ -610,10 +610,10 @@ export default function Home() {
                 <span className={styles.pubBadge}>Accepted · IEEE IECON 2026</span>
               </div>
               <div className={styles.pubInfo}>
-                <h3 className={styles.pubTitle}>Constraint-Aware Bayesian Optimization for PID Tuning</h3>
+                <h3 className={styles.pubTitle}>Constraint-Aware Bayesian Optimization for PID Tuning: Discovering Plant-Specific Control Strategies</h3>
                 <p className={styles.pubVenue}>52nd Annual Conference of the IEEE Industrial Electronics Society (IECON 2026)</p>
                 <p className={styles.pubDesc}>
-                  Formulates PID tuning as a constrained black-box optimization problem, achieving up to 34× reduction in settling time while satisfying physical constraints.
+                  Bridges machine learning and control engineering by framing PID tuning as a constrained black-box optimization problem, maintaining 75–100% compliance under severe uncertainty with 4–20× sample efficiency.
                 </p>
               </div>
             </TransitionLink>
