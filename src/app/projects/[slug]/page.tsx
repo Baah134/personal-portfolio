@@ -229,7 +229,7 @@ const projects: Record<
     category: "AI Hardware · ASIC/FPGA Co-design",
     badge: "Work in Progress",
     image: "/images/project-sparse-accelerator.jpg",
-    tags: ["Verilog", "Vivado Tcl", "FSM Control", "Block RAM", "Simulink"],
+    tags: ["Verilog", "Vivado Tcl", "FSM Control", "Block RAM"],
     overview:
       "An ongoing hardware-software co-design project developing a custom ASIC/FPGA-targeted compute engine optimized for activation sparsity in neural networks. In modern deep learning models, non-linear functions (like ReLU) produce a massive percentage of zero-valued activations. This project focuses on designing hardware control logic that dynamically detects and skips these zero-value computations, saving clock cycles and significantly reducing operational power on edge devices.",
     problem:

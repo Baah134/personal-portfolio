@@ -23,7 +23,7 @@ const projects = [
     date: "Jul 2026 – Present",
     category: "AI Hardware",
     desc: "An ASIC/FPGA-targeted compute engine designed in Verilog that dynamically skips zero-valued activations to save clock cycles and operational power on edge devices.",
-    tags: ["Verilog", "Vivado Tcl", "FSM Control", "Block RAM", "Simulink"],
+    tags: ["Verilog", "Vivado Tcl", "FSM Control", "Block RAM"],
     badge: "Work in Progress",
     image: "/images/project-sparse-accelerator.jpg",
     filters: ["IoT & Embedded"],
@@ -354,6 +354,13 @@ function ProjectSkillLogo({ name }: { name: string }) {
     case 'nvidia nim':
     case 'nvidia nemotron llm':
       iconSlug = 'nvidia';
+      break;
+    case 'openai':
+    case 'openai api':
+    case 'openai gpt api':
+    case 'openai agent api':
+    case 'openai gpt-4 api':
+      iconSlug = 'openai';
       break;
     case 'latex':
       iconSlug = 'latex';

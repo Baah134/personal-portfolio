@@ -192,7 +192,11 @@ function ResearchSkillLogo({ name }: { name: string }) {
     case 'unreal engine 5':
       iconSlug = 'unrealengine';
       break;
+    case 'openai':
+    case 'openai api':
     case 'openai gpt api':
+    case 'openai agent api':
+    case 'openai gpt-4 api':
       iconSlug = 'openai';
       break;
     case 'tensorflow':
