@@ -82,6 +82,51 @@ const researchProjects: Record<
       { label: "IEEE Xplore", href: "https://ieeexplore.ieee.org/document/11602834" }
     ],
   },
+  "tinyml-aal": {
+    title: "Multi-Label Health State Classification in Ambient Assisted Living: Comparing TinyML Edge Deployment and Cloud LLM Inference",
+    date: "Jan 2026 – Present",
+    category: "IoT & Edge AI · TinyML",
+    status: "Paper Under Preparation (Targeting IEEE Jul 2026)",
+    statusType: "ongoing",
+    venue: "Ashesi University Capstone Research — Target Submission: IEEE Conference (July 2026)",
+    image: "/images/tinyml-aal.jpg",
+    tags: [
+      "TinyML",
+      "TensorFlow Lite Micro",
+      "ESP32",
+      "LLM Benchmarking",
+      "IoT Hardware",
+      "Model Quantization",
+      "Arduino IDE",
+      "NVIDIA Build API"
+    ],
+    overview:
+      "This capstone research project systematically evaluates and compares two competing architectural paradigms for deploying real-time health monitoring intelligence in Ambient Assisted Living (AAL) environments: on-device TinyML edge inference versus cloud-hosted Large Language Model (LLM) reasoning.",
+    problem:
+      "Deploying continuous health monitoring in Ambient Assisted Living requires real-time responsiveness, strict data privacy, and robust reliability under network dropouts. While cloud-hosted LLMs offer vast general-purpose reasoning, they suffer from high latency, API rate-limiting vulnerabilities, and edge cases where general reasoning conflicts with domain-specific, operationally defined health states. Conversely, edge microcontrollers face extreme RAM and flash storage constraints.",
+    approach: [
+      "Hardware & Sensor Integration: Built a multi-sensor IoT edge system on an ESP32 microcontroller incorporating an MPU6050 accelerometer, LDR light sensor, DHT11 temperature/humidity sensor, and MQ gas sensor for non-intrusive environment and activity tracking.",
+      "Model Compression & TinyML Deployment: Trained a 1D Convolutional Neural Network (CNN) in TensorFlow and compressed it to 75.6 KB via one-shot magnitude pruning and INT8 quantization, enabling direct deployment on ESP32 via TensorFlow Lite Micro and Arduino/C++ firmware.",
+      "Head-to-Head Cloud LLM Benchmarking: Benchmarked the edge CNN against three cloud-hosted LLMs (Google Gemma 4, Meta Llama 3.1, and Mistral Medium 3.5 via the NVIDIA Build API) evaluated on identical, synchronous multi-sensor data streams.",
+      "Evaluation & Failure Mode Analysis: Conducted rigorous performance, availability, and failure-mode analysis across six multi-label health states (e.g., active movement, daytime inactivity, environmental anomaly).",
+    ],
+    results: [
+      "Edge CNN Performance: Achieved a Macro F1 score of 1.00 with 100% inference availability and sub-millisecond on-device latency.",
+      "Cloud LLM Performance: The best-performing cloud LLM (Mistral Medium 3.5) achieved a Macro F1 score of 0.84, with inference availability dropping to 60% under API rate limiting.",
+      "Critical Reasoning Deficit Identified: Uncovered a systematic failure mode across all tested cloud LLMs during daytime inactivity detection, where general-purpose LLM reasoning consistently misinterpreted operational health definitions.",
+      "Publication Target: Authoring a full research paper targeting submission to an IEEE conference in July 2026.",
+    ],
+    techStack: [
+      "TensorFlow",
+      "TensorFlow Lite Micro",
+      "ESP32",
+      "C++ / Arduino IDE",
+      "Python",
+      "NVIDIA Build API",
+      "MPU6050 / DHT11 / MQ Sensors",
+      "Quantization & Pruning"
+    ],
+  },
   "speech-emotion": {
     title: "Speech Emotion Recognition Research",
     date: "August 2025 – Present",

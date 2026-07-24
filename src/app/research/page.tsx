@@ -31,6 +31,15 @@ const publications = [
 
 const currentResearch = [
   {
+    slug: "tinyml-aal",
+    title: "Multi-Label Health State Classification in Ambient Assisted Living: Comparing TinyML Edge Deployment and Cloud LLM Inference",
+    date: "Jan 2026 – Present",
+    meta: "Ashesi University · Capstone Research",
+    image: "/images/tinyml-aal.jpg",
+    desc: "A capstone research project comparing TinyML edge deployment (ESP32) vs. cloud LLM inference (Gemma 4, Llama 3.1, Mistral Medium 3.5) for real-time health state classification. Demonstrates 1.00 Macro F1 and 100% availability for a 75.6 KB INT8 1D-CNN vs. 0.84 F1 for cloud LLMs.",
+    tags: ["TinyML", "TensorFlow Lite Micro", "ESP32", "LLMs", "IoT Sensors", "C++"],
+  },
+  {
     slug: "speech-emotion",
     title: "Speech Emotion Recognition Research",
     date: "Aug 2025 – Present",
@@ -135,7 +144,7 @@ function ResearchSkillLogo({ name }: { name: string }) {
       </svg>
     );
   }
-  if (normalized === 'deep learning') {
+  if (normalized === 'deep learning' || normalized === 'tinyml') {
     return (
       <svg className={styles.researchSkillSvg} style={{ color: '#8b5cf6' }} viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <circle cx="12" cy="5" r="2.5" />
@@ -145,6 +154,28 @@ function ResearchSkillLogo({ name }: { name: string }) {
         <line x1="12" y1="7.5" x2="12" y2="16.5" />
         <line x1="7.2" y1="10.8" x2="16.8" y2="13.2" />
         <line x1="7.2" y1="13.2" x2="16.8" y2="10.8" />
+      </svg>
+    );
+  }
+  if (normalized === 'iot sensors' || normalized === 'iot') {
+    return (
+      <svg className={styles.researchSkillSvg} style={{ color: '#0ea5e9' }} viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <rect x="4" y="4" width="16" height="16" rx="2" ry="2" />
+        <rect x="9" y="9" width="6" height="6" />
+        <line x1="9" y1="1" x2="9" y2="4" />
+        <line x1="15" y1="1" x2="15" y2="4" />
+        <line x1="9" y1="20" x2="9" y2="23" />
+        <line x1="15" y1="20" x2="15" y2="23" />
+      </svg>
+    );
+  }
+  if (normalized === 'llms' || normalized === 'llm benchmarking') {
+    return (
+      <svg className={styles.researchSkillSvg} style={{ color: '#ec4899' }} viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="10" />
+        <circle cx="12" cy="10" r="3" />
+        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+        <path d="M2 12h20" />
       </svg>
     );
   }
@@ -163,6 +194,24 @@ function ResearchSkillLogo({ name }: { name: string }) {
       break;
     case 'openai gpt api':
       iconSlug = 'openai';
+      break;
+    case 'tensorflow':
+    case 'tensorflow lite micro':
+      iconSlug = 'tensorflow';
+      break;
+    case 'esp32':
+      iconSlug = 'espressif';
+      break;
+    case 'c++':
+      iconSlug = 'cplusplus';
+      break;
+    case 'arduino':
+    case 'arduino ide':
+      iconSlug = 'arduino';
+      break;
+    case 'nvidia':
+    case 'nvidia build api':
+      iconSlug = 'nvidia';
       break;
     default:
       iconSlug = '';

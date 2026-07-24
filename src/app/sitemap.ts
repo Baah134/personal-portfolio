@@ -16,6 +16,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const researchSlugs = [
     'bayesian-pid',
     'metaverse-education',
+    'tinyml-aal',
     'speech-emotion',
   ];
   const researchUrls = researchSlugs.map((slug) => ({
