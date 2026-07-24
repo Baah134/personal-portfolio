@@ -88,7 +88,7 @@ const researchProjects: Record<
     category: "IoT & Edge AI · TinyML",
     status: "Paper Under Preparation (Targeting IEEE Jul 2026)",
     statusType: "ongoing",
-    venue: "Ashesi University Capstone Research — Target Submission: IEEE Conference (July 2026)",
+    venue: "Ashesi University Research — Target Submission: IEEE Conference (July 2026)",
     image: "/images/tinyml-aal.jpg",
     tags: [
       "TinyML",
@@ -101,7 +101,7 @@ const researchProjects: Record<
       "NVIDIA Build API"
     ],
     overview:
-      "This capstone research project systematically evaluates and compares two competing architectural paradigms for deploying real-time health monitoring intelligence in Ambient Assisted Living (AAL) environments: on-device TinyML edge inference versus cloud-hosted Large Language Model (LLM) reasoning.",
+      "This research project systematically evaluates and compares two competing architectural paradigms for deploying real-time health monitoring intelligence in Ambient Assisted Living (AAL) environments: on-device TinyML edge inference versus cloud-hosted Large Language Model (LLM) reasoning.",
     problem:
       "Deploying continuous health monitoring in Ambient Assisted Living requires real-time responsiveness, strict data privacy, and robust reliability under network dropouts. While cloud-hosted LLMs offer vast general-purpose reasoning, they suffer from high latency, API rate-limiting vulnerabilities, and edge cases where general reasoning conflicts with domain-specific, operationally defined health states. Conversely, edge microcontrollers face extreme RAM and flash storage constraints.",
     approach: [

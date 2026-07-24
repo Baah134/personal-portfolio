@@ -34,9 +34,9 @@ const currentResearch = [
     slug: "tinyml-aal",
     title: "Multi-Label Health State Classification in Ambient Assisted Living: Comparing TinyML Edge Deployment and Cloud LLM Inference",
     date: "Jan 2026 – Present",
-    meta: "Ashesi University · Capstone Research",
+    meta: "Ashesi University",
     image: "/images/tinyml-aal.jpg",
-    desc: "A capstone research project comparing TinyML edge deployment (ESP32) vs. cloud LLM inference (Gemma 4, Llama 3.1, Mistral Medium 3.5) for real-time health state classification. Demonstrates 1.00 Macro F1 and 100% availability for a 75.6 KB INT8 1D-CNN vs. 0.84 F1 for cloud LLMs.",
+    desc: "A research project comparing TinyML edge deployment (ESP32) vs. cloud LLM inference (Gemma 4, Llama 3.1, Mistral Medium 3.5) for real-time health state classification. Demonstrates 1.00 Macro F1 and 100% availability for a 75.6 KB INT8 1D-CNN vs. 0.84 F1 for cloud LLMs.",
     tags: ["TinyML", "TensorFlow Lite Micro", "ESP32", "LLMs", "IoT Sensors", "C++"],
   },
   {
