@@ -247,6 +247,9 @@ const projects: Record<
       "Building a custom testbench suite for continuous integration verification of execution states."
     ],
     techStack: ["Verilog RTL", "Vivado Simulator", "Block RAM", "Python (Data Prep)", "HDL Design", "CI Testbenches", "FSM Controller"],
+    links: [
+      { label: "GitHub Repository", href: "https://github.com/Baah134/sparse-gemv-fpga" },
+    ],
   },
 };
 
